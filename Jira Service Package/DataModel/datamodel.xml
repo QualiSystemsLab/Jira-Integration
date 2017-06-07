@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DataModelInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.qualisystems.com/ResourceManagement/DataModelSchema.xsd">
+  <Attributes>
+    <AttributeInfo Name="User" Type="String" DefaultValue="" Description="" IsReadOnly="false">
+      <Rules>
+        <Rule Name="Configuration" />
+      </Rules>
+    </AttributeInfo>
+    <AttributeInfo Name="Password" Type="Password" DefaultValue="3M3u7nkDzxWb0aJ/IZYeWw==" Description="" IsReadOnly="false">
+      <Rules>
+        <Rule Name="Configuration" />
+      </Rules>
+    </AttributeInfo>
+    <AttributeInfo Name="Endpoint URL Base" Type="String" DefaultValue="https://server:port" IsReadOnly="false">
+      <Rules>
+        <Rule Name="Configuration" />
+        <Rule Name="Setting" />
+      </Rules>
+    </AttributeInfo>
+  </Attributes>
+  <ResourceFamilies>
+    <ResourceFamily Name="Jira Services" Description="" IsService="true" ServiceType="Regular">
+      <AttachedAttributes />
+      <AttributeValues />
+      <Models>
+        <ResourceModel Name="Jira Service" Description="" SupportsConcurrentCommands="false">
+          <AttachedAttributes>
+            <AttachedAttribute Name="User" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
+            <AttachedAttribute Name="Password" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
+            <AttachedAttribute Name="Endpoint URL Base" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
+          </AttachedAttributes>
+          <AttributeValues>
+            <AttributeValue Name="User" Value="" />
+            <AttributeValue Name="Password" Value="3M3u7nkDzxWb0aJ/IZYeWw==" />
+            <AttributeValue Name="Endpoint URL Base" Value="https://server:port" />
+          </AttributeValues>
+          <ParentModels />
+          <Drivers />
+          <Scripts>
+            <ScriptName>jira_add_comment_to_issue</ScriptName>
+            <ScriptName>jira_create_issue</ScriptName>
+          </Scripts>
+        </ResourceModel>
+      </Models>
+      <Categories>
+        <Category>SaaS</Category>
+      </Categories>
+    </ResourceFamily>
+  </ResourceFamilies>
+  <DriverDescriptors>
+    <DriverDescriptor Name="Python Setup &amp; Teardown" Description="This driver is used for running Python scripts in the environment setup and teardown. To use this driver, make sure you select a suitable setup and/or teardown script." DriverType="TestShellDriver" />
+  </DriverDescriptors>
+  <ScriptDescriptors>
+    <ScriptDescriptor Name="jira_add_comment_to_issue" Alias="jira_add_comment_to_issue">
+      <ScriptInputs>
+        <ScriptInput Name="Issue_ID" Description="ID or key of the issue to update, as returned from Create Jira Issue" />
+        <ScriptInput Name="Comment" Description="Text of the comment to add to the issue" />
+        <ScriptInput Name="Additional_Fields_JSON" DefaultValue="" Description="Additional text to insert in the JSON request, e.g. &quot;visibility&quot;: {&quot;type&quot;: &quot;role&quot;,&quot;value&quot;: &quot;Administrators&quot;}" />
+      </ScriptInputs>
+    </ScriptDescriptor>
+    <ScriptDescriptor Name="jira_create_issue" Alias="Create Jira Issue">
+      <ScriptInputs>
+        <ScriptInput Name="Project_Name" Description="Name of the Jira project where the issue should be created. Leave blank if there is only one project in the system." />
+        <ScriptInput Name="Issue_Type" DefaultValue="Bug" Description="Task, Bug, Sub-task, Epic, Story, or a custom issue type you have created" />
+        <ScriptInput Name="Title" Description="Title of the new issue" />
+        <ScriptInput Name="Description" Description="Description of the new issue" />
+        <ScriptInput Name="Additional_Fields_JSON" Description="Additional fields to insert into the JSON request, in the form {&quot;fieldname1&quot;:&quot;value1&quot;}, {&quot;fieldname2&quot;:&quot;value2&quot;}," />
+      </ScriptInputs>
+    </ScriptDescriptor>
+    <ScriptDescriptor Name="Default Sandbox Teardown" CategoryName="Hidden Commands" Version="1.0.1.2 " Alias="Teardown script">
+      <ScriptInputs />
+    </ScriptDescriptor>
+    <ScriptDescriptor Name="Default Sandbox Setup" CategoryName="Hidden Commands" Version="1.0.1.2 " Alias="Setup script">
+      <ScriptInputs />
+    </ScriptDescriptor>
+  </ScriptDescriptors>
+</DataModelInfo>
