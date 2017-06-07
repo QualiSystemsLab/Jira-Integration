@@ -1,5 +1,10 @@
 # Jira-Integration
 
+A service that represents a Jira SaaS endpoint.
+
+The service stores the endpoint URL and credentials and supports a few functions that call the Jira REST API.
+
+
 ## Instructions
 - Drag Jira Service Package.zip into the portal
 - To update:

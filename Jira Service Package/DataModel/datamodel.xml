@@ -57,7 +57,7 @@
     <DriverDescriptor Name="Python Setup &amp; Teardown" Description="This driver is used for running Python scripts in the environment setup and teardown. To use this driver, make sure you select a suitable setup and/or teardown script." DriverType="TestShellDriver" />
   </DriverDescriptors>
   <ScriptDescriptors>
-    <ScriptDescriptor Name="jira_add_comment_to_issue" Alias="jira_add_comment_to_issue">
+    <ScriptDescriptor Name="jira_add_comment_to_issue" Alias="Add Comment to Jira Issue">
       <ScriptInputs>
         <ScriptInput Name="Issue_ID" Description="ID or key of the issue to update, as returned from Create Jira Issue" />
         <ScriptInput Name="Comment" Description="Text of the comment to add to the issue" />
