@@ -94,7 +94,11 @@ _, rs = _request('post', '/rest/api/2/issue/%s/comment' % issueid,
     %s
 }''' % (comment, ','+fields_json if fields_json else ''))
 
-print rs
+oo = json.loads(rs)
+print 'Comment %s was created' % oo['id']
+
+# print rs
+
 # print req('post', '/rest/api/2/issue/%s/comment' % issueid, '''{
 #     "body": "%s"
 #     %s
