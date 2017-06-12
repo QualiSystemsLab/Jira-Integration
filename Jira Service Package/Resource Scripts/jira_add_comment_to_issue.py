@@ -17,7 +17,7 @@ password = api.DecryptPassword(rc['attributes']['Password']).Value
 
 issueid = os.environ['ISSUE_ID']
 comment = os.environ['COMMENT']
-fields_json = os.environ['ADDITIONAL_FIELDS_JSON']
+fields_json = os.environ.get('ADDITIONAL_FIELDS_JSON', '')
 
 def bytes23(s):
     if isinstance(s, unicode):

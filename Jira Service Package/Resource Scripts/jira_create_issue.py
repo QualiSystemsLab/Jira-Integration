@@ -19,7 +19,7 @@ projname = os.environ['PROJECT_NAME']
 issuetypename = os.environ['ISSUE_TYPE']
 title = os.environ['TITLE']
 descr = os.environ['DESCRIPTION']
-fields_json = os.environ['ADDITIONAL_FIELDS_JSON']
+fields_json = os.environ.get('ADDITIONAL_FIELDS_JSON', '')
 
 def bytes23(s):
     if isinstance(s, unicode):
