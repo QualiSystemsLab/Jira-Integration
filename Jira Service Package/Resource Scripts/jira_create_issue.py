@@ -71,8 +71,8 @@ def _request(method, path, data=None, headers=None, hide_result=False, **kwargs)
     code = response.getcode()
     response.close()
 
-    if code >= 400:
-        raise Exception('Error: %d: %s' % (code, body))
+    # if code >= 400:
+        # raise Exception('Error: %d: %s' % (code, body))
     return code, body
 
 # def req(method, urlsuffix, body='', *args, **kwargs):
@@ -103,10 +103,13 @@ for proj in projs:
 
 if projname:
     if not projid:
-        raise Exception('Project name "%s" not found. Valid project names are %s' % (projname, ', '.join([proj['name'] for proj in projs])))
+        print 'Project name "%s" not found. Valid project names: %s' % (projname, ', '.join([proj['name'] for proj in projs]))
+        exit(1)
+
 else:
     if not defaultprojid:
-        raise Exception('You must define at least one project in Jira')
+        print 'You must define at least one project in Jira'
+        exit(1)
     projid = defaultprojid
 
 
@@ -119,9 +122,10 @@ for it in its:
         break
 
 if not issuetypeid:
-    raise Exception('Issue type "%s" not found. Valid types are %s' % (issuetypename, ', '.join([it['name'] for it in its])))
+    print 'Issue type "%s" not found. Valid types: %s' % (issuetypename, ', '.join([it['name'] for it in its]))
+    exit(1)
 
-_, rslt = _request('post', '/rest/api/2/issue', data='''{
+code, rslt = _request('post', '/rest/api/2/issue', data='''{
     "fields": {
         "project": {
             "id": %s
@@ -134,5 +138,10 @@ _, rslt = _request('post', '/rest/api/2/issue', data='''{
         }
     }
 }''' % (projid, fields_json, title, descr, issuetypeid))
+if code >= 400:
+    print 'Error: %d: %s' % (code, rslt)
+    exit(1)
 
-print rslt
+oo = json.loads(rslt)
+print 'Created issue %s' % oo['key']
+

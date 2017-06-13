@@ -15,7 +15,7 @@ urlbase = rc['attributes']['Endpoint URL Base']
 user = rc['attributes']['User']
 password = api.DecryptPassword(rc['attributes']['Password']).Value
 
-issueid = os.environ['ISSUE_ID']
+issueid = os.environ['ISSUE_NAME']
 comment = os.environ['COMMENT']
 fields_json = os.environ.get('ADDITIONAL_FIELDS_JSON', '')
 
@@ -69,8 +69,8 @@ def _request(method, path, data=None, headers=None, hide_result=False, **kwargs)
     code = response.getcode()
     response.close()
 
-    if code >= 400:
-        raise Exception('Error: %d: %s' % (code, body))
+    # if code >= 400:
+        # raise Exception('Error: %d: %s' % (code, body))
     return code, body
 
 # def req(method, urlsuffix, body='', *args, **kwargs):
@@ -88,14 +88,21 @@ def _request(method, path, data=None, headers=None, hide_result=False, **kwargs)
 #         raise Exception('Error %d: %s' % (r.status_code, r.text))
 #     return r.text
 
-_, rs = _request('post', '/rest/api/2/issue/%s/comment' % issueid,
-              data='''{
-    "body": "%s"
-    %s
-}''' % (comment, ','+fields_json if fields_json else ''))
+try:
+    rscode, rs = _request('post', '/rest/api/2/issue/%s/comment' % issueid,
+                  data='''{
+        "body": "%s"
+        %s
+    }''' % (comment, ','+fields_json if fields_json else ''))
+except Exception as e:
+    print 'Error adding comment. Check the issue name. %d: %s' % (e.code, e.msg)
+    exit(1)
+# if rscode >= 400:
+    # print 'Failed to add comment. Check the issue name.: %d: %s' % (rscode, rs)
+    # exit(1)
 
 oo = json.loads(rs)
-print 'Comment %s was created' % oo['id']
+print 'Comment was added successfully'
 
 # print rs
 
