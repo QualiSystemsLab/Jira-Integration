@@ -19,8 +19,8 @@ The service stores the endpoint URL and credentials and supports a few functions
     - ISSUE_TYPE - Task, Bug, Sub-task, Epic, Story, or a custom issue type defined ahead of time
     - TITLE - Headline of the issue
     - DESCRIPTION - Description of the issue
-    - ADDITIONAL_FIELDS_JSON - text to be inserted into the JSON API request, e.g. {"fieldname1":"value1"}, {"fieldname2","value2"},
+    - ADDITIONAL_FIELDS_JSON (can be omitted from the GUI inputs entirely) - text to be inserted into the JSON API request, e.g. {"fieldname1":"value1"}, {"fieldname2","value2"},
 - jira_add_comment_to_issue
-    - ISSUE_ID - Issue id or key, returned by jira_create_issue
+    - ISSUE_NAME - Issue id or key, returned by jira_create_issue
     - COMMENT - Text of the comment
-    - ADDITIONAL_FIELDS_JSON - Additional text to insert in the JSON request, e.g. "visibility": {"type": "role","value": "Administrators"}\
+    - ADDITIONAL_FIELDS_JSON (can be omitted from the GUI inputs entirely) - Additional text to insert in the JSON request, e.g. "visibility": {"type": "role","value": "Administrators"}\
