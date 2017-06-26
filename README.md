@@ -1,8 +1,37 @@
 # Jira-Integration
 
-A service that represents a Jira SaaS endpoint.
 
-The service stores the endpoint URL and credentials and supports a few functions that call the Jira REST API.
+## Health check sample
+
+End-to-end demo 
+
+- Reserve the Jira Automatic Health Check or Jira Health Check blueprint
+- If using Jira Health Check, run the sandbox command Run Health Checks - otherwise this will be performed by Setup
+- One of the DUTs in the sandbox will fail its health check
+- Because the Jira error handling service is present
+- A Jira issue is automatically opened
+- The resource is automatically removed from the reservation and placed in the "Support" domain
+- In Jira, click "More>Open in Quali CloudShell"
+- A new sandbox will be started by the Jira plugin
+- The problematic resource is added to the sandbox
+- This sandbox can be used to launch a connection to the resource and troubleshoot it
+- A Jira service is also available in the sandbox with the command "Close issue" that automatically closes the Jira issue and moves the resource back from the Support domain to its original domains
+
+
+## Components
+
+### Jira Service
+
+A CloudShell service that represents a Jira endpoint.
+
+The service stores the endpoint URL and credentials and supports a few functions that call the Jira REST API. One function is a standard error handler so Jira can be used the pluggable issue tracker in sandboxes.
+
+### Quali plugin for Jira
+
+Adds a command to the Jira issue page: More>Open in Quali CloudShell
+
+This connects to the CloudShell automation API to start a sandbox with the resource referencd by the Jira issue
+
 
 
 ## Instructions
