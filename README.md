@@ -38,7 +38,7 @@ This connects to the CloudShell automation API to start a sandbox with the resou
 ## Development
 - Jira plugin (Java)
   - Install JDK 8, ensure javac.exe is in PATH
-  - Install Jira plugin SDK
+  - Install Jira plugin SDK https://developer.atlassian.com/docs/getting-started/set-up-the-atlassian-plugin-sdk-and-build-a-project
   - Fix PATH and JAVA_HOME in Windows system properties if they were set incorrectly by the Jira SDK
   - Run Jira server in one command prompt:
     - cd QualiJiraPlugin
