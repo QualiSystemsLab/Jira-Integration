@@ -3,24 +3,59 @@ import re
 import os
 import json
 import base64
-# import requests
 from urllib2 import Request
 from urllib2 import urlopen
 from urllib import quote
 
-api = helpers.get_api_session()
 rc = json.loads(os.environ['RESOURCECONTEXT'])
+
+api = helpers.get_api_session()
 
 urlbase = rc['attributes']['Endpoint URL Base']
 user = rc['attributes']['User']
 password = api.DecryptPassword(rc['attributes']['Password']).Value
+projname = rc['attributes']['Jira Project Name']
+destdomain = rc['attributes']['Support Domain']
+issuetypename = rc['attributes']['Issue Type']
 
-projname = os.environ['PROJECT_NAME']
-issuetypename = os.environ['ISSUE_TYPE']
-title = os.environ['TITLE']
-descr = os.environ['DESCRIPTION']
-fields_json = os.environ.get('ADDITIONAL_FIELDS_JSON', '')
+resid = helpers.get_reservation_context_details().id
 
+resource_name = os.environ['RESOURCE_NAME']
+error_message = os.environ['ERROR_MESSAGE']
+
+doms = api.GetResourceDetails(resource_name, True).Domains
+
+api.RemoveResourcesFromReservation(resid, [resource_name])
+api.AddResourcesToDomain(destdomain, [resource_name])
+
+if doms and doms[0].Name:
+    for dom in doms:
+        if dom.Name != destdomain:
+            api.RemoveResourcesFromDomain(dom.Name, [resource_name])
+
+
+title = 'Error on resource %s' % resource_name
+descr = '''Issue opened by CloudShell
+
+%s
+
+Click 'More>Open in Quali CloudShell' to open the resource in a debug sandbox.
+
+
+Don't edit below this line
+-----------------------------------
+QS_RESOURCE(%s)
+QS_DOMAIN(%s)
+QS_ORIGINAL_DOMAINS(%s)
+''' % (error_message, resource_name, destdomain, ','.join([x.Name for x in doms]))
+
+descr = descr.replace('\n', '\\n').replace('\r', '\\r')
+
+
+
+
+# fields_json = os.environ.get('ADDITIONAL_FIELDS_JSON', '')
+fields_json = ''
 
 def bytes23(s):
     if isinstance(s, unicode):
@@ -55,7 +90,7 @@ def _request(method, path, data=None, headers=None, hide_result=False, **kwargs)
     headers = dict((k.encode('ascii') if isinstance(k, unicode) else k,
                     v.encode('ascii') if isinstance(v, unicode) else v)
                    for k, v in headers.items())
-
+    log('Request: %s %s %s %s' % (method, path, data, headers))
     # log('Request %d: %s %s headers=%s data=<<<%s>>>' % (counter, method, url, pheaders, pdata))
 
     request = Request(url, bytes23(data), headers)
@@ -64,6 +99,8 @@ def _request(method, path, data=None, headers=None, hide_result=False, **kwargs)
     body = response.read()
     code = response.getcode()
     response.close()
+
+    log('Response: %d %s' % (code, body))
 
     # if code >= 400:
         # raise Exception('Error: %d: %s' % (code, body))
@@ -121,5 +158,5 @@ if code >= 400:
     exit(1)
 
 oo = json.loads(rslt)
-print 'Created issue %s' % oo['key']
+print 'Created Jira issue %s: %s/browse/%s' % (oo['key'], urlbase, oo['key'])
 

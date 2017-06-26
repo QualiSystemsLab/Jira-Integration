@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TopologyInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Details Name="Jira Health Check Demo" Alias="Jira Health Check Demo" Driver="Python Setup &amp; Teardown" SetupDuration="10" TeardownDuration="10" Public="false" DefaultDuration="120">
+    <Description>Blueprint with preconfigured setup &amp; teardown processes.Deploys Apps and resolves connections on Setup, and deletes App VMs on Teardown</Description>
+    <Categories>
+      <Category Name="cat1" SubCategory="" />
+    </Categories>
+    <Scripts>
+      <Script Name="Default Sandbox Teardown" />
+      <Script Name="Default Sandbox Setup" />
+      <Script Name="Run Health Checks" />
+    </Scripts>
+    <Diagram Zoom="0.95" NodeSize="Medium" />
+  </Details>
+  <Resources>
+    <Resource PositionX="829" PositionY="315" Name="Failing DUT" Shared="true" />
+    <Resource PositionX="772" PositionY="137" Name="Good DUT" Shared="true" />
+  </Resources>
+  <Services>
+    <Service PositionX="400" PositionY="204" Alias="Jira Error Handler Service" ServiceName="Jira Service">
+      <Attributes>
+        <Attribute Name="Jira Project Name" Value="" />
+        <Attribute Name="Support Domain" Value="Support" />
+        <Attribute Name="Issue Type" Value="Task" />
+        <Attribute Name="User" Value="admin" />
+        <Attribute Name="Password" Value="DxTbqlSgAVPmrDLlHvJrsA==" />
+        <Attribute Name="Endpoint URL Base" Value="http://localhost:2990/jira" />
+      </Attributes>
+    </Service>
+  </Services>
+  <Apps />
+</TopologyInfo>

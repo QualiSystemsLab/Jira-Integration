@@ -17,8 +17,43 @@
         <Rule Name="Setting" />
       </Rules>
     </AttributeInfo>
+    <AttributeInfo Name="Jira Project Name" Type="String" DefaultValue="" IsReadOnly="false">
+      <Rules>
+        <Rule Name="Configuration" />
+        <Rule Name="Setting" />
+      </Rules>
+    </AttributeInfo>
+    <AttributeInfo Name="Support Domain" Type="String" DefaultValue="Support" IsReadOnly="false">
+      <Rules>
+        <Rule Name="Configuration" />
+        <Rule Name="Setting" />
+      </Rules>
+    </AttributeInfo>
+    <AttributeInfo Name="Issue Type" Type="String" DefaultValue="Task" IsReadOnly="false">
+      <Rules>
+        <Rule Name="Configuration" />
+        <Rule Name="Setting" />
+      </Rules>
+    </AttributeInfo>
   </Attributes>
   <ResourceFamilies>
+    <ResourceFamily Name="Example Family" Description="" IsPowerSwitch="true" IsSearchable="true" ResourceType="Resource">
+      <AttachedAttributes />
+      <AttributeValues />
+      <Models>
+        <ResourceModel Name="Example Model" Description="" SupportsConcurrentCommands="false">
+          <AttachedAttributes/>
+          <AttributeValues/>
+          <ParentModels />
+          <Drivers/>
+          <Scripts>
+            <ScriptName>health_check</ScriptName>
+          </Scripts>
+        </ResourceModel>
+      </Models>
+      <Categories />
+    </ResourceFamily>
+
     <ResourceFamily Name="Jira Services" Description="" IsService="true" ServiceType="Regular">
       <AttachedAttributes />
       <AttributeValues />
@@ -34,15 +69,29 @@
             <AttachedAttribute Name="Endpoint URL Base" IsOverridable="true" IsLocal="true" UserInput="true">
               <AllowedValues />
             </AttachedAttribute>
+            <AttachedAttribute Name="Jira Project Name" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
+            <AttachedAttribute Name="Support Domain" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
+            <AttachedAttribute Name="Issue Type" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
           </AttachedAttributes>
           <AttributeValues>
-            <AttributeValue Name="User" Value="" />
-            <AttributeValue Name="Password" Value="3M3u7nkDzxWb0aJ/IZYeWw==" />
-            <AttributeValue Name="Endpoint URL Base" Value="https://server:port" />
+            <AttributeValue Name="User" Value="admin" />
+            <AttributeValue Name="Password" Value="DxTbqlSgAVPmrDLlHvJrsA==" />
+            <AttributeValue Name="Endpoint URL Base" Value="http://localhost:2990" />
+            <AttributeValue Name="Jira Project Name" Value="" />
+            <AttributeValue Name="Support Domain" Value="Support" />
+            <AttributeValue Name="Issue Type" Value="Task" />
           </AttributeValues>
           <ParentModels />
           <Drivers />
           <Scripts>
+            <ScriptName>jira_handle_resource_error</ScriptName>
+            <ScriptName>jira_close_issue</ScriptName>
             <ScriptName>jira_add_comment_to_issue</ScriptName>
             <ScriptName>jira_create_issue</ScriptName>
           </Scripts>
@@ -57,6 +106,20 @@
     <DriverDescriptor Name="Python Setup &amp; Teardown" Description="This driver is used for running Python scripts in the environment setup and teardown. To use this driver, make sure you select a suitable setup and/or teardown script." DriverType="TestShellDriver" />
   </DriverDescriptors>
   <ScriptDescriptors>
+    <ScriptDescriptor Name="health_check" Alias="Run Health Check">
+      <ScriptInputs/>
+    </ScriptDescriptor>
+    <ScriptDescriptor Name="jira_handle_resource_error" Alias="Jira Resource Error Handler">
+      <ScriptInputs>
+        <ScriptInput Name="resource_name" Description="Name of the resource to open a Jira issue about" />
+        <ScriptInput Name="error_message" Description="Resource error message being reported" />
+      </ScriptInputs>
+    </ScriptDescriptor>
+    <ScriptDescriptor Name="jira_close_issue" Alias="Close Jira Issue">
+      <ScriptInputs>
+        <ScriptInput Name="issue_id" Description="Issue id to close. Leave blank if the issue id is included in the sandbox name." />
+      </ScriptInputs>
+    </ScriptDescriptor>
     <ScriptDescriptor Name="jira_add_comment_to_issue" Alias="Add Comment to Jira Issue">
       <ScriptInputs>
         <ScriptInput Name="Issue_ID" Description="ID or key of the issue to update, as returned from Create Jira Issue" />
@@ -74,6 +137,9 @@
       </ScriptInputs>
     </ScriptDescriptor>
     <ScriptDescriptor Name="Default Sandbox Teardown" CategoryName="Hidden Commands" Version="1.0.1.2 " Alias="Teardown script">
+      <ScriptInputs />
+    </ScriptDescriptor>
+    <ScriptDescriptor Name="Health Check Sandbox Setup" CategoryName="Hidden Commands" Version="1.0.1.2 " Alias="Setup script">
       <ScriptInputs />
     </ScriptDescriptor>
     <ScriptDescriptor Name="Default Sandbox Setup" CategoryName="Hidden Commands" Version="1.0.1.2 " Alias="Setup script">

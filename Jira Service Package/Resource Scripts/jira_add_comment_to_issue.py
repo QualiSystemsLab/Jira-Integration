@@ -27,7 +27,7 @@ def bytes23(s):
 
 def log(s):
     try:
-        with open(r'c:\temp\jira.log', 'a') as f:
+        with open(r'c:\ProgramData\QualiSystems\jira.log', 'a') as f:
             f.write(s+'\r\n')
     except:
         pass
