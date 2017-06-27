@@ -57,7 +57,7 @@ class EnvironmentSetup(object):
 
         self._configure_apps(api=api, reservation_id=self.reservation_id)
 
-        self._run_health_checks(api=api, reservation_id=self.reservation_id)
+        self._run_health_checks(api=api)
 
         self.logger.info("Setup for reservation {0} completed".format(self.reservation_id))
         api.WriteMessageToReservationOutput(reservationId=self.reservation_id,

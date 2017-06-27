@@ -3,6 +3,8 @@
 $action.getWarning()
 <br>
 $action.getError()
+<br>
+$action.getQSOutput()
 <h2>Click here to open CloudShell sandbox:
 <a target="_new" href="$action.getPortalhttphttps()://$action.getPortalip():$action.getPortalport()/RM/Diagram/Index/$action.getResid()">$action.getResname()</a>
 <br></h2>

@@ -1,3 +1,7 @@
+import urllib
+import zipfile
+
+import StringIO
 import cloudshell.helpers.scripts.cloudshell_scripts_helpers as helpers
 import re
 import os
@@ -6,6 +10,11 @@ import base64
 from urllib2 import Request
 from urllib2 import urlopen
 from urllib import quote
+
+import time
+
+import requests
+from cloudshell.api.cloudshell_api import AttributeNameValue
 
 rc = json.loads(os.environ['RESOURCECONTEXT'])
 
@@ -33,6 +42,106 @@ if doms and doms[0].Name:
         if dom.Name != destdomain:
             api.RemoveResourcesFromDomain(dom.Name, [resource_name])
 
+# newresid = api.CreateImmediateReservation().Reservation.Id
+# api.AddResourcesToReservation(newresid, [resource_name])
+# api.AddServiceToReservation(newresid, 'Jira Service', 'Jira Service', [
+#     AttributeNameValue('Endpoint URL Base', urlbase),
+#     AttributeNameValue('User', user),
+#     AttributeNameValue('Password', password),
+#
+#     AttributeNameValue('Jira Project Name', projname),
+#     AttributeNameValue('Support Domain', destdomain),
+#     AttributeNameValue('Issue Type', issuetypename),
+# ])
+# bpname = 'Debug %s_%s' % (resource_name, str(time.time()))
+# api.SaveReservationAsTopology(newresid, '', bpname)
+# supportcat = 'Support'
+# api.SetTopologyCategory(bpname, supportcat, '')
+# api.Topolo
+qr1 = requests.put('%s://%s:%s/API/Auth/Login' % (
+    'http',
+    helpers.get_connectivity_context_details().server_address,
+    '9000'
+), headers={'Content-Type': 'application/x-www-form-urlencoded'},
+                   data='username=%s&password=%s&domain=%s' % (
+                       urllib.quote(user),
+                       urllib.quote(password),
+                       destdomain
+                   ))
+token = qr1.text.replace('"', '')
+sio = StringIO.StringIO()
+# sio = BytesIO.BytesIO()
+z = zipfile.ZipFile(sio, 'w')
+bpname = 'Debug %s_%d' % (resource_name, int(time.time()))
+
+z.writestr('metadata.xml', str('''<?xml version="1.0" encoding="utf-8"?>
+<Metadata xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.qualisystems.com/PackageMetadataSchema.xsd">
+  <CreationDate>26/06/2017 14:12:19</CreationDate>
+  <ServerVersion>8.0.0</ServerVersion>
+  <PackageType>CloudShellPackage</PackageType>
+</Metadata>'''))
+
+z.writestr('Topologies/%s.xml' % bpname, str('''<?xml version="1.0" encoding="utf-8"?>
+<TopologyInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Details Name="%s" Alias="%s" Driver="" SetupDuration="0" TeardownDuration="0" Public="true" DefaultDuration="120">
+    <Description>Blueprint for debugging resource %s</Description>
+    <Categories>
+      <Category Name="Support" SubCategory="" />
+    </Categories>
+    <Scripts>
+    </Scripts>
+    <Diagram Zoom="1" NodeSize="Medium" />
+  </Details>
+  <Resources>
+    <Resource PositionX="581" PositionY="96" Name="%s" Shared="false" />
+  </Resources>
+  <Services>
+    <Service PositionX="400" PositionY="204" Alias="Jira Service" ServiceName="Jira Service">
+      <Attributes>
+        <Attribute Name="Jira Project Name" Value="%s" />
+        <Attribute Name="Support Domain" Value="%s" />
+        <Attribute Name="Issue Type" Value="%s" />
+        <Attribute Name="User" Value="%s" />
+        <Attribute Name="Password" Value="%s" />
+        <Attribute Name="Endpoint URL Base" Value="%s" />
+      </Attributes>
+    </Service>
+  </Services>
+  <Apps />
+</TopologyInfo>
+''' % (bpname, bpname, resource_name, resource_name,
+       projname, destdomain, issuetypename, user, password, urlbase)))
+
+z.writestr('Categories/categories.xml', str('''<?xml version="1.0" encoding="utf-8"?>
+<CategoryList xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.qualisystems.com/ResourceManagement/CategorySchema.xsd">
+  <Category Name="Support" Description="" Catalog="Environment">
+    <ChildCategories />
+  </Category>
+</CategoryList>
+'''))
+
+z.close()
+
+zipdata = sio.getvalue()
+
+# with open(r'c:\temp\zzahc.zip', 'wb') as f:
+#     f.write(zipdata)
+
+boundary = b'''------------------------652c70c071862fc2'''
+fd = b'''--''' + boundary + \
+     b'''\r\nContent-Disposition: form-data; name="file"; filename="my_zip.zip"\r\nContent-Type: application/octet-stream\r\n\r\n''' + \
+     zipdata + \
+     b'''\r\n--''' + boundary + b'''--\r\n'''
+
+qr2 = requests.post('%s://%s:%s/API/Package/ImportPackage' % (
+    'http',
+    'localhost',
+    '9000'
+), headers={
+    'Authorization': 'Basic %s' % token,
+    'Content-Type': 'multipart/form-data; boundary=' + boundary,
+}, data=fd)
+
 
 title = 'Error on resource %s' % resource_name
 descr = '''Issue opened by CloudShell
@@ -47,7 +156,8 @@ Don't edit below this line
 QS_RESOURCE(%s)
 QS_DOMAIN(%s)
 QS_ORIGINAL_DOMAINS(%s)
-''' % (error_message, resource_name, destdomain, ','.join([x.Name for x in doms]))
+QS_BLUEPRINT_NAME(%s)
+''' % (error_message, resource_name, destdomain, ','.join([x.Name for x in doms]), bpname)
 
 descr = descr.replace('\n', '\\n').replace('\r', '\\r')
 
