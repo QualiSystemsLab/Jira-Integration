@@ -276,7 +276,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
                         return super.execute();
                     }
                     resid = matcher.group(1);
-                    resid = resid.replaceAll("\\r", "").replaceAll("\\n", "");
+                    resid = resid.replaceAll("\\r\\n", "");
                     break;
                 }
                 if(s.replaceAll(" ", "").contains("\"status\":\"Failed\"") || s.replaceAll(" ", "").contains("\"status\":\"Error\"")) {
@@ -295,12 +295,12 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             String url = apihttphttps + "://" + apiip + ":" + apiport + "/api/v2/sandboxes/"+workerresid+"/stop";
             qsoutput = url + "\n";
             String s = http("POST", url, "", token);
-            qsoutput += s;
+//            qsoutput += s;
         } catch(Exception e) {
             qsoutput += "Warning: Failed to stop jiraworker sandbox: " + e.toString();
             return super.execute();
         }
-        qsoutput = "";
+//        qsoutput = "";
         return super.execute(); //returns SUCCESS
     }
     public String getQSOutput() {
