@@ -30,7 +30,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
     private int duration = 120;
     private String rawquery = "NoRawQuery";
     private String warnings = "";
-    private String bpname = "NoBlueprintName";
+    private String originaldomains = "NoOriginalDomains";
 
     private String apiip;
     private String portalip;
