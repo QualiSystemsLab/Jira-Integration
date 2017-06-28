@@ -163,6 +163,15 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             csdomain = matcher.group(1);
         }
         {
+            Pattern pattern = Pattern.compile("QS_ORIGINAL_DOMAINS[(]([^)]*)[)]");
+            Matcher matcher = pattern.matcher(rawquery);
+            if(!matcher.find()) {
+                qsoutput = "QS_ORIGINAL_DOMAINS(domain name) not found in issue description";
+                return super.execute();
+            }
+            originaldomains = matcher.group(1);
+        }
+        {
             Pattern pattern = Pattern.compile("issueid=([^&]*)");
             Matcher matcher = pattern.matcher(rawquery);
             if(!matcher.find()) {
