@@ -163,15 +163,6 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             csdomain = matcher.group(1);
         }
         {
-            Pattern pattern = Pattern.compile("QS_BLUEPRINT_NAME[(]([^)]*)[)]");
-            Matcher matcher = pattern.matcher(rawquery);
-            if(!matcher.find()) {
-                qsoutput = "QS_BLUEPRINT_NAME(blueprint name) not found in issue description";
-                return super.execute();
-            }
-            bpname = matcher.group(1);
-        }
-        {
             Pattern pattern = Pattern.compile("issueid=([^&]*)");
             Matcher matcher = pattern.matcher(rawquery);
             if(!matcher.find()) {

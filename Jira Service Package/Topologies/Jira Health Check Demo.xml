@@ -25,8 +25,8 @@
         <Attribute Name="Support Domain" Value="Support" />
         <Attribute Name="Issue Type" Value="Task" />
         <Attribute Name="User" Value="admin" />
-        <Attribute Name="Password" Value="DxTbqlSgAVPmrDLlHvJrsA==" />
-        <Attribute Name="Endpoint URL Base" Value="http://localhost:2990/jira" />
+        <Attribute Name="Password" Value="admin" />
+        <Attribute Name="Endpoint URL Base" Value="http://34.209.61.145:2990/jira" />
       </Attributes>
     </Service>
   </Services>

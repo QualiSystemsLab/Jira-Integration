@@ -5,7 +5,7 @@
            SetupDuration="1" TeardownDuration="0" Public="false" DefaultDuration="120">
     <Description>Blueprint with preconfigured setup &amp; teardown processes.Deploys Apps and resolves connections on Setup, and deletes App VMs on Teardown</Description>
     <Categories>
-      <Category Name="LaaS" SubCategory="" />
+      <!--<Category Name="LaaS" SubCategory="" />-->
     </Categories>
     <Scripts>
       <!--<Script Name="Default Sandbox Teardown" />-->
@@ -24,8 +24,8 @@
         <Attribute Name="Support Domain" Value="Support" />
         <Attribute Name="Issue Type" Value="Task" />
         <Attribute Name="User" Value="admin" />
-        <Attribute Name="Password" Value="DxTbqlSgAVPmrDLlHvJrsA==" />
-        <Attribute Name="Endpoint URL Base" Value="http://localhost:2990/jira" />
+        <Attribute Name="Password" Value="admin" />
+        <Attribute Name="Endpoint URL Base" Value="http://34.209.61.145:2990/jira" />
       </Attributes>
     </Service>
   </Services>
