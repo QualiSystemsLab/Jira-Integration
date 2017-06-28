@@ -136,14 +136,17 @@
         <ScriptInput Name="Additional_Fields_JSON" Description="Additional fields to insert into the JSON request, in the form {&quot;fieldname1&quot;:&quot;value1&quot;}, {&quot;fieldname2&quot;:&quot;value2&quot;}," />
       </ScriptInputs>
     </ScriptDescriptor>
-    <ScriptDescriptor Name="Default Sandbox Teardown" CategoryName="Hidden Commands" Version="1.0.1.2 " Alias="Teardown script">
-      <ScriptInputs />
-    </ScriptDescriptor>
+    <!--<ScriptDescriptor Name="Default Sandbox Teardown" CategoryName="Hidden Commands" Version="1.0.1.2 " Alias="Teardown script">-->
+      <!--<ScriptInputs />-->
+    <!--</ScriptDescriptor>-->
     <ScriptDescriptor Name="Health Check Sandbox Setup" CategoryName="Hidden Commands" Version="1.0.1.2 " Alias="Setup script">
       <ScriptInputs />
     </ScriptDescriptor>
-    <ScriptDescriptor Name="Default Sandbox Setup" CategoryName="Hidden Commands" Version="1.0.1.2 " Alias="Setup script">
+    <ScriptDescriptor Name="Run Health Checks" CategoryName="" Version="1.0.1.2 " Alias="Run Health Checks">
       <ScriptInputs />
     </ScriptDescriptor>
+    <!--<ScriptDescriptor Name="Default Sandbox Setup" CategoryName="Hidden Commands" Version="1.0.1.2 " Alias="Setup script">-->
+      <!--<ScriptInputs />-->
+    <!--</ScriptDescriptor>-->
   </ScriptDescriptors>
 </DataModelInfo>

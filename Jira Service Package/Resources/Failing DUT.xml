@@ -3,7 +3,7 @@
               Name="Failing DUT"
               FolderFullPath=""
               Address="23"
-              ModelName="Example Model"
+              ModelName="Sales Web App"
               Driver=""
               xmlns="http://schemas.qualisystems.com/ResourceManagement/ResourceSchema.xsd">
   <Attributes/>

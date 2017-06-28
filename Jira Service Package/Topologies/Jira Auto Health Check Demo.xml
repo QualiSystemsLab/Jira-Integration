@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TopologyInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Details Name="Jira Auto Health Check Demo" Alias="Jira Auto Health Check Demo" Driver="Python Setup &amp; Teardown" SetupDuration="10" TeardownDuration="10" Public="false" DefaultDuration="120">
+  <Details Name="Jira Auto Health Check Demo" Alias="Jira Auto Health Check Demo"
+           Driver="Python Setup &amp; Teardown"
+           SetupDuration="1" TeardownDuration="0" Public="false" DefaultDuration="120">
     <Description>Blueprint with preconfigured setup &amp; teardown processes.Deploys Apps and resolves connections on Setup, and deletes App VMs on Teardown</Description>
     <Categories>
-      <Category Name="cat1" SubCategory="" />
+      <Category Name="LaaS" SubCategory="" />
     </Categories>
     <Scripts>
-      <Script Name="Default Sandbox Teardown" />
+      <!--<Script Name="Default Sandbox Teardown" />-->
       <Script Name="Health Check Sandbox Setup" />
     </Scripts>
     <Diagram Zoom="0.95" NodeSize="Medium" />

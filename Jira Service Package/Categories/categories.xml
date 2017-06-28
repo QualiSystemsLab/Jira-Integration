@@ -3,7 +3,7 @@
   <Category Name="SaaS" Description="" Catalog="Service">
     <ChildCategories />
   </Category>
-  <Category Name="cat1" Description="" Catalog="Environment">
-    <ChildCategories />
-  </Category>
+  <!--<Category Name="LaaS" Description="" Catalog="Environment">-->
+    <!--<ChildCategories />-->
+  <!--</Category>-->
 </CategoryList>
