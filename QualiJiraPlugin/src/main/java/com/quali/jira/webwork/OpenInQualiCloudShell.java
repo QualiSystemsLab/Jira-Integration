@@ -276,7 +276,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
                         return super.execute();
                     }
                     resid = matcher.group(1);
-                    resid = resid.replaceAll("\\r\\n", "");
+                    resid = resid.replace('\\', ' ').replaceAll(" r n", "");
                     break;
                 }
                 if(s.replaceAll(" ", "").contains("\"status\":\"Failed\"") || s.replaceAll(" ", "").contains("\"status\":\"Error\"")) {
