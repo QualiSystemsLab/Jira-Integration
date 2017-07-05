@@ -33,5 +33,5 @@ api.AddServiceToReservation(resid, 'Jira Service', 'Jira Service', [
     AttributeNameValue('User', jira_username),
     AttributeNameValue('Password', jira_password),
 ])
-
+api.SetReservationServicePosition(resid, 'Jira Service', 300, 500)
 print resid

@@ -5,7 +5,7 @@ fullname = helpers.get_resource_context_details().fullname
 
 if 'Failing' in fullname:
     rv = 'Health check on resource %s failed: Device not responding' % fullname
-    api.SetResourceLiveStatus(fullname, 'Offline', rv)
+    api.SetResourceLiveStatus(fullname, 'Error', rv)
 else:
     rv = 'Health check on resource %s passed' % fullname
     api.SetResourceLiveStatus(fullname, 'Online', rv)

@@ -83,15 +83,6 @@ class EnvironmentSetup(object):
                     api.WriteMessageToReservationOutput(self.reservation_id, errmsg)
                     errors.append(errmsg)
 
-                    for svc in rd.Services:
-                        for c in api.GetServiceCommands(svc.ServiceName).Commands:
-                            if 'handle_resource_error' in c.Name:
-                                api.WriteMessageToReservationOutput(self.reservation_id, 'Running error handler on %s' % svc.Alias)
-                                eo = api.ExecuteCommand(self.reservation_id, svc.Alias, 'Service', c.Name, [
-                                    InputNameValue('resource_name', r.Name),
-                                    InputNameValue('error_message', exc.message),
-                                ], printOutput=True).Output
-                                # api.WriteMessageToReservationOutput(self.reservation_id, eo)
         if errors:
             print 'Please terminate the sandbox and try again:\n' + '\n'.join(errors)
             exit(1)

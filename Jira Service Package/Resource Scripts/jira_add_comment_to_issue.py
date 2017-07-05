@@ -15,7 +15,14 @@ urlbase = rc['attributes']['Endpoint URL Base']
 user = rc['attributes']['User']
 password = api.DecryptPassword(rc['attributes']['Password']).Value
 
-issueid = os.environ['ISSUE_NAME']
+# issueid = os.environ['ISSUE_NAME']
+resname = api.GetReservationDetails(resid).ReservationDescription.Name
+try:
+    issue_id = resname.split(' - ')[1].replace('issue ', '')
+except:
+    print 'Issue id not found in the reservation name, e.g. MyResource debug session - xyz-9'
+    exit(1)
+
 comment = os.environ['COMMENT']
 fields_json = os.environ.get('ADDITIONAL_FIELDS_JSON', '')
 

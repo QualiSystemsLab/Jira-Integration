@@ -9,6 +9,8 @@ from urllib2 import urlopen
 from urllib import quote
 
 api = helpers.get_api_session()
+resid = helpers.get_reservation_context_details().id
+
 rc = json.loads(os.environ['RESOURCECONTEXT'])
 
 urlbase = rc['attributes']['Endpoint URL Base']

@@ -20,15 +20,17 @@ issuetypename = rc['attributes']['Issue Type']
 
 resid = helpers.get_reservation_context_details().id
 
-issue_id = os.environ['ISSUE_ID']
+# issue_id = os.environ['ISSUE_ID']
+#
+# if not issue_id:
+comment = os.environ['COMMENT']
 
-if not issue_id:
-    resname = api.GetReservationDetails(resid).ReservationDescription.Name
-    try:
-        issue_id = resname.split(' - ')[1].replace('issue ', '')
-    except:
-        print 'Issue id was not input and was not found in the reservation name, e.g. MyResource debug session - xyz-9'
-        exit(1)
+resname = api.GetReservationDetails(resid).ReservationDescription.Name
+try:
+    issue_id = resname.split(' - ')[1].replace('issue ', '')
+except:
+    print 'Issue id not found in the reservation name, e.g. MyResource debug session - xyz-9'
+    exit(1)
 
 
 def bytes23(s):
@@ -123,6 +125,8 @@ for dom in orgdoms:
     if dom != supportdomain:
         api.AddResourcesToDomain(dom, [resource_name])
 
+api.SetResourceLiveStatus(resource_name, 'Online', '')
+
 _, bls = _request('get', '/rest/api/2/issue/%s/transitions' % issue_id)
 transitions = json.loads(bls)['transitions']
 transitionid = ''
@@ -132,7 +136,16 @@ for transition in transitions:
         break
 
 _, bls = _request('post', '/rest/api/2/issue/%s/transitions' % issue_id, json.dumps({
-    'transition': {'id': transitionid}
+    'transition': {'id': transitionid},
+    'update': {
+        'comment': [
+            {
+                'add': {
+                    'body': comment
+                }
+            }
+        ]
+    }
 }))
                   # '''{
                   #       "update":{
