@@ -1,0 +1,147 @@
+<html>
+  <head>
+    <title>$i18n.getText("quali.admin.label")</title>
+    <meta name="decorator" content="atl.admin" />
+    $webResourceManager.requireResource("com.atlassian.auiplugin:ajs")
+
+    <script>
+
+#set ( $dollar = "$")
+#set ( $pound = "#")
+(function (${dollar}) { // this closure helps us keep our variables to ourselves.
+    // This pattern is known as an "iife" - immediately invoked function expression
+
+        // form the URL
+        var url = AJS.contextPath() + "/rest/quali-admin/1.0/";
+
+        // wait for the DOM (i.e., document "skeleton") to load. This likely isn't necessary for the current case,
+        // but may be helpful for AJAX that provides secondary content.
+        ${dollar}(document).ready(function() {
+            // request the config information from the server
+            ${dollar}.ajax({
+                url: url,
+                dataType: "json"
+            }).done(function(config) { // when the configuration is returned...
+
+                ${dollar}("${pound}name").val(config.name);
+                // ${dollar}("${pound}zime").val(config.zime);
+
+                ${dollar}("${pound}api_url").val(config.api_url);
+                ${dollar}("${pound}portal_url").val(config.portal_url);
+                ${dollar}("${pound}csuser").val(config.csuser);
+                ${dollar}("${pound}cspass").val(config.cspass);
+                ${dollar}("${pound}jira_url").val(config.jira_url);
+                ${dollar}("${pound}issue_type").val(config.issue_type);
+                ${dollar}("${pound}project_name").val(config.project_name);
+                ${dollar}("${pound}support_domain").val(config.support_domain);
+                ${dollar}("${pound}jira_username").val(config.jira_username);
+                ${dollar}("${pound}jira_password").val(config.jira_password);
+
+                AJS.${dollar}("${pound}admin").submit(function(e) {
+                        e.preventDefault();
+                        updateConfig();
+                    });
+            });
+        });
+
+})(AJS.${dollar} || jQuery);
+
+function updateConfig() {
+  AJS.${dollar}.ajax({
+    url: AJS.contextPath() + "/rest/quali-admin/1.0/",
+    type: "PUT",
+    contentType: "application/json",
+    data: '{  ' +
+    '"api_url": "' + AJS.${dollar}("${pound}api_url").attr("value") + '"' +
+    ', ' +
+    '"portal_url": "' + AJS.${dollar}("${pound}portal_url").attr("value") + '"' +
+    ', ' +
+    '"csuser": "' + AJS.${dollar}("${pound}csuser").attr("value") + '"' +
+    ', ' +
+    '"cspass": "' + AJS.${dollar}("${pound}cspass").attr("value") + '"' +
+    ', ' +
+    '"jira_url": "' + AJS.${dollar}("${pound}jira_url").attr("value") + '"' +
+    ', ' +
+    '"issue_type": "' + AJS.${dollar}("${pound}issue_type").attr("value") + '"' +
+    ', ' +
+    '"project_name": "' + AJS.${dollar}("${pound}project_name").attr("value") + '"' +
+    ', ' +
+    '"support_domain": "' + AJS.${dollar}("${pound}support_domain").attr("value") + '"' +
+    ', ' +
+    '"jira_username": "' + AJS.${dollar}("${pound}jira_username").attr("value") + '"' +
+    ', ' +
+    '"jira_password": "' + AJS.${dollar}("${pound}jira_password").attr("value") + '"' +
+    ' }',
+    processData: false
+  });
+}
+
+
+        </script>
+
+
+  </head>
+  <body>
+    <form id="admin" class="aui">
+
+      <div class="field-group">
+              <label for="api_url">$i18n.getText("quali.admin.api_url.label")</label>
+        <input type="text" id="api_url" name="api_url" class="text" placeholder="http://localhost:82">
+      </div>
+      <div class="field-group">
+              <label for="portal_url">$i18n.getText("quali.admin.portal_url.label")</label>
+           <input type="text" id="portal_url" name="portal_url" class="text" placeholder="http://localhost:8080">
+         </div>
+
+      <div class="field-group">
+              <label for="csuser">$i18n.getText("quali.admin.csuser.label")</label>
+         <input type="text" id="csuser" name="csuser" class="text" placeholder="admin">
+       </div>
+      <div class="field-group">
+              <label for="cspass">$i18n.getText("quali.admin.cspass.label")</label>
+         <input type="password" id="cspass" name="cspass" class="text">
+       </div>
+      <div class="field-group">
+              <label for="support_domain">$i18n.getText("quali.admin.support_domain.label")</label>
+                 <input type="text" id="support_domain" name="support_domain" class="text" placeholder="Support">
+               </div>
+
+      <div class="field-group">
+              <label for="jira_url">$i18n.getText("quali.admin.jira_url.label")</label>
+           <input type="text" id="jira_url" name="jira_url" class="text" placeholder="http://localhost:2990/jira">
+         </div>
+      <div class="field-group">
+              <label for="jira_username">$i18n.getText("quali.admin.jira_username.label")</label>
+                <input type="text" id="jira_username" name="jira_username" class="text" placeholder="admin">
+              </div>
+      <div class="field-group">
+              <label for="jira_password">$i18n.getText("quali.admin.jira_password.label")</label>
+                <input type="password" id="jira_password" name="jira_password" class="text">
+              </div>
+
+      <div class="field-group">
+              <label for="issue_type">$i18n.getText("quali.admin.issue_type.label")</label>
+             <input type="text" id="issue_type" name="issue_type" class="text" placeholder="Task">
+           </div>
+      <div class="field-group">
+              <label for="project_name">$i18n.getText("quali.admin.project_name.label")</label>
+               <input type="text" id="project_name" name="project_name" class="text">
+             </div>
+
+      <div class="field-group">
+              <label for="project_name">$i18n.getText("quali.admin.ticket_queue.label")</label>
+               <input type="text" id="ticket_queue" name="ticket_queue" class="text">
+             </div>
+
+      <div class="field-group">
+              <label for="project_name">$i18n.getText("quali.admin.sandbox_minutes.label")</label>
+               <input type="text" id="sandbox_minutes" name="sandbox_minutes" class="text">
+             </div>
+
+      
+      <div class="field-group">
+        <input type="submit" value="$i18n.getText("quali.admin.save.label")" class="button">
+      </div>
+    </form>
+  </body>
+</html>

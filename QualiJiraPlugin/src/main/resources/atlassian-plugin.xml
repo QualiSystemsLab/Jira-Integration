@@ -11,13 +11,30 @@
   <!-- add our i18n resource -->
   <resource type="i18n" name="i18n" location="QualiJiraPlugin"/>
   <!-- add our web resources -->
+
+  <servlet key="admin-servlet" class="com.quali.jira.adminui.AdminServlet">
+    <url-pattern>/quali/admin</url-pattern>
+  </servlet>
+  <rest key="rest" path="/quali-admin" version="1.0">
+    <description>Provides REST resources for the admin UI.</description>
+  </rest>
+  <web-item key="jira-menu-item" name="Quali Admin" section="system.admin/globalsettings" weight="10" application="jira">
+    <description>Link to quali-admin page.</description>
+    <label key="quali.admin.label" />
+    <link linkId="quali-admin-link">/plugins/servlet/quali/admin</link>
+  </web-item>
+  <web-item key="qualirefapp-menu-item" name="Quali Admin" section="system.admin/general" weight="10" application="qualirefapp">
+    <description>Link to quali-admin page.</description>
+    <label key="quali.admin.label" />
+    <link linkId="quali-admin-link">/plugins/servlet/quali/admin</link>
+  </web-item>
+
   <web-resource key="QualiJiraPlugin-resources" name="QualiJiraPlugin Web Resources">
     <dependency>com.atlassian.auiplugin:ajs</dependency>
-    <resource type="download" name="QualiJiraPlugin.css" location="/css/QualiJiraPlugin.css"/>
-    <resource type="download" name="QualiJiraPlugin.js" location="/js/QualiJiraPlugin.js"/>
     <resource type="download" name="images/" location="/images"/>
     <context>QualiJiraPlugin</context>
   </web-resource>
+
   <web-item name="Open in Quali CloudShell" i18n-name-key="openin-quali-cloud-shell.name" key="openin-quali-cloud-shell" section="operations-operations" weight="1000">
     <description key="openin-quali-cloud-shell.description">The Open in Quali CloudShell Plugin</description>
     <label key="openin-quali-cloud-shell.label"/>

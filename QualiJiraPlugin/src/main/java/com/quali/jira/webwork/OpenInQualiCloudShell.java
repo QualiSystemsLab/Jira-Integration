@@ -1,95 +1,51 @@
 package com.quali.jira.webwork;
 
+import com.quali.jira.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 
-import java.net.URLEncoder;
 import java.io.*;
 import java.lang.Thread;
 
 import java.net.HttpURLConnection;
 import javax.net.ssl.HttpsURLConnection;
 import java.net.URL;
-import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.net.ssl.*;
 import java.security.cert.*;
+import javax.inject.Inject;
+
+import com.atlassian.sal.api.pluginsettings.*;
 
 public class OpenInQualiCloudShell extends JiraWebActionSupport
 {
     private static final Logger log = LoggerFactory.getLogger(OpenInQualiCloudShell.class);
+    private final Config config;
 
     private String resid = "NoResid";
-    private String qsoutput = "QSNoOutput";
     private String resource = "NoResource";
-    private String resname = "NoReservationName";
+    private String resname = "No reservation created";
     private String csdomain = "NoDomain";
     private String issueid = "NoIssueId";
-    private int duration = 120;
     private String rawquery = "NoRawQuery";
     private String warnings = "";
     private String originaldomains = "NoOriginalDomains";
+    private String clickheremessage = "";
+    private String errmsg = "";
+    private String debugmsg = "";
+    String executionid = "NoExecutionId";
+    String workerresid = "NoWorkerReservationId";
 
-    private String apiip;
-    private String portalip;
-    private String apihttphttps;
-    private String portalhttphttps;
-    private String apiport;
-    private String portalport;
-    private String csuser;
-    private String cspass;
-    private String jira_url;
-    private String issue_type;
-    private String project_name;
-    private String support_domain;
-    private String jira_username;
-    private String jira_password;
-
-    public OpenInQualiCloudShell() {
+    @Inject
+    public OpenInQualiCloudShell(PluginSettingsFactory pluginSettingsFactory) {
         super();
-        String f1 = "c:\\ProgramData\\QualiSystems\\QualiJiraPlugin.properties";
-        String f2 = "/var/lib/quali/QualiJiraPlugin.properties";
-        Properties prop = new Properties();
-        InputStream input;
-        try {
-            try {
-                input = new FileInputStream(f1);
-            } catch(Exception e1) {
-                input = new FileInputStream(f2);
-            }
-            prop.load(input);
-        } catch (IOException ex) {
-            warnings += "Failed to load " + f1 + " and " + f2 + ". Using CloudShell portal http://localhost:80 and sandbox API http://localhost:9000 admin/admin. Settings supported in QualiJiraPlugin.properties: api_host, portal_host, api_http_or_https, portal_http_or_https, api_port, portal_port, cloudshell_username, cloudshell_password";
-            prop = new Properties();
-        }
-        apiip = prop.getProperty("api_host", "localhost");
-        portalip = prop.getProperty("portal_host", "localhost");
-        apihttphttps = prop.getProperty("api_http_or_https", "http");
-        portalhttphttps = prop.getProperty("portal_http_or_https", "http");
-        apiport = prop.getProperty("api_port", "82");
-        portalport = prop.getProperty("portal_port", "80");
-        csuser = prop.getProperty("cloudshell_username", "admin");
-        cspass = prop.getProperty("cloudshell_password", "admin");
-
-        jira_url = prop.getProperty("jira_url", "http://localhost:2990/jira");
-        issue_type = prop.getProperty("issue_type", "Task");
-        project_name = prop.getProperty("project_name", "");
-        support_domain = prop.getProperty("support_domain", "Support");
-        jira_username = prop.getProperty("jira_username", "admin");
-        jira_password = prop.getProperty("jira_password", "admin");
+        config = new Config(pluginSettingsFactory);
     }
 
     private String http(String method, String url0, String body, String token) throws Exception {
         URL url = new URL(url0);
-//        HostnameVerifier allHostsValid = new HostnameVerifier() {
-//            public boolean verify(String hostname, SSLSession session) {
-//                return true;
-//            }
-//        };
-//        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-//        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 
         TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
             public java.security.cert.X509Certificate[] getAcceptedIssuers() { return null; }
@@ -102,15 +58,12 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
         sc.init(null, trustAllCerts, new java.security.SecureRandom());
         HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 
-        // Create all-trusting host name verifier
         HostnameVerifier allHostsValid = new HostnameVerifier() {
             public boolean verify(String hostname, SSLSession session) { return true; }
         };
-        // Install the all-trusting host verifier
         HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-//        connection.setHostnameVerifier(allHostsValid);
         connection.setRequestMethod(method.toUpperCase());
         connection.setRequestProperty("Content-Length", ""+body.getBytes().length);
         connection.setRequestProperty("Content-Type", "application/json");
@@ -148,131 +101,117 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             Pattern pattern = Pattern.compile("QS_RESOURCE[(]([^)]*)[)]");
             Matcher matcher = pattern.matcher(rawquery);
             if(!matcher.find()) {
-                qsoutput = "QS_RESOURCE(resource name) not found in issue description";
-                return super.execute();
+                errmsg += "QS_RESOURCE(resource name) not found in issue description. ";
+            } else {
+                resource = matcher.group(1);
             }
-            resource = matcher.group(1);
         }
         {
             Pattern pattern = Pattern.compile("QS_DOMAIN[(]([^)]*)[)]");
             Matcher matcher = pattern.matcher(rawquery);
             if(!matcher.find()) {
-                qsoutput = "QS_DOMAIN(domain name) not found in issue description";
-                return super.execute();
+                errmsg += "QS_DOMAIN(domain name) not found in issue description. ";
+            } else {
+                csdomain = matcher.group(1);
             }
-            csdomain = matcher.group(1);
         }
         {
             Pattern pattern = Pattern.compile("QS_ORIGINAL_DOMAINS[(]([^)]*)[)]");
             Matcher matcher = pattern.matcher(rawquery);
             if(!matcher.find()) {
-                qsoutput = "QS_ORIGINAL_DOMAINS(domain name) not found in issue description";
-                return super.execute();
+                errmsg += "QS_ORIGINAL_DOMAINS(domain name) not found in issue description. ";
+            } else {
+                originaldomains = matcher.group(1);
             }
-            originaldomains = matcher.group(1);
         }
         {
             Pattern pattern = Pattern.compile("issueid=([^&]*)");
             Matcher matcher = pattern.matcher(rawquery);
             if(!matcher.find()) {
+                errmsg += "Issue ID missing from URL";
                 issueid = "Issue ID missing from URL";
-                return super.execute();
+            } else {
+                issueid = matcher.group(1);
             }
-            issueid = matcher.group(1);
         }
+        if(errmsg.length() > 0)
+            return super.execute();
         resname = resource + " debug session - issue " + issueid;
 
         String token = "";
         try {
-            String url = apihttphttps + "://" + apiip + ":" + apiport + "/api/login";
-            String body = "{  \"username\": \"" + csuser + "\",  \"password\": \"" + cspass + "\",   \"domain\": \"" + csdomain + "\"}";
-            qsoutput = url + "\n" + body + "\n";
+            String url = config.api_url + "/api/login";
+            String body = "{  \"username\": \"" + config.csuser + "\",  \"password\": \"" + config.cspass + "\",   \"domain\": \"" + csdomain + "\"}";
+            debugmsg += url + "\n" + body + "\n";
             String s = http("PUT", url, body, null);
+            debugmsg += s;
             token = s.replaceAll("\"", "");
         } catch(Exception e) {
-            qsoutput += "Failed to log in to CloudShell sandbox API: " + e.toString();
-            return super.execute();
+            errmsg += "Failed to log in to CloudShell sandbox API: " + e.toString();
         }
+        if(errmsg.length() > 0)
+            return super.execute();
 
-//        try {
-//            String url = apihttphttps + "://" + apiip + ":" + apiport + "/api/v2/blueprints/" +
-////                    URLEncoder.encode(bpname, "UTF-8").replaceAll("[+]", "%20")
-//                    bpname.replaceAll(" ", "%20")
-//                    + "/start";
-//            String body = "{  \"duration\": \"PT23H\",  \"name\": \"" + resname + "\"  }";
-//            String s = http("POST", url, body, token);
-//            qsoutput = url + "\n" + body + "\n" + s;
-//            Pattern pattern = Pattern.compile("\"id\":\"([^\"]*)\"");
-//            Matcher matcher = pattern.matcher(s);
-//            if(!matcher.find()) {
-//                qsoutput = "Failed to create reservation: " + s;
-//                return super.execute();
-//            }
-//            resid = matcher.group(1);
-//        } catch(Exception e) {
-//            qsoutput = "Failed to create reservation: " + e.toString();
-//            return super.execute();
-//        }
-        String workerresid;
         try {
-            String url = apihttphttps + "://" + apiip + ":" + apiport + "/api/v2/blueprints/JiraSupport/start";
+            String url = config.api_url + "/api/v2/blueprints/JiraSupport/start";
             String body = "{  \"duration\": \"PT5M\",  \"name\": \"jiraworker\"  }";
+            debugmsg += url + "\n" + body + "\n";
             String s = http("POST", url, body, token);
-            qsoutput = url + "\n" + body + "\n" + s;
+            debugmsg += s;
             Pattern pattern = Pattern.compile("\"id\":\"([^\"]*)\"");
             Matcher matcher = pattern.matcher(s);
             if(!matcher.find()) {
-                qsoutput = "Failed to create reservation: " + s;
+                errmsg += "Failed to create reservation: " + s;
                 return super.execute();
             }
             workerresid = matcher.group(1);
         } catch(Exception e) {
-            qsoutput = "Failed to create reservation: " + e.toString();
-            return super.execute();
+            errmsg += "Failed to create reservation: " + e.toString();
         }
-        String executionid;
+        if(errmsg.length() > 0)
+            return super.execute();
         try {
-            String url = apihttphttps + "://" + apiip + ":" + apiport + "/api/v2/sandboxes/"+workerresid+"/commands/CreateJiraSandbox/start";
+            String url = config.api_url + "/api/v2/sandboxes/"+workerresid+"/commands/CreateJiraSandbox/start";
             String body = "{ \"params\": [";
 
             body += "{\"name\":\"reservation_name\",\"value\":\""+resname+"\"}, ";
             body += "{\"name\":\"resource_name\",\"value\":\""+resource+"\"}, ";
-            body += "{\"name\":\"duration_in_minutes\",\"value\":\"120\"}, ";
-            body += "{\"name\":\"user\", \"value\":\""+csuser+"\"}, ";
-
-            body += "{\"name\":\"jira_url\", \"value\":\""+jira_url+"\"}, ";
-            body += "{\"name\":\"issue_type\", \"value\":\""+issue_type+"\"}, ";
-            body += "{\"name\":\"project_name\", \"value\":\""+project_name+"\"}, ";
-            body += "{\"name\":\"support_domain\", \"value\":\""+support_domain+"\"}, ";
-            body += "{\"name\":\"jira_username\", \"value\":\""+jira_username+"\"}, ";
-            body += "{\"name\":\"jira_password\", \"value\":\""+jira_password+"\"} ";
+            body += "{\"name\":\"duration_in_minutes\",\"value\":\"" + config.sandbox_minutes + "\"}, ";
+            body += "{\"name\":\"user\", \"value\":\""+config.csuser+"\"}, ";
+            body += "{\"name\":\"jira_url\", \"value\":\""+config.jira_url+"\"}, ";
+            body += "{\"name\":\"issue_type\", \"value\":\""+config.issue_type+"\"}, ";
+            body += "{\"name\":\"project_name\", \"value\":\""+config.project_name+"\"}, ";
+            body += "{\"name\":\"support_domain\", \"value\":\""+config.support_domain+"\"}, ";
+            body += "{\"name\":\"jira_username\", \"value\":\""+config.jira_username+"\"}, ";
+            body += "{\"name\":\"jira_password\", \"value\":\""+config.jira_password+"\"} ";
             body += "], \"printOutput\": true }";
-            qsoutput = url + "\n" + body + "\n";
+            debugmsg += url + "\n" + body + "\n";
 
             String s = http("POST", url, body, token);
-            qsoutput += s;
+            debugmsg += s;
             Pattern pattern = Pattern.compile("/executions/([^\"]*)\"");
             Matcher matcher = pattern.matcher(s);
             if(!matcher.find()) {
-                qsoutput += "Failed to get CreateJiraSandbox execution id: " + s;
+                debugmsg += "Failed to get CreateJiraSandbox execution id: " + s;
                 return super.execute();
             }
             executionid = matcher.group(1);
         } catch(Exception e) {
-            qsoutput += "Failed to run CreateJiraSandbox: " + e.toString();
-            return super.execute();
+            errmsg += "Failed to run CreateJiraSandbox: " + e.toString();
         }
 
+        if(errmsg.length() > 0)
+            return super.execute();
         for(int i=0;i<5;i++) {
             try {
-                String url = apihttphttps + "://" + apiip + ":" + apiport + "/api/v2/executions/" + executionid;
+                String url = config.api_url + "/api/v2/executions/" + executionid;
                 String s = http("GET", url, "", token);
-                qsoutput = url + "\n" + s;
+                debugmsg = url + "\n" + s;
                 if(s.replaceAll(" ", "").contains("\"status\":\"Completed\"")) {
                     Pattern pattern = Pattern.compile("\"output\":\"([^\"]*)\"");
                     Matcher matcher = pattern.matcher(s);
                     if(!matcher.find()) {
-                        qsoutput = "Output not extracted: " + s;
+                        debugmsg = "Output not extracted: " + s;
                         return super.execute();
                     }
                     resid = matcher.group(1);
@@ -280,44 +219,32 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
                     break;
                 }
                 if(s.replaceAll(" ", "").contains("\"status\":\"Failed\"") || s.replaceAll(" ", "").contains("\"status\":\"Error\"")) {
-                    qsoutput = "CreateJiraSandbox failed: " + s;
+                    debugmsg = "CreateJiraSandbox failed: " + s;
                     break;
                 }
                 Thread.sleep(5000);
 
             } catch (Exception e) {
-                qsoutput = "CreateJiraSandbox failed: " + e.toString();
-                return super.execute();
+                errmsg = "CreateJiraSandbox failed: " + e.toString();
             }
         }
-
-        try {
-            String url = apihttphttps + "://" + apiip + ":" + apiport + "/api/v2/sandboxes/"+workerresid+"/stop";
-            qsoutput = url + "\n";
-            String s = http("POST", url, "", token);
-            qsoutput += s;
-        } catch(Exception e) {
-            qsoutput += "Warning: Failed to stop jiraworker sandbox: " + e.toString();
+        if(errmsg.length() > 0)
             return super.execute();
+        try {
+            String url = config.api_url + "/api/v2/sandboxes/"+workerresid+"/stop";
+            debugmsg = url + "\n";
+            String s = http("POST", url, "", token);
+            debugmsg += s;
+        } catch(Exception e) {
+            warnings += "Warning: Failed to stop jiraworker sandbox: " + e.toString();
         }
-        qsoutput = "";
+        clickheremessage = "Click here to open CloudShell sandbox:";
         return super.execute(); //returns SUCCESS
     }
-    public String getQSOutput() {
-        return qsoutput;
-    }
-    public String getPortalhttphttps() {
-        return portalhttphttps;
-    }
-    public String getPortalport() {
-        return portalport;
-    }
-    public String getPortalip() {
-        return portalip;
-    }
-    public String getResid() {
-        return resid;
-    }
+    public String getDebug() { return debugmsg; }
+    public String getPortalurl() { return config.portal_url; }
+    public String getResid() { return resid; }
+    public String getClickHereMessage() { return clickheremessage; }
     public String getResname() {
         return resname;
     }
@@ -331,8 +258,10 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
         return warnings;
     }
     public String getError() {
-        if(resid.equals("NoResId"))
-            return "FAILED TO CREATE RESERVATION";
-        return "";
+        if (errmsg.length() > 0) {
+            return "Error: " + errmsg;
+        } else {
+            return "";
+        }
     }
 }
