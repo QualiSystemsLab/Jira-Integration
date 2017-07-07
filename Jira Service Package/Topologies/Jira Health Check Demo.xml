@@ -8,9 +8,8 @@
       <!--<Category Name="LaaS" SubCategory="" />-->
     </Categories>
     <Scripts>
-      <Script Name="Error Handler Sandbox Teardown" />
-      <!--<Script Name="Default Sandbox Setup" />-->
-      <Script Name="Run Health Checks" />
+      <!--<Script Name="Error Handler Sandbox Teardown" />-->
+      <!--<Script Name="Run Health Checks" />-->
     </Scripts>
     <Diagram Zoom="0.95" NodeSize="Medium" />
   </Details>
@@ -19,16 +18,18 @@
     <Resource PositionX="772" PositionY="137" Name="Good DUT" Shared="true" />
   </Resources>
   <Services>
-    <Service PositionX="400" PositionY="204" Alias="Jira Error Handler Service" ServiceName="Jira Error Handler Service">
-      <Attributes>
-        <Attribute Name="Jira Project Name" Value="" />
-        <Attribute Name="Support Domain" Value="Support" />
-        <Attribute Name="Issue Type" Value="Task" />
-        <Attribute Name="User" Value="admin" />
-        <Attribute Name="Password" Value="admin" />
-        <Attribute Name="Endpoint URL Base" Value="http://34.209.61.145:2990/jira" />
-      </Attributes>
-    </Service>
+    <!--<Service PositionX="400" PositionY="204" Alias="Jira Error Handler Service" ServiceName="Jira Error Handler Service">-->
+      <!--<Attributes>-->
+        <!--<Attribute Name="Jira Project Name" Value="" />-->
+        <!--<Attribute Name="Support Domain" Value="Support" />-->
+        <!--<Attribute Name="Issue Type" Value="Task" />-->
+        <!--<Attribute Name="User" Value="admin" />-->
+        <!--<Attribute Name="Password" Value="admin" />-->
+        <!--<Attribute Name="Endpoint URL Base" Value="http://34.209.61.145:2990/jira" />-->
+        <!--<Attribute Name="Ticket Queue" Value="" />-->
+        <!--<Attribute Name="Live Status Error Regex" Value="" />-->
+      <!--</Attributes>-->
+    <!--</Service>-->
   </Services>
   <Apps />
 </TopologyInfo>

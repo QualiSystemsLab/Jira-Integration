@@ -87,15 +87,15 @@
         <!--<ScriptInput Name="Additional_Fields_JSON" DefaultValue="" Description="Additional text to insert in the JSON request, e.g. &quot;visibility&quot;: {&quot;type&quot;: &quot;role&quot;,&quot;value&quot;: &quot;Administrators&quot;}" />-->
       </ScriptInputs>
     </ScriptDescriptor>
-    <ScriptDescriptor Name="jira_create_issue" Alias="Create Jira Issue" Description="Create a new issue in Jira with the given title and description. The issue type and project are defined on the Jira Action Service.">
-      <ScriptInputs>
-        <ScriptInput Name="Project_Name" Description="Name of the Jira project where the issue should be created. Leave blank if there is only one project in the system." />
-        <ScriptInput Name="Issue_Type" DefaultValue="Bug" Description="Task, Bug, Sub-task, Epic, Story, or a custom issue type you have created" />
-        <ScriptInput Name="Title" Description="Title of the new issue" />
-        <ScriptInput Name="Description" Description="Description of the new issue" />
-        <!--<ScriptInput Name="Additional_Fields_JSON" Description="Additional fields to insert into the JSON request, in the form {&quot;fieldname1&quot;:&quot;value1&quot;}, {&quot;fieldname2&quot;:&quot;value2&quot;}," />-->
-      </ScriptInputs>
-    </ScriptDescriptor>
+    <!--<ScriptDescriptor Name="jira_create_issue" Alias="Create Jira Issue" Description="Create a new issue in Jira with the given title and description. The issue type and project are defined on the Jira Action Service.">-->
+      <!--<ScriptInputs>-->
+        <!--<ScriptInput Name="Project_Name" Description="Name of the Jira project where the issue should be created. Leave blank if there is only one project in the system." />-->
+        <!--<ScriptInput Name="Issue_Type" DefaultValue="Bug" Description="Task, Bug, Sub-task, Epic, Story, or a custom issue type you have created" />-->
+        <!--<ScriptInput Name="Title" Description="Title of the new issue" />-->
+        <!--<ScriptInput Name="Description" Description="Description of the new issue" />-->
+        <!--&lt;!&ndash;<ScriptInput Name="Additional_Fields_JSON" Description="Additional fields to insert into the JSON request, in the form {&quot;fieldname1&quot;:&quot;value1&quot;}, {&quot;fieldname2&quot;:&quot;value2&quot;}," />&ndash;&gt;-->
+      <!--</ScriptInputs>-->
+    <!--</ScriptDescriptor>-->
 
   </ScriptDescriptors>
 </DataModelInfo>
