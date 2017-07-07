@@ -36,6 +36,8 @@
                 ${dollar}("${pound}support_domain").val(config.support_domain);
                 ${dollar}("${pound}jira_username").val(config.jira_username);
                 ${dollar}("${pound}jira_password").val(config.jira_password);
+                ${dollar}("${pound}sandbox_minutes").val(config.sandbox_minutes);
+                ${dollar}("${pound}ticket_queue").val(config.ticket_queue);
 
                 AJS.${dollar}("${pound}admin").submit(function(e) {
                         e.preventDefault();
@@ -71,6 +73,10 @@ function updateConfig() {
     '"jira_username": "' + AJS.${dollar}("${pound}jira_username").attr("value") + '"' +
     ', ' +
     '"jira_password": "' + AJS.${dollar}("${pound}jira_password").attr("value") + '"' +
+    ', ' +
+    '"sandbox_minutes": "' + AJS.${dollar}("${pound}sandbox_minutes").attr("value") + '"' +
+    ', ' +
+    '"ticket_queue": "' + AJS.${dollar}("${pound}ticket_queue").attr("value") + '"' +
     ' }',
     processData: false
   });

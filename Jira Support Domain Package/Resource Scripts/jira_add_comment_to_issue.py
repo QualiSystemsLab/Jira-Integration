@@ -16,9 +16,10 @@ user = rc['attributes']['User']
 password = api.DecryptPassword(rc['attributes']['Password']).Value
 
 # issueid = os.environ['ISSUE_NAME']
+resid = helpers.get_reservation_context_details().id
 resname = api.GetReservationDetails(resid).ReservationDescription.Name
 try:
-    issue_id = resname.split(' - ')[1].replace('issue ', '')
+    issueid = resname.split(' - ')[1].replace('issue ', '')
 except:
     print 'Issue id not found in the reservation name, e.g. MyResource debug session - xyz-9'
     exit(1)

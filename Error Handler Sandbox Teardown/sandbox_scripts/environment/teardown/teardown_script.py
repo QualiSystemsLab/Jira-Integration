@@ -190,10 +190,17 @@ class EnvironmentTeardown:
         api.CleanupSandboxConnectivity(reservation_id)
 
     def _call_error_handler_services(self, api):
+        api.WriteMessageToReservationOutput(self.reservation_id, 'Looking for error handlers in reservation')
         rd = api.GetReservationDetails(self.reservation_id).ReservationDescription
         for svc in rd.Services:
+            if not svc.ServiceName:
+                continue
+            api.WriteMessageToReservationOutput(self.reservation_id, 'Service %s' % svc.Alias)
             for c in api.GetServiceCommands(svc.ServiceName).Commands:
-                if 'handle_errors' in c.Name:
+                if not c.Name:
+                    continue
+                api.WriteMessageToReservationOutput(self.reservation_id, 'Command %s' % c.Name)
+                if 'error_handler' in c.Name:
                     api.WriteMessageToReservationOutput(self.reservation_id, 'Running error handler on %s' % svc.Alias)
                     eo = api.ExecuteCommand(self.reservation_id, svc.Alias, 'Service', c.Name, [
                     ], printOutput=True).Output

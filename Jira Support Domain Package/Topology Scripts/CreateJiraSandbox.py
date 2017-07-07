@@ -25,7 +25,7 @@ resid = api.CreateImmediateReservation(resname, user, duration).Reservation.Id
         <Attribute Name="Password" Value="DxTbqlSgAVPmrDLlHvJrsA==" />
         <Attribute Name="Endpoint URL Base" Value="http://localhost:2990/jira" />'''
 api.AddResourcesToReservation(resid, [dutname])
-api.AddServiceToReservation(resid, 'Jira Service', 'Jira Service', [
+api.AddServiceToReservation(resid, 'Jira Action Service', 'Jira Action Service', [
     AttributeNameValue('Endpoint URL Base', jira_url),
     AttributeNameValue('Issue Type', issue_type),
     AttributeNameValue('Jira Project Name', project_name),
@@ -33,5 +33,5 @@ api.AddServiceToReservation(resid, 'Jira Service', 'Jira Service', [
     AttributeNameValue('User', jira_username),
     AttributeNameValue('Password', jira_password),
 ])
-api.SetReservationServicePosition(resid, 'Jira Service', 300, 500)
+api.SetReservationServicePosition(resid, 'Jira Action Service', 300, 500)
 print resid

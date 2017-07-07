@@ -6,8 +6,8 @@
     <artifactId>QualiJiraPlugin</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <organization>
-        <name>Example Company</name>
-        <url>http://www.example.com/</url>
+        <name>Quali</name>
+        <url>http://www.quali.com/</url>
     </organization>
     <name>QualiJiraPlugin</name>
     <description>This is the com.quali.jira:QualiJiraPlugin plugin for Atlassian JIRA.</description>

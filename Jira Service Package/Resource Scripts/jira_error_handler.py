@@ -164,5 +164,7 @@ QS_ORIGINAL_DOMAINS(%s)
             exit(1)
 
         oo = json.loads(rslt)
-        print 'Created Jira issue %s: %s/browse/%s' % (oo['key'], urlbase, oo['key'])
+        rv = 'Created Jira issue %s: %s/browse/%s' % (oo['key'], urlbase, oo['key'])
+        api.WriteMessageToReservationOutput(resid, rv)
+        print rv
 

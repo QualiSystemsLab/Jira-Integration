@@ -16,3 +16,10 @@ set fn="..\Jira Service Package.zip"
 del %fn%
 "c:\Program Files\7-Zip\7z.exe" a %fn% *
 cd ..
+
+
+cd "Jira Support Domain Package"
+set fn="..\Jira Support Domain Package.zip"
+del %fn%
+"c:\Program Files\7-Zip\7z.exe" a %fn% *
+cd ..

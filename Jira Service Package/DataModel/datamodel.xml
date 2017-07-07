@@ -35,6 +35,12 @@
         <Rule Name="Setting" />
       </Rules>
     </AttributeInfo>
+    <AttributeInfo Name="Ticket Queue" Type="String" DefaultValue="" IsReadOnly="false">
+      <Rules>
+        <Rule Name="Configuration" />
+        <Rule Name="Setting" />
+      </Rules>
+    </AttributeInfo>
     <AttributeInfo Name="Live Status Error Regex" Type="String" DefaultValue="Error" IsReadOnly="false">
       <Rules>
         <Rule Name="Configuration" />
@@ -60,11 +66,11 @@
       <Categories />
     </ResourceFamily>
 
-    <ResourceFamily Name="Jira Services" Description="" IsService="true" ServiceType="Regular">
+    <ResourceFamily Name="Error Handler Services" Description="Services that have an attached command with a name containing the string 'error_handler'. This function will be automatically called by the teardown script Error Handler Sandbox Teardown and will handle any errors it considers the reservation or its resources to have. For example it can check for certain text in the live status." IsService="true" ServiceType="Regular" IsAdminOnly="true">
       <AttachedAttributes />
       <AttributeValues />
       <Models>
-        <ResourceModel Name="Jira Service" Description="" SupportsConcurrentCommands="false">
+        <ResourceModel Name="Jira Error Handler Service" Description="Creates a Jira issue for any resource in the reservation with a live status matching the error pattern and moves the resource to a separate domain dedicated to support." SupportsConcurrentCommands="false">
           <AttachedAttributes>
             <AttachedAttribute Name="User" IsOverridable="true" IsLocal="true" UserInput="true">
               <AllowedValues />
@@ -84,6 +90,9 @@
             <AttachedAttribute Name="Issue Type" IsOverridable="true" IsLocal="true" UserInput="true">
               <AllowedValues />
             </AttachedAttribute>
+            <AttachedAttribute Name="Ticket Queue" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
             <AttachedAttribute Name="Live Status Error Regex" IsOverridable="true" IsLocal="true" UserInput="true">
               <AllowedValues />
             </AttachedAttribute>
@@ -95,15 +104,13 @@
             <AttributeValue Name="Jira Project Name" Value="" />
             <AttributeValue Name="Support Domain" Value="Support" />
             <AttributeValue Name="Issue Type" Value="Task" />
+            <AttributeValue Name="Ticket Queue" Value="" />
             <AttributeValue Name="Live Status Error Regex" Value="Error" />
           </AttributeValues>
           <ParentModels />
           <Drivers />
           <Scripts>
-            <ScriptName>jira_handle_resource_error</ScriptName>
-            <ScriptName>jira_close_issue</ScriptName>
-            <ScriptName>jira_add_comment_to_issue</ScriptName>
-            <ScriptName>jira_create_issue</ScriptName>
+            <ScriptName>jira_error_handler</ScriptName>
           </Scripts>
         </ResourceModel>
       </Models>
@@ -119,32 +126,8 @@
     <ScriptDescriptor Name="health_check" Alias="Run Health Check" Description="Check if the device is online and functioning properly, and update the live status accordingly">
       <ScriptInputs/>
     </ScriptDescriptor>
-    <ScriptDescriptor Name="jira_handle_resource_error" Alias="Jira Resource Error Handler">
-      <ScriptInputs>
-        <ScriptInput Name="resource_name" Description="Name of the resource to open a Jira issue about" />
-        <ScriptInput Name="error_message" Description="Resource error message being reported" />
-      </ScriptInputs>
-    </ScriptDescriptor>
-    <ScriptDescriptor Name="jira_close_issue" Alias="Close Jira Issue" Description="Close the issue with id given in the sandbox name">
-      <ScriptInputs>
-        <ScriptInput Name="comment" Description="Comment explaining the issue resolution." />
-      </ScriptInputs>
-    </ScriptDescriptor>
-    <ScriptDescriptor Name="jira_add_comment_to_issue" Alias="Add Comment to Jira Issue" Description="Add a comment to an existing Jira issue that was created previously. The issue id is taken from the sandbox name.">
-      <ScriptInputs>
-        <!--<ScriptInput Name="Issue_ID" Description="ID or key of the issue to update, as returned from Create Jira Issue" />-->
-        <ScriptInput Name="Comment" Description="Text of the comment to add to the issue" />
-        <!--<ScriptInput Name="Additional_Fields_JSON" DefaultValue="" Description="Additional text to insert in the JSON request, e.g. &quot;visibility&quot;: {&quot;type&quot;: &quot;role&quot;,&quot;value&quot;: &quot;Administrators&quot;}" />-->
-      </ScriptInputs>
-    </ScriptDescriptor>
-    <ScriptDescriptor Name="jira_create_issue" Alias="Create Jira Issue" Description="Create a new issue in Jira with the given title and description. The issue type and project are defined on the Jira service.">
-      <ScriptInputs>
-        <ScriptInput Name="Project_Name" Description="Name of the Jira project where the issue should be created. Leave blank if there is only one project in the system." />
-        <ScriptInput Name="Issue_Type" DefaultValue="Bug" Description="Task, Bug, Sub-task, Epic, Story, or a custom issue type you have created" />
-        <ScriptInput Name="Title" Description="Title of the new issue" />
-        <ScriptInput Name="Description" Description="Description of the new issue" />
-        <!--<ScriptInput Name="Additional_Fields_JSON" Description="Additional fields to insert into the JSON request, in the form {&quot;fieldname1&quot;:&quot;value1&quot;}, {&quot;fieldname2&quot;:&quot;value2&quot;}," />-->
-      </ScriptInputs>
+    <ScriptDescriptor Name="jira_error_handler" Alias="Jira Error Handler">
+      <ScriptInputs/>
     </ScriptDescriptor>
     <!--<ScriptDescriptor Name="Default Sandbox Teardown" CategoryName="Hidden Commands" Version="1.0.1.2 " Alias="Teardown script">-->
       <!--<ScriptInputs />-->

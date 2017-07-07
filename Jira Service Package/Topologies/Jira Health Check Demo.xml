@@ -2,13 +2,13 @@
 <TopologyInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Details Name="Jira Health Check Demo" Alias="Jira Health Check Demo"
            Driver="Python Setup &amp; Teardown"
-           SetupDuration="0" TeardownDuration="0" Public="false" DefaultDuration="120">
+           SetupDuration="0" TeardownDuration="1" Public="true" DefaultDuration="120">
     <Description>Blueprint with preconfigured setup &amp; teardown processes.Deploys Apps and resolves connections on Setup, and deletes App VMs on Teardown</Description>
     <Categories>
       <!--<Category Name="LaaS" SubCategory="" />-->
     </Categories>
     <Scripts>
-      <!--<Script Name="Default Sandbox Teardown" />-->
+      <Script Name="Error Handler Sandbox Teardown" />
       <!--<Script Name="Default Sandbox Setup" />-->
       <Script Name="Run Health Checks" />
     </Scripts>
@@ -19,7 +19,7 @@
     <Resource PositionX="772" PositionY="137" Name="Good DUT" Shared="true" />
   </Resources>
   <Services>
-    <Service PositionX="400" PositionY="204" Alias="Jira Error Handler Service" ServiceName="Jira Service">
+    <Service PositionX="400" PositionY="204" Alias="Jira Error Handler Service" ServiceName="Jira Error Handler Service">
       <Attributes>
         <Attribute Name="Jira Project Name" Value="" />
         <Attribute Name="Support Domain" Value="Support" />

@@ -162,9 +162,9 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             Matcher matcher = pattern.matcher(s);
             if(!matcher.find()) {
                 errmsg += "Failed to create reservation: " + s;
-                return super.execute();
+            } else {
+                workerresid = matcher.group(1);
             }
-            workerresid = matcher.group(1);
         } catch(Exception e) {
             errmsg += "Failed to create reservation: " + e.toString();
         }

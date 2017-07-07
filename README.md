@@ -50,11 +50,12 @@ This connects to the CloudShell automation API to start a sandbox with the resou
     - atlas-mvn package
 - CloudShell package
   - Double click build.cmd
-  - Drag Jira Service Package.zip into the portal
+  - In non-Support domain, drag Jira Service Package.zip into the portal
+  - In Support domain, drag Jira Service Domain Package.zip into the portal
   - To update:
 	- Clone this repository
-	- Go into the directory Jira Service Package in Explorer and create a zip file so that metadata.xml is at the root of the zip
-  - When adding a Jira Service to your blueprint, update the password and URL to match any Jira account
+	- Run build.cmd
+  - When adding a Jira Error Handler Service to your blueprint, update the password and URL to match any Jira account
   - If using the Jira plugin, update the default values of the Jira service to match your Jira server. The plugin will add the service to new sandboxes using the default credentials.
   - Call the functions manually from the portal or from your code using ExecuteCommand. Note that the raw API JSON is returned from the function.
 

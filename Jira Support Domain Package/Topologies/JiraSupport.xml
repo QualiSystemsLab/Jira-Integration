@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TopologyInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Details Name="JiraSupport" Alias="Jira Support"
+           Driver=""
+           SetupDuration="0" TeardownDuration="0" Public="true" DefaultDuration="5">
+    <Description>Blueprint to expose sandbox creation function to Jira</Description>
+    <Categories>
+      <Category Name="Support" SubCategory="" />
+    </Categories>
+    <Scripts>
+      <Script Name="CreateJiraSandbox" />
+    </Scripts>
+    <Diagram Zoom="0.95" NodeSize="Medium" />
+  </Details>
+  <Resources/>
+  <Services/>
+  <Apps />
+</TopologyInfo>

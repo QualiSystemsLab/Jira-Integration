@@ -29,7 +29,7 @@ resname = api.GetReservationDetails(resid).ReservationDescription.Name
 try:
     issue_id = resname.split(' - ')[1].replace('issue ', '')
 except:
-    print 'Issue id not found in the reservation name, e.g. MyResource debug session - xyz-9'
+    print 'Issue id not found in the reservation name. Expected format: "MyResource debug session - xyz-9"'
     exit(1)
 
 
