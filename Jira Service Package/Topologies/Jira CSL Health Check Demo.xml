@@ -8,15 +8,31 @@
       <!--<Category Name="LaaS" SubCategory="" />-->
     </Categories>
     <Scripts>
-      <!--<Script Name="Error Handler Sandbox Teardown" />-->
-      <!--<Script Name="Run Health Checks" />-->
+      <Script Name="Error Handler Sandbox Teardown" />
+      <Script Name="Run Health Checks" />
     </Scripts>
     <Diagram Zoom="0.95" NodeSize="Medium" />
   </Details>
-  <Resources>
-    <Resource PositionX="829" PositionY="315" Name="Failing DUT" Shared="true" />
-    <Resource PositionX="772" PositionY="137" Name="Good DUT" Shared="true" />
-  </Resources>
+
+  <AbstractResources>
+    <AbstractResource Name="DUT A*" ResourceFamily="Cisco Switch" Shared="false" PositionY="137" PositionX="772">
+      <Quantity Value="1" Published="false"/>
+      <ResourceModels Published="false">
+        <ResourceModel>Cisco Nexus</ResourceModel>
+      </ResourceModels>
+    </AbstractResource>
+    <AbstractResource Name="DUT B*" ResourceFamily="Cisco Switch" Shared="false" PositionY="337" PositionX="772">
+      <Quantity Value="1" Published="false"/>
+      <ResourceModels Published="false">
+        <ResourceModel>Cisco Nexus</ResourceModel>
+      </ResourceModels>
+    </AbstractResource>
+  </AbstractResources>
+  <!--<Resources>-->
+    <!--<Resource PositionX="772" PositionY="137" Name="DUT 1" Shared="true" />-->
+    <!--<Resource PositionX="829" PositionY="315" Name="DUT 2" Shared="true" />-->
+    <!--<Resource PositionX="929" PositionY="437" Name="DUT 3" Shared="true" />-->
+  <!--</Resources>-->
   <Services>
     <Service PositionX="400" PositionY="204" Alias="Jira Service" ServiceName="Jira Service">
       <Attributes>
@@ -25,7 +41,7 @@
         <Attribute Name="Issue Type" Value="Task" />
         <Attribute Name="User" Value="admin" />
         <Attribute Name="Password" Value="admin" />
-        <Attribute Name="Endpoint URL Base" Value="http://34.209.61.145:2990/jira" />
+        <Attribute Name="Endpoint URL Base" Value="http://35.161.163.27:2990/jira" />
         <!--<Attribute Name="Ticket Queue" Value="" />-->
         <!--<Attribute Name="Live Status Error Regex" Value="" />-->
       </Attributes>

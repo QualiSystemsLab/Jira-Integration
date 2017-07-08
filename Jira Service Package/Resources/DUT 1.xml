@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ResourceInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              Name="Good DUT"
+              Name="DUT 1"
               FolderFullPath=""
-              Address="23"
-              ModelName="Sales Web App"
+              Address="10.0.20.230"
+              ModelName="Cisco Nexus"
               Driver=""
               xmlns="http://schemas.qualisystems.com/ResourceManagement/ResourceSchema.xsd">
   <Attributes/>
