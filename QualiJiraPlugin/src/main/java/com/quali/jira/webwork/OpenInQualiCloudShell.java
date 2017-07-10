@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 import javax.net.ssl.*;
 import java.security.cert.*;
 import javax.inject.Inject;
-import com.google.code.gson.Gson;
+import com.google.gson.Gson;
 import com.atlassian.sal.api.pluginsettings.*;
 
 public class OpenInQualiCloudShell extends JiraWebActionSupport
