@@ -44,11 +44,11 @@ for r in rd.Resources:
         api.WriteMessageToReservationOutput(resid, 'Moved resource %s to domain %s' % (resource_name, destdomain))
 
         title = 'Error on resource %s' % resource_name
-        descr = '''Issue opened by CloudShell
+        descr = '''Issue opened automatically by CloudShell
         
 %s
         
-Click 'More>Open in Quali CloudShell' to open the resource in a debug sandbox.
+Click 'Open in Quali CloudShell' to open the resource in a debug sandbox.
         
         
 Don't edit below this line

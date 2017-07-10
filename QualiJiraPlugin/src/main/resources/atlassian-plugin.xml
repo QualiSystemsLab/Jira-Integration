@@ -39,7 +39,7 @@
     <description key="openin-quali-cloud-shell.description">The Open in Quali CloudShell Plugin</description>
     <label key="openin-quali-cloud-shell.label"/>
     <link linkId="openin-quali-cloud-shell-link">/secure/OpenInQualiCloudShell.jspa?issueid=$issue.id&amp;amp;description=$issue.description</link>
-    <icon width="64" height="32">
+    <icon width="16" height="16">
         <link>images/qualiIcon.png</link>
     </icon>
   </web-item>
