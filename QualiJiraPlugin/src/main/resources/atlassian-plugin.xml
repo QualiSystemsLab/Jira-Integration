@@ -40,7 +40,7 @@
     <label key="openin-quali-cloud-shell.label"/>
     <link linkId="openin-quali-cloud-shell-link">/secure/OpenInQualiCloudShell.jspa?issueid=$issue.id&amp;amp;description=$issue.description</link>
     <icon width="16" height="16">
-        <link>images/qualiIcon.png</link>
+        <link>images/qualiLogo.png</link>
     </icon>
   </web-item>
   <webwork1 key="cloud-shell-plugin" name="CloudShell Plugin" i18n-name-key="cloud-shell-plugin.name">
