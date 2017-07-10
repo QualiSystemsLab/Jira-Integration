@@ -35,7 +35,7 @@
     <context>QualiJiraPlugin</context>
   </web-resource>
 
-  <web-item name="Open in Quali CloudShell" i18n-name-key="openin-quali-cloud-shell.name" key="openin-quali-cloud-shell" section="opsbar-operation" weight="1000">
+  <web-item name="Open in Quali CloudShell" i18n-name-key="openin-quali-cloud-shell.name" key="openin-quali-cloud-shell" section="operations-top-level" weight="1000">
     <description key="openin-quali-cloud-shell.description">The Open in Quali CloudShell Plugin</description>
     <label key="openin-quali-cloud-shell.label"/>
     <link linkId="openin-quali-cloud-shell-link">/secure/OpenInQualiCloudShell.jspa?issueid=$issue.id&amp;amp;description=$issue.description</link>
