@@ -29,6 +29,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
     private String resname = "No reservation created";
     private String csdomain = "NoDomain";
     private String issueid = "NoIssueId";
+    private String jirauser = "NoJiraUser";
     private String rawquery = "NoRawQuery";
     private String warnings = "";
     private String originaldomains = "NoOriginalDomains";
@@ -129,9 +130,17 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             Matcher matcher = pattern.matcher(rawquery);
             if(!matcher.find()) {
                 errmsg += "Issue ID missing from URL";
-                issueid = "Issue ID missing from URL";
             } else {
                 issueid = matcher.group(1);
+            }
+        }
+        {
+            Pattern pattern = Pattern.compile("user=([^&]*)");
+            Matcher matcher = pattern.matcher(rawquery);
+            if(!matcher.find()) {
+                errmsg += "Jira username missing from URL";
+            } else {
+                jirauser = matcher.group(1);
             }
         }
         if(errmsg.length() > 0)
@@ -177,7 +186,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             body += "{\"name\":\"reservation_name\",\"value\":\""+resname+"\"}, ";
             body += "{\"name\":\"resource_name\",\"value\":\""+resource+"\"}, ";
             body += "{\"name\":\"duration_in_minutes\",\"value\":\"" + config.sandbox_minutes + "\"}, ";
-            body += "{\"name\":\"user\", \"value\":\""+config.sandbox_owner+"\"}, ";
+            body += "{\"name\":\"user\", \"value\":\""+jirauser+"\"}, ";
             body += "{\"name\":\"jira_url\", \"value\":\""+config.jira_url+"\"}, ";
             body += "{\"name\":\"issue_type\", \"value\":\""+config.issue_type+"\"}, ";
             body += "{\"name\":\"project_name\", \"value\":\""+config.project_name+"\"}, ";
