@@ -37,7 +37,10 @@
 
   <web-panel key="quali-panel" location="atl.jira.view.issue.right.context"  >
     <label key="quali-panel.title" />
-    <resource name="view" type="static"><![CDATA[<b>Hello World!</b>]]></resource>
+    <resource name="view" type="velocity"><![CDATA[
+        <img src="http://www.quali.com/wp-content/themes/quali/images/logo.png">
+        <a href="/secure/OpenInQualiCloudShell.jspa?issueid=$issue.id&amp;amp;description=$issue.description">Open in CloudShell</a>
+      ]]></resource>
   </web-panel>
   <web-item name="Open in Quali CloudShell"
             i18n-name-key="openin-quali-cloud-shell.name" key="openin-quali-cloud-shell" section="jira.issue.tools" weight="1000">
