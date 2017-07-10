@@ -215,12 +215,12 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             try {
                 String url = config.api_url + "/api/v2/executions/" + executionid;
                 String s = http("GET", url, "", token);
-                debugmsg = url + "\n" + s;
+                debugmsg += url + "\n" + s;
                 if(s.replaceAll(" ", "").contains("\"status\":\"Completed\"")) {
                     Pattern pattern = Pattern.compile("\"output\":\"([^\"]*)\"");
                     Matcher matcher = pattern.matcher(s);
                     if(!matcher.find()) {
-                        debugmsg = "Output not extracted: " + s;
+                        debugmsg += "Output not extracted: " + s;
                         return super.execute();
                     }
                     resid = matcher.group(1);
@@ -228,20 +228,20 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
                     break;
                 }
                 if(s.replaceAll(" ", "").contains("\"status\":\"Failed\"") || s.replaceAll(" ", "").contains("\"status\":\"Error\"")) {
-                    debugmsg = "CreateJiraSandbox failed: " + s;
+                    debugmsg += "CreateJiraSandbox failed: " + s;
                     break;
                 }
                 Thread.sleep(5000);
 
             } catch (Exception e) {
-                errmsg = "CreateJiraSandbox failed: " + e.toString();
+                errmsg += "CreateJiraSandbox failed: " + e.toString();
             }
         }
         if(errmsg.length() > 0)
             return super.execute();
         try {
             String url = config.api_url + "/api/v2/sandboxes/"+workerresid+"/stop";
-            debugmsg = url + "\n";
+            debugmsg += url + "\n";
             String s = http("POST", url, "", token);
             debugmsg += s;
         } catch(Exception e) {
