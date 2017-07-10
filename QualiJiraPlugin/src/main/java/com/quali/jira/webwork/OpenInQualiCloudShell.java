@@ -49,6 +49,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
     private String resid = "NoResid";
     private String resource = "NoResource";
     private String resname = "No reservation created";
+    private String finalresname = "No reservation created";
     private String csdomain = "NoDomain";
     private String issueid = "NoIssueId";
     private String jirauser = "NoJiraUser";
@@ -292,6 +293,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             warnings += "Warning: Failed to stop jiraworker sandbox: " + e.toString();
         }
         clickheremessage = "Click here to open CloudShell sandbox:";
+        finalresname = resname;
         return super.execute(); //returns SUCCESS
     }
     public String getDebug() { return debugmsg; }
@@ -299,7 +301,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
     public String getResid() { return resid; }
     public String getClickHereMessage() { return clickheremessage; }
     public String getResname() {
-        return resname;
+        return finalresname;
     }
     public String getResource() {
         return resource;
