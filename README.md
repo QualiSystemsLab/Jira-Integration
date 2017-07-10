@@ -11,7 +11,7 @@ End-to-end demo
 - Because the Jira error handling service is present
 - A Jira issue is automatically opened
 - The resource is automatically removed from the reservation and placed in the "Support" domain
-- In Jira, click "More>Open in Quali CloudShell"
+- On the Jira issue page, click "Open in Quali CloudShell" in the top right
 - A new sandbox will be started by the Jira plugin
 - The problematic resource is added to the sandbox
 - This sandbox can be used to launch a connection to the resource and troubleshoot it
