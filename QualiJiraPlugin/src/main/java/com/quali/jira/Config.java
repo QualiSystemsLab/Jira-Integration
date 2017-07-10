@@ -33,6 +33,7 @@ public final class Config
     @XmlElement public String portal_url;
     @XmlElement public String csuser;
     @XmlElement public String cspass;
+    @XmlElement public String sandbox_owner;
     @XmlElement public String jira_url;
     @XmlElement public String issue_type;
     @XmlElement public String project_name;

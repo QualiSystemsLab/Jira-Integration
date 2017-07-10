@@ -177,7 +177,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             body += "{\"name\":\"reservation_name\",\"value\":\""+resname+"\"}, ";
             body += "{\"name\":\"resource_name\",\"value\":\""+resource+"\"}, ";
             body += "{\"name\":\"duration_in_minutes\",\"value\":\"" + config.sandbox_minutes + "\"}, ";
-            body += "{\"name\":\"user\", \"value\":\""+config.csuser+"\"}, ";
+            body += "{\"name\":\"user\", \"value\":\""+config.sandbox_owner+"\"}, ";
             body += "{\"name\":\"jira_url\", \"value\":\""+config.jira_url+"\"}, ";
             body += "{\"name\":\"issue_type\", \"value\":\""+config.issue_type+"\"}, ";
             body += "{\"name\":\"project_name\", \"value\":\""+config.project_name+"\"}, ";

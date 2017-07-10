@@ -30,6 +30,7 @@
                 ${dollar}("${pound}portal_url").val(config.portal_url);
                 ${dollar}("${pound}csuser").val(config.csuser);
                 ${dollar}("${pound}cspass").val(config.cspass);
+                ${dollar}("${pound}sandbox_owner").val(config.sandbox_owner);
                 ${dollar}("${pound}jira_url").val(config.jira_url);
                 ${dollar}("${pound}issue_type").val(config.issue_type);
                 ${dollar}("${pound}project_name").val(config.project_name);
@@ -61,6 +62,8 @@ function updateConfig() {
     '"csuser": "' + AJS.${dollar}("${pound}csuser").attr("value") + '"' +
     ', ' +
     '"cspass": "' + AJS.${dollar}("${pound}cspass").attr("value") + '"' +
+    ', ' +
+    '"sandbox_owner": "' + AJS.${dollar}("${pound}sandbox_owner").attr("value") + '"' +
     ', ' +
     '"jira_url": "' + AJS.${dollar}("${pound}jira_url").attr("value") + '"' +
     ', ' +
@@ -111,6 +114,11 @@ function updateConfig() {
               <label for="support_domain">$i18n.getText("quali.admin.support_domain.label")</label>
                  <input type="text" id="support_domain" name="support_domain" class="text" placeholder="Support">
                </div>
+
+      <div class="field-group">
+              <label for="csuser">$i18n.getText("quali.admin.sandbox_owner.label")</label>
+         <input type="text" id="sandbox_owner" name="sandbox_owner" class="text" placeholder="Support">
+       </div>
 
       <div class="field-group">
               <label for="jira_url">$i18n.getText("quali.admin.jira_url.label")</label>
