@@ -5,6 +5,6 @@ $action.getWarning()
 $action.getError()
 <br>
 $action.getDebug()
-<h2>$action.getClickHereMessage()
+<!-- <h2>$action.getClickHereMessage() -->
 <a target="_new" href="$action.getPortalurl()/RM/Diagram/Index/$action.getResid()">$action.getResname()</a>
 <br></h2>
