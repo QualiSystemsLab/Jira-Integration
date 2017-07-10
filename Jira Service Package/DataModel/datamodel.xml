@@ -35,12 +35,13 @@
         <Rule Name="Setting" />
       </Rules>
     </AttributeInfo>
-    <!--<AttributeInfo Name="Ticket Queue" Type="String" DefaultValue="" IsReadOnly="false">-->
-      <!--<Rules>-->
-        <!--<Rule Name="Configuration" />-->
-        <!--<Rule Name="Setting" />-->
-      <!--</Rules>-->
-    <!--</AttributeInfo>-->
+    <AttributeInfo Name="Issue Assignee" Type="String" DefaultValue="support" IsReadOnly="false">
+      <Rules>
+        <Rule Name="Configuration" />
+        <Rule Name="Setting" />
+      </Rules>
+    </AttributeInfo>
+
     <!--<AttributeInfo Name="Live Status Error Regex" Type="String" DefaultValue="Error" IsReadOnly="false">-->
       <!--<Rules>-->
         <!--<Rule Name="Configuration" />-->
@@ -90,7 +91,7 @@
             <AttachedAttribute Name="Issue Type" IsOverridable="true" IsLocal="true" UserInput="true">
               <AllowedValues />
             </AttachedAttribute>
-            <!--<AttachedAttribute Name="Ticket Queue" IsOverridable="true" IsLocal="true" UserInput="true">-->
+            <!--<AttachedAttribute Name="Issue Assignee" IsOverridable="true" IsLocal="true" UserInput="true">-->
               <!--<AllowedValues />-->
             <!--</AttachedAttribute>-->
             <!--<AttachedAttribute Name="Live Status Error Regex" IsOverridable="true" IsLocal="true" UserInput="true">-->
@@ -104,7 +105,7 @@
             <AttributeValue Name="Jira Project Name" Value="" />
             <AttributeValue Name="Support Domain" Value="Support" />
             <AttributeValue Name="Issue Type" Value="Task" />
-            <!--<AttributeValue Name="Ticket Queue" Value="" />-->
+            <!--<AttributeValue Name="Issue Assignee" Value="Support" />-->
             <!--<AttributeValue Name="Live Status Error Regex" Value="Error" />-->
           </AttributeValues>
           <ParentModels />
@@ -146,7 +147,7 @@
             <AttachedAttribute Name="Issue Type" IsOverridable="true" IsLocal="true" UserInput="true">
               <AllowedValues />
             </AttachedAttribute>
-            <!--<AttachedAttribute Name="Ticket Queue" IsOverridable="true" IsLocal="true" UserInput="true">-->
+            <!--<AttachedAttribute Name="Issue Assignee" IsOverridable="true" IsLocal="true" UserInput="true">-->
               <!--<AllowedValues />-->
             <!--</AttachedAttribute>-->
             <!--<AttachedAttribute Name="Live Status Error Regex" IsOverridable="true" IsLocal="true" UserInput="true">-->
@@ -160,7 +161,7 @@
             <AttributeValue Name="Jira Project Name" Value="" />
             <AttributeValue Name="Support Domain" Value="Support" />
             <AttributeValue Name="Issue Type" Value="Task" />
-            <!--<AttributeValue Name="Ticket Queue" Value="" />-->
+            <!--<AttributeValue Name="Issue Assignee" Value="Support" />-->
             <!--<AttributeValue Name="Live Status Error Regex" Value="Error" />-->
           </AttributeValues>
           <ParentModels />

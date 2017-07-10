@@ -37,7 +37,6 @@
                 ${dollar}("${pound}jira_username").val(config.jira_username);
                 ${dollar}("${pound}jira_password").val(config.jira_password);
                 ${dollar}("${pound}sandbox_minutes").val(config.sandbox_minutes);
-                ${dollar}("${pound}ticket_queue").val(config.ticket_queue);
 
                 AJS.${dollar}("${pound}admin").submit(function(e) {
                         e.preventDefault();
@@ -75,8 +74,6 @@ function updateConfig() {
     '"jira_password": "' + AJS.${dollar}("${pound}jira_password").attr("value") + '"' +
     ', ' +
     '"sandbox_minutes": "' + AJS.${dollar}("${pound}sandbox_minutes").attr("value") + '"' +
-    ', ' +
-    '"ticket_queue": "' + AJS.${dollar}("${pound}ticket_queue").attr("value") + '"' +
     ' }',
     processData: false
   });
@@ -136,11 +133,6 @@ function updateConfig() {
       <div class="field-group">
               <label for="project_name">$i18n.getText("quali.admin.project_name.label")</label>
                <input type="text" id="project_name" name="project_name" class="text">
-             </div>
-
-      <div class="field-group">
-              <label for="project_name">$i18n.getText("quali.admin.ticket_queue.label")</label>
-               <input type="text" id="ticket_queue" name="ticket_queue" class="text">
              </div>
 
       <div class="field-group">

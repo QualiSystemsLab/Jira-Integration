@@ -17,6 +17,7 @@ password = api.DecryptPassword(rc['attributes']['Password']).Value
 projname = rc['attributes']['Jira Project Name']
 destdomain = rc['attributes']['Support Domain']
 issuetypename = rc['attributes']['Issue Type']
+support_username = rc['attributes'].get('Issue Assignee', 'support')
 error_pattern = rc['attributes'].get('Live Status Error Regex', 'error')
 
 resid = helpers.get_reservation_context_details().id
@@ -151,6 +152,9 @@ QS_ORIGINAL_DOMAINS(%s)
                 "project": {
                     "id": %s
                 },
+                "assignee": {
+                    "name": "%s"
+                },
                 %s
                 "summary": "%s",
                 "description": "%s",
@@ -158,7 +162,7 @@ QS_ORIGINAL_DOMAINS(%s)
                     "id": %s
                 }
             }
-        }''' % (projid, fields_json, title, descr, issuetypeid))
+        }''' % (projid, support_username, fields_json, title, descr, issuetypeid))
         if code >= 400:
             print 'Error: %d: %s' % (code, rslt)
             exit(1)

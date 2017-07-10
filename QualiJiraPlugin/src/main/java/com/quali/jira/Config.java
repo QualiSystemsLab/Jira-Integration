@@ -40,7 +40,6 @@ public final class Config
     @XmlElement public String jira_username;
     @XmlElement public String jira_password;
     @XmlElement public String sandbox_minutes;
-    @XmlElement public String ticket_queue;
 
     private Config() { }
     public Config(PluginSettingsFactory pluginSettingsFactory) {
