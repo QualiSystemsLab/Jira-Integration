@@ -110,15 +110,18 @@ function updateConfig() {
               <label for="cspass">$i18n.getText("quali.admin.cspass.label")</label>
          <input type="password" id="cspass" name="cspass" class="text">
        </div>
+
+
+             <div class="field-group">
+                     <label for="sandbox_owner">$i18n.getText("quali.admin.sandbox_owner.label")</label>
+                <input type="text" id="sandbox_owner" name="sandbox_owner" class="text" placeholder="Support">
+              </div>
+
       <div class="field-group">
               <label for="support_domain">$i18n.getText("quali.admin.support_domain.label")</label>
                  <input type="text" id="support_domain" name="support_domain" class="text" placeholder="Support">
                </div>
 
-      <div class="field-group">
-              <label for="sandbox_owner">$i18n.getText("quali.admin.sandbox_owner.label")</label>
-         <input type="text" id="sandbox_owner" name="sandbox_owner" class="text" placeholder="Support">
-       </div>
 
       <div class="field-group">
               <label for="jira_url">$i18n.getText("quali.admin.jira_url.label")</label>

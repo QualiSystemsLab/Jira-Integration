@@ -37,9 +37,26 @@ This connects to the CloudShell sandbox API to reserve a Jira worker blueprint a
 
 ## Development
 - Jira plugin (Java)
-  - Install JDK 8, ensure javac.exe is in PATH
-  - Install Jira plugin SDK https://developer.atlassian.com/docs/getting-started/set-up-the-atlassian-plugin-sdk-and-build-a-project
-  - Fix PATH and JAVA_HOME in Windows system properties if they were set incorrectly by the Jira SDK
+  - SDK
+    - Windows
+      - Install JDK 8, ensure javac.exe is in PATH
+      - Install Jira plugin SDK https://developer.atlassian.com/docs/getting-started/set-up-the-atlassian-plugin-sdk-and-build-a-project
+      - Fix PATH and JAVA_HOME in Windows system properties if they were set incorrectly by the Jira SDK
+      - In Git Bash:
+        - git clone https://github.com/QualiSystemsLab/Jira-Integration.git
+        - cd Jira-Integration
+    - Ubuntu 16
+      - apt-get update
+      - apt-get install openjdk-8-jdk
+      - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+      - sh -c 'echo "deb https://sdkrepo.atlassian.com/debian/ stable contrib" >>/etc/apt/sources.list'
+      - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys B07804338C015B73
+      - apt-get install apt-transport-https
+      - apt-get update
+      - apt-get install atlassian-plugin-sdk
+      - atlas-version
+      - git clone https://github.com/QualiSystemsLab/Jira-Integration.git
+      - cd Jira-Integration/
   - Run Jira server in one command prompt:
     - cd QualiJiraPlugin
     - atlas-run
@@ -53,25 +70,20 @@ This connects to the CloudShell sandbox API to reserve a Jira worker blueprint a
   - In non-Support domain, drag Jira Service Package.zip into the portal
   - In Support domain, drag Jira Service Domain Package.zip into the portal
   - To update:
-	- Clone this repository
-	- Run build.cmd
+	- In Git Bash: git clone https://github.com/QualiSystemsLab/Jira-Integration.git
+	- Edit files
+	- Double click build.cmd
   - When adding a Jira Error Handler Service to your blueprint, update the password and URL to match any Jira account
-  - If using the Jira plugin, update the default values of the Jira service to match your Jira server. The plugin will add the service to new sandboxes using the default credentials.
-  - Call the functions manually from the portal or from your code using ExecuteCommand. Note that the raw API JSON is returned from the function.
 
 ## Functions provided
-- jira_create_issue
-    - PROJECT_NAME - project name or key; leave blank if you have only one project
-    - ISSUE_TYPE - Task, Bug, Sub-task, Epic, Story, or a custom issue type defined ahead of time
-    - TITLE - Headline of the issue
-    - DESCRIPTION - Description of the issue
-    - ADDITIONAL_FIELDS_JSON (can be omitted from the GUI inputs entirely) - text to be inserted into the JSON API request, e.g. {"fieldname1":"value1"}, {"fieldname2","value2"},
+
+### Jira Action Service
 - jira_add_comment_to_issue
-    - ISSUE_NAME - Issue id or key, returned by jira_create_issue
-    - COMMENT - Text of the comment
-    - ADDITIONAL_FIELDS_JSON (can be omitted from the GUI inputs entirely) - Additional text to insert in the JSON request, e.g. "visibility": {"type": "role","value": "Administrators"}\
+    - COMMENT - text of the comment
+    - (issue id will be taken from the sandbox name, e.g. DUT 1 debug sandbox - issue 10001)
 - jira_close_issue - executes the transition to Done on the Jira issue
-    - ISSUE_ID - The issue id or key of an existing issue. If blank, will attempt to take from sandbox_name.split(' - ')[1].
-- jira_handle_resource_error - create a Jira issue for the specified resource and move the resource to the domain specified in Support Domain; called from the health checks in Setup
-    - RESOURCE_NAME - name of the resource 
-    - ERROR_MESSAGE - the reason for calling the error handler
+    - COMMENT - a comment to describe the resolution of the ticket
+    - (issue id will be taken from the sandbox name, e.g. DUT 1 debug sandbox - issue 10001)
+
+### Jira Error Handler Service
+- jira_error_handler - (run by Error Handler Sandbox Teardown) check all sandbox resources for a pattern such as 'Error' in the live status, as set by health_check; for each resource with a problem, create a Jira issue and quarantine the resource by moving it to the domain specified in Support Domain
