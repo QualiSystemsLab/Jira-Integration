@@ -39,6 +39,7 @@
     <description key="openin-quali-cloud-shell.description">The Open in Quali CloudShell Plugin</description>
     <label key="openin-quali-cloud-shell.label"/>
     <link linkId="openin-quali-cloud-shell-link">/secure/OpenInQualiCloudShell.jspa?issueid=$issue.id&amp;amp;description=$issue.description</link>
+    <icon width="64" height="32" url="images/qualiIcon.png"/>
   </web-item>
   <webwork1 key="cloud-shell-plugin" name="CloudShell Plugin" i18n-name-key="cloud-shell-plugin.name">
     <description key="cloud-shell-plugin.description">Plugin to open a CloudShell sandbox for a resource that is the subject of a Jira issue</description>
