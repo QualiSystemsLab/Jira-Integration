@@ -16,11 +16,33 @@ import java.util.regex.Pattern;
 import javax.net.ssl.*;
 import java.security.cert.*;
 import javax.inject.Inject;
-
+import com.google.code.gson.Gson;
 import com.atlassian.sal.api.pluginsettings.*;
 
 public class OpenInQualiCloudShell extends JiraWebActionSupport
 {
+    static class CreateSandboxResult {
+        String id;
+        String name;
+        String state;
+        public CreateSandboxResult() {}
+    }
+
+    static class RunCommandResult {
+        String executionId;
+        boolean supports_cancellation;
+        public RunCommandResult() {}
+    }
+    static class ExecutionStatus {
+        String id;
+        boolean supports_cancellation;
+        String started;
+        String ended;
+        String status;
+        String output;
+        public ExecutionStatus() {}
+    }
+
     private static final Logger log = LoggerFactory.getLogger(OpenInQualiCloudShell.class);
     private final Config config;
 
@@ -167,13 +189,16 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             debugmsg += url + "\n" + body + "\n";
             String s = http("POST", url, body, token);
             debugmsg += s;
-            Pattern pattern = Pattern.compile("\"id\":\"([^\"]*)\"");
-            Matcher matcher = pattern.matcher(s);
-            if(!matcher.find()) {
-                errmsg += "Failed to create reservation: " + s;
-            } else {
-                workerresid = matcher.group(1);
-            }
+//            Pattern pattern = Pattern.compile("\"id\":\"([^\"]*)\"");
+//            Matcher matcher = pattern.matcher(s);
+//            if(!matcher.find()) {
+//                errmsg += "Failed to create reservation: " + s;
+//            } else {
+//                workerresid = matcher.group(1);
+//            }
+            Gson gson = new Gson();
+            CreateSandboxResult o = gson.fromJson(s, CreateSandboxResult.class);
+            workerresid = o.id;
         } catch(Exception e) {
             errmsg += "Failed to create reservation: " + e.toString();
         }
@@ -198,13 +223,17 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
 
             String s = http("POST", url, body, token);
             debugmsg += s;
-            Pattern pattern = Pattern.compile("/executions/([^\"]*)\"");
-            Matcher matcher = pattern.matcher(s);
-            if(!matcher.find()) {
-                debugmsg += "Failed to get CreateJiraSandbox execution id: " + s;
-                return super.execute();
-            }
-            executionid = matcher.group(1);
+//            Pattern pattern = Pattern.compile("/executions/([^\"]*)\"");
+//            Matcher matcher = pattern.matcher(s);
+//            if(!matcher.find()) {
+//                debugmsg += "Failed to get CreateJiraSandbox execution id: " + s;
+//                return super.execute();
+//            }
+//            executionid = matcher.group(1);
+            Gson gson = new Gson();
+            RunCommandResult o = gson.fromJson(s, RunCommandResult.class);
+            executionid = o.executionId;
+
         } catch(Exception e) {
             errmsg += "Failed to run CreateJiraSandbox: " + e.toString();
         }
@@ -216,23 +245,38 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
                 String url = config.api_url + "/api/v2/executions/" + executionid;
                 String s = http("GET", url, "", token);
                 debugmsg += url + "\n" + s;
-                if(s.replaceAll(" ", "").contains("\"status\":\"Completed\"")) {
-                    Pattern pattern = Pattern.compile("\"output\":\"([^\"]*)\"");
-                    Matcher matcher = pattern.matcher(s);
-                    if(!matcher.find()) {
-                        debugmsg += "Output not extracted: " + s;
-                        return super.execute();
-                    }
-                    resid = matcher.group(1);
-                    resid = resid.replace('\\', ' ').replaceAll(" r n", "");
-                    break;
-                }
-                if(s.replaceAll(" ", "").contains("\"status\":\"Failed\"") || s.replaceAll(" ", "").contains("\"status\":\"Error\"")) {
-                    debugmsg += "CreateJiraSandbox failed: " + s;
-                    break;
-                }
-                Thread.sleep(5000);
+                Gson gson = new Gson();
+                ExecutionStatus o = gson.fromJson(s, ExecutionStatus.class);
 
+                if(o.status != null) {
+                    if(o.status.equals("Completed")) {
+                        resid = o.output;
+                        resid = resid.replace('\\', ' ').replaceAll(" r n", "");
+                        break;
+                    } else if(o.status.equals("Failed") || o.status.equals("Error")) {
+                        errmsg += "CreateJiraSandbox failed: " + o.status + ": " + o.output;
+                        break;
+                    } else {
+                        Thread.sleep(5000);
+                    }
+                }
+
+//                if(s.replaceAll(" ", "").contains("\"status\":\"Completed\"")) {
+//                    Pattern pattern = Pattern.compile("\"output\":\"([^\"]*)\"");
+//                    Matcher matcher = pattern.matcher(s);
+//                    if(!matcher.find()) {
+//                        debugmsg += "Output not extracted: " + s;
+//                        return super.execute();
+//                    }
+//                    resid = matcher.group(1);
+//                    resid = resid.replace('\\', ' ').replaceAll(" r n", "");
+//                    break;
+//                }
+//                if(s.replaceAll(" ", "").contains("\"status\":\"Failed\"") || s.replaceAll(" ", "").contains("\"status\":\"Error\"")) {
+//                    debugmsg += "CreateJiraSandbox failed: " + s;
+//                    break;
+//                }
+//                Thread.sleep(5000);
             } catch (Exception e) {
                 errmsg += "CreateJiraSandbox failed: " + e.toString();
             }
