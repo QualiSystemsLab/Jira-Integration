@@ -135,13 +135,14 @@ for transition in transitions:
         transitionid = transition['id']
         break
 
-try:
-    rscode, rs = _request('post', '/rest/api/2/issue/%s/comment' % issue_id,
-                          data='''{
-        "body": "%s"
-    }''' % comment)
-except Exception as e:
-    print 'Error adding comment to isssue %s' % issue_id
+if comment:
+    try:
+        rscode, rs = _request('post', '/rest/api/2/issue/%s/comment' % issue_id,
+                              data='''{
+            "body": "%s"
+        }''' % comment)
+    except Exception as e:
+        print 'Error adding comment to isssue %s' % issue_id
 
 
 _, bls = _request('post', '/rest/api/2/issue/%s/transitions' % issue_id, json.dumps({

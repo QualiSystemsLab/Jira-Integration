@@ -179,7 +179,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             debugmsg += s;
             token = s.replaceAll("\"", "");
         } catch(Exception e) {
-            errmsg += "Failed to log in to CloudShell sandbox API: " + e.toString();
+            errmsg += "Failed to log in to CloudShell sandbox API. Check the Quali Admin add-on settings page. " + e.toString();
         }
         if(errmsg.length() > 0)
             return super.execute();

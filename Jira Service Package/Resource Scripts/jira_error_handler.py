@@ -17,7 +17,7 @@ password = api.DecryptPassword(rc['attributes']['Password']).Value
 projname = rc['attributes']['Jira Project Name']
 destdomain = rc['attributes']['Support Domain']
 issuetypename = rc['attributes']['Issue Type']
-support_username = rc['attributes'].get('Issue Assignee', 'support')
+support_username = rc['attributes'].get('Issue Assignee', 'Support')
 error_pattern = rc['attributes'].get('Live Status Error Regex', 'error')
 
 resid = helpers.get_reservation_context_details().id
@@ -30,7 +30,7 @@ issuetypeid = ''
 for r in rd.Resources:
     resource_name = r.Name
     ls = api.GetResourceLiveStatus(resource_name)
-    status = ls.liveStatusName + ': ' + ls.liveStatusDescription
+    status = str(ls.liveStatusName) + ': ' + str(ls.liveStatusDescription)
     if re.search(error_pattern, status, re.IGNORECASE):
         doms = api.GetResourceDetails(resource_name, True).Domains
 
