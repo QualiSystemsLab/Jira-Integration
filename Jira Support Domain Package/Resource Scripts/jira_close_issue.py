@@ -11,6 +11,8 @@ rc = json.loads(os.environ['RESOURCECONTEXT'])
 
 api = helpers.get_api_session()
 
+csuser = helpers.get_reservation_context_details().owner_user
+
 urlbase = rc['attributes']['Endpoint URL Base']
 user = rc['attributes']['User']
 password = api.DecryptPassword(rc['attributes']['Password']).Value
@@ -139,11 +141,10 @@ if comment:
     try:
         rscode, rs = _request('post', '/rest/api/2/issue/%s/comment' % issue_id,
                               data='''{
-            "body": "%s"
-        }''' % comment)
+            "body": "%s --%s"
+        }''' % (comment, csuser))
     except Exception as e:
         print 'Error adding comment to isssue %s' % issue_id
-
 
 _, bls = _request('post', '/rest/api/2/issue/%s/transitions' % issue_id, json.dumps({
     'transition': {'id': transitionid},

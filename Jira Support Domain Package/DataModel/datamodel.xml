@@ -26,9 +26,9 @@
             <AttachedAttribute Name="Issue Type" IsOverridable="true" IsLocal="true" UserInput="true">
               <AllowedValues />
             </AttachedAttribute>
-            <AttachedAttribute Name="Issue Assignee" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
+            <!--<AttachedAttribute Name="Issue Assignee" IsOverridable="true" IsLocal="true" UserInput="true">-->
+              <!--<AllowedValues />-->
+            <!--</AttachedAttribute>-->
             <AttachedAttribute Name="Live Status Error Regex" IsOverridable="true" IsLocal="true" UserInput="true">
               <AllowedValues />
             </AttachedAttribute>
@@ -40,7 +40,7 @@
             <AttributeValue Name="Jira Project Name" Value="" />
             <AttributeValue Name="Support Domain" Value="Support" />
             <AttributeValue Name="Issue Type" Value="Task" />
-            <AttributeValue Name="Issue Assignee" Value="Support" />
+            <!--<AttributeValue Name="Issue Assignee" Value="Support" />-->
             <AttributeValue Name="Live Status Error Regex" Value="Error" />
           </AttributeValues>
           <ParentModels />

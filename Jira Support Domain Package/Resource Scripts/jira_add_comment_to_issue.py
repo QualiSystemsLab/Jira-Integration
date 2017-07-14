@@ -9,6 +9,8 @@ from urllib2 import urlopen
 from urllib import quote
 
 api = helpers.get_api_session()
+csuser = helpers.get_reservation_context_details().owner_user
+
 rc = json.loads(os.environ['RESOURCECONTEXT'])
 
 urlbase = rc['attributes']['Endpoint URL Base']
@@ -99,9 +101,9 @@ def _request(method, path, data=None, headers=None, hide_result=False, **kwargs)
 try:
     rscode, rs = _request('post', '/rest/api/2/issue/%s/comment' % issueid,
                   data='''{
-        "body": "%s"
+        "body": "%s --%s"
         %s
-    }''' % (comment, ','+fields_json if fields_json else ''))
+    }''' % (comment, csuser, ','+fields_json if fields_json else ''))
 except Exception as e:
     print 'Error adding comment. Check the issue name. %d: %s' % (e.code, e.msg)
     exit(1)
