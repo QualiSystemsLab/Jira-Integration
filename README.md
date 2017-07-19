@@ -28,14 +28,14 @@ Configure the Jira plugin:
 Open the CloudShell blueprint:
 ![](screenshots/blueprint.png)
 
-Enter Jira server settings:
+One-time setup: Enter Jira server settings:
 ![](screenshots/edit_jira_error_handler_settings1.png)
 ![](screenshots/edit_jira_error_handler_settings2.png)
 
 Reserve the blueprint:
 ![](screenshots/reserve_blueprint.png)
 
-Sandbox based on the blueprint:
+Sandbox based on the blueprint (note: Jira service would be hidden for a non-admin user):
 ![](screenshots/sandbox1.png)
 
 Run the health checks:
