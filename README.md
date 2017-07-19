@@ -5,17 +5,51 @@
 
 End-to-end demo 
 
+Summary:
 - Reserve the Jira Automatic Health Check or Jira Health Check blueprint
-- If using Jira Health Check, run the sandbox command Run Health Checks - otherwise this will be performed by Setup
-- One of the DUTs in the sandbox will fail its health check
-- Because the Jira error handling service is present
-- A Jira issue is automatically opened
-- The resource is automatically removed from the reservation and placed in the "Support" domain
+- If using Jira Health Check, run the sandbox command Run Health Checks. If using Jira Automatic Health Check, the health checks will be run automatically during Setup.
+- DUT 2 will fail its health check
+- End the sandbox
+- Teardown calls the Jira error handler because the service is present in the reservation
+  - A Jira issue is automatically opened
+  - The resource is automatically removed from the reservation and moved to the "Support" domain
+  - A link to the Jira issue is printed in the Output window and Activity feed
 - On the Jira issue page, click "Open in Quali CloudShell" in the top right
 - A new sandbox will be started by the Jira plugin
 - The problematic resource is added to the sandbox
 - This sandbox can be used to launch a connection to the resource and troubleshoot it
 - A Jira service is also available in the sandbox with the command "Close issue" that automatically closes the Jira issue and moves the resource back from the Support domain to its original domains
+
+Details:
+![](screenshots/jira_plugin_settings_minimal.png)
+![](screenshots/jira_plugin_settings_full.png)
+
+![](screenshots/blueprint.png)
+![](screenshots/edit_jira_error_handler_settings1.png)
+![](screenshots/edit_jira_error_handler_settings2.png)
+
+![](screenshots/reserve_blueprint.png)
+
+![](screenshots/sandbox1.png)
+![](screenshots/run_health_check.png)
+
+![](screenshots/health_check_failed.png)
+![](screenshots/health_check_failed2.png)
+
+![](screenshots/teardown.png)
+
+![](screenshots/jira_issue_created.png)
+
+![](screenshots/jira_issue.png)
+
+![](screenshots/open_in_cloudshell.png)
+
+![](screenshots/debug_sandbox_created.png)
+![](screenshots/debug_sandbox.png)
+
+![](screenshots/action_service_settings1.png)
+![](screenshots/action_service_settings2.png)
+![](screenshots/close_jira_issue.png)
 
 
 ## Components
