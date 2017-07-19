@@ -21,35 +21,52 @@ Summary:
 - A Jira service is also available in the sandbox with the command "Close issue" that automatically closes the Jira issue and moves the resource back from the Support domain to its original domains
 
 Details:
-![](screenshots/jira_plugin_settings_minimal.png)
+
+Configure the Jira plugin:
 ![](screenshots/jira_plugin_settings_full.png)
 
+Open the CloudShell blueprint:
 ![](screenshots/blueprint.png)
+
+Enter Jira server settings:
 ![](screenshots/edit_jira_error_handler_settings1.png)
 ![](screenshots/edit_jira_error_handler_settings2.png)
 
+Reserve the blueprint:
 ![](screenshots/reserve_blueprint.png)
 
+Sandbox based on the blueprint:
 ![](screenshots/sandbox1.png)
+
+Run the health checks:
 ![](screenshots/run_health_check.png)
 
+See that the health check failed for DUT 2:
 ![](screenshots/health_check_failed.png)
 ![](screenshots/health_check_failed2.png)
 
+End the sandbox:
 ![](screenshots/teardown.png)
 
+The Jira error handler in the sandbox creates a Jira issue for problematic resources and quarantines them:
 ![](screenshots/jira_issue_created.png)
 
+New issue in Jira:
 ![](screenshots/jira_issue.png)
 
+Button provided by the Jira plugin to open the quarantined resource in a debug sandbox:
 ![](screenshots/open_in_cloudshell.png)
 
+Access to the debug sandbox:
 ![](screenshots/debug_sandbox_created.png)
 ![](screenshots/debug_sandbox.png)
 
+Jira actions that can be performed from CloudShell:
+![](screenshots/close_jira_issue.png)
+
+Jira credentials used by CloudShell for Jira actions:
 ![](screenshots/action_service_settings1.png)
 ![](screenshots/action_service_settings2.png)
-![](screenshots/close_jira_issue.png)
 
 
 ## Components
