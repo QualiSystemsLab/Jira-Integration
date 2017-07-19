@@ -64,7 +64,7 @@ Access to the debug sandbox:
 Jira actions that can be performed from CloudShell:
 ![](screenshots/close_jira_issue.png)
 
-Jira credentials used by CloudShell for Jira actions:
+Jira credentials used by CloudShell for Jira actions, originating in the Jira plugin settings page and inserted into the sandbox at creation time by the Jira plugin:
 ![](screenshots/action_service_settings1.png)
 ![](screenshots/action_service_settings2.png)
 
