@@ -54,7 +54,7 @@ The Jira error handler in the sandbox creates a Jira issue for problematic resou
 New issue in Jira:
 ![](screenshots/jira_issue.png)
 
-Button provided by the Jira plugin to open the quarantined resource in a debug sandbox:
+Click the button provided by the Jira plugin to open the quarantined resource in a debug sandbox:
 ![](screenshots/open_in_cloudshell.png)
 
 Access to the debug sandbox:
