@@ -68,6 +68,9 @@ Jira credentials used by CloudShell for Jira actions, originating in the Jira pl
 ![](screenshots/action_service_settings1.png)
 ![](screenshots/action_service_settings2.png)
 
+Issue marked done from CloudShell:
+![](screenshots/jira_issue_done.png)
+
 
 ## Components
 
