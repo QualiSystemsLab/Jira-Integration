@@ -79,7 +79,7 @@ The service stores the endpoint URL and credentials and supports a few functions
 
 ### Quali plugin for Jira
 
-Adds a command to the Jira issue page: More>Open in Quali CloudShell
+Adds a command to the Jira issue page: Open in Quali CloudShell
 
 This connects to the CloudShell sandbox API to reserve a Jira worker blueprint and run a function that in turn creates a debug sandbox containing the resource referenced by the Jira issue. The link to the debug sandbox (in the Support domain) 
 
