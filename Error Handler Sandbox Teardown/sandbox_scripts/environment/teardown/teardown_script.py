@@ -1,6 +1,7 @@
 # coding=utf-8
 from multiprocessing.pool import ThreadPool
 from threading import Lock
+from time import sleep
 
 from cloudshell.helpers.scripts import cloudshell_scripts_helpers as helpers
 from cloudshell.api.common_cloudshell_api import CloudShellAPIError
@@ -204,3 +205,4 @@ class EnvironmentTeardown:
                     api.WriteMessageToReservationOutput(self.reservation_id, 'Running error handler on %s' % svc.Alias)
                     eo = api.ExecuteCommand(self.reservation_id, svc.Alias, 'Service', c.Name, [
                     ], printOutput=True).Output
+                    sleep(10)
