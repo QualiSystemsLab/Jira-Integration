@@ -21,7 +21,7 @@ public final class Config
 {
     static void log1(String message) {
         try {
-            FileWriter wr = new FileWriter("c:\\temp\\jiraplugin.txt", true);
+            FileWriter wr = new FileWriter("/var/log/jiraplugin.txt", true);
             PrintWriter pw = new PrintWriter(wr);
             pw.printf("%s%n", message);
             pw.close();
@@ -33,12 +33,7 @@ public final class Config
     @XmlElement public String portal_url;
     @XmlElement public String csuser;
     @XmlElement public String cspass;
-    @XmlElement public String jira_url;
-    @XmlElement public String issue_type;
-    @XmlElement public String project_name;
     @XmlElement public String support_domain;
-    @XmlElement public String jira_username;
-    @XmlElement public String jira_password;
     @XmlElement public String sandbox_minutes;
 
     private Config() { }
