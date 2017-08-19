@@ -22,17 +22,17 @@ issuetypename = rc['attributes']['Issue Type']
 
 resid = helpers.get_reservation_context_details().id
 
-# issue_id = os.environ['ISSUE_ID']
+issue_id = os.environ['ISSUE_ID']
 #
 # if not issue_id:
-comment = os.environ['COMMENT']
+# comment = os.environ['COMMENT']
 
-resname = api.GetReservationDetails(resid).ReservationDescription.Name
-try:
-    issue_id = resname.split(' - ')[1].replace('issue ', '')
-except:
-    print 'Issue id not found in the reservation name. Expected format: "MyResource debug session - xyz-9"'
-    exit(1)
+# resname = api.GetReservationDetails(resid).ReservationDescription.Name
+# try:
+#     issue_id = resname.split(' - ')[1].replace('issue ', '')
+# except:
+#     print 'Issue id not found in the reservation name. Expected format: "MyResource debug session - xyz-9"'
+#     exit(1)
 
 
 def bytes23(s):
@@ -84,27 +84,27 @@ def _request(method, path, data=None, headers=None, hide_result=False, **kwargs)
         # raise Exception('Error: %d: %s' % (code, body))
     return code, body
 
-defaultprojid = ''
-projid = ''
-_, bls = _request('get', '/rest/api/2/project')
-transitions = json.loads(bls)
-for transition in transitions:
-    if not defaultprojid:
-        defaultprojid = transition['id']
-    if transition['name'].lower() == projname.lower() or transition['key'].lower() == projname.lower():
-        projid = transition['id']
-        break
-
-if projname:
-    if not projid:
-        print 'Project name "%s" not found. Valid project names: %s' % (projname, ', '.join([transition['name'] for transition in transitions]))
-        exit(1)
-
-else:
-    if not defaultprojid:
-        print 'You must define at least one project in Jira'
-        exit(1)
-    projid = defaultprojid
+# defaultprojid = ''
+# projid = ''
+# _, bls = _request('get', '/rest/api/2/project')
+# transitions = json.loads(bls)
+# for transition in transitions:
+#     if not defaultprojid:
+#         defaultprojid = transition['id']
+#     if transition['name'].lower() == projname.lower() or transition['key'].lower() == projname.lower():
+#         projid = transition['id']
+#         break
+#
+# if projname:
+#     if not projid:
+#         print 'Project name "%s" not found. Valid project names: %s' % (projname, ', '.join([transition['name'] for transition in transitions]))
+#         exit(1)
+#
+# else:
+#     if not defaultprojid:
+#         print 'You must define at least one project in Jira'
+#         exit(1)
+#     projid = defaultprojid
 
 code, rslt = _request('get', '/rest/api/2/issue/%s' % issue_id)
 if code >= 400:
@@ -116,48 +116,61 @@ if code >= 400:
 orgdoms = re.search(r'QS_ORIGINAL_DOMAINS\(([^)]*)\)', rslt).groups()[0].split(',')
 resource_name = re.search(r'QS_RESOURCE\(([^)]*)\)', rslt).groups()[0]
 
+print 'Found issue %s. domains=%s, resource name=%s' % (issue_id, orgdoms, resource_name)
+
+for r in api.FindResources('', '', [], True, resource_name, True, False).Resources:
+    for rr in r.Reservations:
+        try:
+            api.RemoveResourcesFromReservation(rr.ReservationId, [resource_name])
+            print 'Removed resource from sandbox %s\n' % rr.ReservationId
+        except:
+            print 'Warning: Failed to remove resource from sandbox %s\n' % rr.ReservationId
 try:
     api.RemoveResourcesFromReservation(resid, [resource_name])
+    print 'Removed resource from sandbox %s\n' % resid
+
 except:
-    pass
+    print 'Warning: Failed to remove resource from sandbox %s' % resid
 
 api.RemoveResourcesFromDomain(supportdomain, [resource_name])
+print 'Removed resource %s from domain %s\n' % (resource_name, supportdomain)
 
 for dom in orgdoms:
     if dom != supportdomain:
         api.AddResourcesToDomain(dom, [resource_name])
+        print 'Added resource %s to domain %s\n' % (resource_name, dom)
 
 api.SetResourceLiveStatus(resource_name, 'Online', '')
-
-_, bls = _request('get', '/rest/api/2/issue/%s/transitions' % issue_id)
-transitions = json.loads(bls)['transitions']
-transitionid = ''
-for transition in transitions:
-    if transition['name'].lower() == 'done':
-        transitionid = transition['id']
-        break
-
-if comment:
-    try:
-        rscode, rs = _request('post', '/rest/api/2/issue/%s/comment' % issue_id,
-                              data='''{
-            "body": "%s --%s"
-        }''' % (comment, csuser))
-    except Exception as e:
-        print 'Error adding comment to isssue %s' % issue_id
-
-_, bls = _request('post', '/rest/api/2/issue/%s/transitions' % issue_id, json.dumps({
-    'transition': {'id': transitionid},
-    # 'update': {
-    #     'comment': [
-    #         {
-    #             'add': {
-    #                 'body': comment
-    #             }
-    #         }
-    #     ]
-    # }
-}))
+#
+# _, bls = _request('get', '/rest/api/2/issue/%s/transitions' % issue_id)
+# transitions = json.loads(bls)['transitions']
+# transitionid = ''
+# for transition in transitions:
+#     if transition['name'].lower() == 'done':
+#         transitionid = transition['id']
+#         break
+#
+# if comment:
+#     try:
+#         rscode, rs = _request('post', '/rest/api/2/issue/%s/comment' % issue_id,
+#                               data='''{
+#             "body": "%s --%s"
+#         }''' % (comment, csuser))
+#     except Exception as e:
+#         print 'Error adding comment to isssue %s' % issue_id
+#
+# _, bls = _request('post', '/rest/api/2/issue/%s/transitions' % issue_id, json.dumps({
+#     'transition': {'id': transitionid},
+#     # 'update': {
+#     #     'comment': [
+#     #         {
+#     #             'add': {
+#     #                 'body': comment
+#     #             }
+#     #         }
+#     #     ]
+#     # }
+# }))
                   # '''{
                   #       "update":{
                   #           "comment":[

@@ -13,6 +13,18 @@
     <Diagram Zoom="0.95" NodeSize="Medium" />
   </Details>
   <Resources/>
-  <Services/>
-  <Apps />
+  <Services>
+    <Service PositionX="400" PositionY="204" Alias="Jira Service" ServiceName="Jira Service">
+      <Attributes>
+        <Attribute Name="Jira Project Name" Value="" />
+        <Attribute Name="Support Domain" Value="Support" />
+        <Attribute Name="Issue Type" Value="Task" />
+        <Attribute Name="User" Value="admin" />
+        <Attribute Name="Password" Value="admin" />
+        <Attribute Name="Endpoint URL Base" Value="http://35.161.163.27:2990/jira" />
+        <!--<Attribute Name="Issue Assignee" Value="Support" />-->
+        <Attribute Name="Live Status Error Regex" Value="Error" />
+      </Attributes>
+    </Service>
+  </Services>  <Apps />
 </TopologyInfo>

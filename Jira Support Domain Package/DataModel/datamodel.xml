@@ -6,6 +6,51 @@
       <AttachedAttributes />
       <AttributeValues />
       <Models>
+        <ResourceModel Name="Jira Service" Description="Creates a Jira issue for any resource in the reservation with a live status matching the error pattern and moves the resource to a separate domain dedicated to support." SupportsConcurrentCommands="false">
+          <AttachedAttributes>
+            <AttachedAttribute Name="User" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
+            <AttachedAttribute Name="Password" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
+            <AttachedAttribute Name="Endpoint URL Base" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
+            <AttachedAttribute Name="Jira Project Name" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
+            <AttachedAttribute Name="Support Domain" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
+            <AttachedAttribute Name="Issue Type" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
+            <!--<AttachedAttribute Name="Issue Assignee" IsOverridable="true" IsLocal="true" UserInput="true">-->
+            <!--<AllowedValues />-->
+            <!--</AttachedAttribute>-->
+            <AttachedAttribute Name="Live Status Error Regex" IsOverridable="true" IsLocal="true" UserInput="true">
+              <AllowedValues />
+            </AttachedAttribute>
+          </AttachedAttributes>
+          <AttributeValues>
+            <AttributeValue Name="User" Value="admin" />
+            <AttributeValue Name="Password" Value="DxTbqlSgAVPmrDLlHvJrsA==" />
+            <AttributeValue Name="Endpoint URL Base" Value="http://localhost:2990/jira" />
+            <AttributeValue Name="Jira Project Name" Value="" />
+            <AttributeValue Name="Support Domain" Value="Support" />
+            <AttributeValue Name="Issue Type" Value="Task" />
+            <!--<AttributeValue Name="Issue Assignee" Value="Support" />-->
+            <AttributeValue Name="Live Status Error Regex" Value="Error" />
+          </AttributeValues>
+          <ParentModels />
+          <Drivers />
+          <Scripts>
+            <ScriptName>jira_error_handler</ScriptName>
+            <ScriptName>jira_close_issue</ScriptName>
+            <ScriptName>jira_add_comment_to_issue</ScriptName>
+          </Scripts>
+        </ResourceModel>
         <ResourceModel Name="Jira Action Service" Description="" SupportsConcurrentCommands="false">
           <AttachedAttributes>
             <AttachedAttribute Name="User" IsOverridable="true" IsLocal="true" UserInput="true">
