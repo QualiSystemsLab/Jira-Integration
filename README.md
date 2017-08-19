@@ -62,8 +62,6 @@ Access to the debug sandbox:
 ![](screenshots/debug_sandbox_created.png)
 ![](screenshots/debug_sandbox.png)
 
-Starting the web hook:
-
 
 Creating a Quali web hook in Jira:
 ![](screenshots/create_web_hook_1.png)
