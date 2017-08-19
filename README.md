@@ -18,7 +18,8 @@ Summary:
 - A new sandbox will be started by the Jira plugin
 - The problematic resource is added to the sandbox
 - This sandbox can be used to launch a connection to the resource and troubleshoot it
-- A Jira service is also available in the sandbox with the command "Close issue" that automatically closes the Jira issue and moves the resource back from the Support domain to its original domains
+- When the Jira issue is closed (e.g. transition to Done), the Quali web hook can move the resource from Support to its original domain(s), returning it to circulation
+
 
 Details:
 
@@ -61,15 +62,20 @@ Access to the debug sandbox:
 ![](screenshots/debug_sandbox_created.png)
 ![](screenshots/debug_sandbox.png)
 
-Jira actions that can be performed from CloudShell:
-![](screenshots/close_jira_issue.png)
+Starting the web hook:
 
-Jira credentials used by CloudShell for Jira actions, originating in the Jira plugin settings page and inserted into the sandbox at creation time by the Jira plugin:
-![](screenshots/action_service_settings1.png)
-![](screenshots/action_service_settings2.png)
 
-Issue marked done from CloudShell:
-![](screenshots/jira_issue_done.png)
+Creating a Quali web hook in Jira:
+![](screenshots/create_web_hook_1.png)
+![](screenshots/create_web_hook_2.png)
+![](screenshots/create_web_hook_3.png)
+
+Attaching the Quali web hook to Jira transitions:
+![](screenshots/edit_transition.png)
+![](screenshots/attach_web_hook_1.png)
+![](screenshots/attach_web_hook_2.png)
+![](screenshots/attach_web_hook_3.png)
+
 
 
 ## Components
@@ -86,6 +92,26 @@ Adds a command to the Jira issue page: Open in Quali CloudShell
 
 This connects to the CloudShell sandbox API to reserve a Jira worker blueprint and run a function that in turn creates a debug sandbox containing the resource referenced by the Jira issue. The link to the debug sandbox (in the Support domain) 
 
+
+### Web hook
+
+Attached to issue transitions in Jira, e.g. To Do -> Done.
+
+When triggered, it will log in to CloudShell and restore the resource in the issue
+back to its original CloudShell domains and return it to circulation.
+
+Add the web hook to Jira according to the screenshots above.
+
+
+Implemented as a Flask-based Python web server.
+
+  pip install requests flask
+  export FLASK_APP=quali_jira_hook.py
+  flask run
+
+It is recommended to run the web server on the Jira host, listening on 127.0.0.1 port 5000 only.
+
+For other configurations, set the listening addresses and port according to the Flask documentation.
 
 
 
@@ -130,14 +156,6 @@ This connects to the CloudShell sandbox API to reserve a Jira worker blueprint a
   - When adding a Jira Error Handler Service to your blueprint, update the password and URL to match any Jira account
 
 ## Functions provided
-
-### Jira Action Service
-- jira_add_comment_to_issue
-    - COMMENT - text of the comment
-    - (issue id will be taken from the sandbox name, e.g. DUT 1 debug sandbox - issue 10001)
-- jira_close_issue - executes the transition to Done on the Jira issue
-    - COMMENT - a comment to describe the resolution of the ticket
-    - (issue id will be taken from the sandbox name, e.g. DUT 1 debug sandbox - issue 10001)
 
 ### Jira Error Handler Service
 - jira_error_handler - (run by Error Handler Sandbox Teardown) check all sandbox resources for a pattern such as 'Error' in the live status, as set by health_check; for each resource with a problem, create a Jira issue and quarantine the resource by moving it to the domain specified in Support Domain
