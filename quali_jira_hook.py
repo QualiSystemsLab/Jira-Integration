@@ -16,7 +16,7 @@ app = Flask(__name__)
 
 quali_url_base = 'https://demo.quali.com:3443'
 quali_user = 'jira_admin'
-quali_password = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+quali_password = 'xxxxxxxxxxxxx'
 quali_domain = 'Quali Product'
 worker_blueprint_name = 'JiraSupport2'
 
@@ -82,6 +82,11 @@ def done(issue_id):
         if o['status'] != 'Pending' and o['status'] != 'Running':
             s = 'Finished with status %s, output %s' % (o['status'], o['output'])
             print (s)
+            r2 = requests.post('%s/api/v2/sandboxes/%s/stop' % (quali_url_base, resid),
+                               headers={'Content-Type': 'application/json', 'Authorization': 'Basic ' + token},
+                               verify=False
+            )
+            #print (r2.text)
             return make_response(s, 200)
         sleep(5)
 
