@@ -18,7 +18,12 @@ Summary:
 - A new sandbox will be started by the Jira plugin
 - The problematic resource is added to the sandbox
 - This sandbox can be used to launch a connection to the resource and troubleshoot it
-- When the Jira issue is closed (e.g. transition to Done), the Quali web hook can move the resource from Support to its original domain(s), returning it to circulation
+- When the Jira issue is closed (e.g. transition to Done), the Quali web hook moves the resource from Support to its original domain(s), returning it to circulation
+
+
+Installation consists of two parts:
+- Plugin for starting sandboxes from Jira
+- Web hook to restore the CloudShell resource on issue transitions
 
 
 Details:
@@ -103,13 +108,23 @@ Add the web hook to Jira according to the screenshots above.
 
 Implemented as a Flask-based Python web server.
 
+Download quali_jira_hook.py from this repo. 
+
+Edit the top of quali_jira_hook.py to set the CloudShell address, credentials, domain, and worker blueprint name.
+
+Create a worker blueprint with a name like JiraSupport2 matching the value in quali_jira_hook.py. *Be sure to make the blueprint _public_*, or it can't be used by the API. Add a JiraService to the blueprint and set the fields.
+
+Start the web hook:
+
   pip install requests flask
   export FLASK_APP=quali_jira_hook.py
   flask run
 
-It is recommended to run the web server on the Jira host, listening on 127.0.0.1 port 5000 only.
+It is recommended to run the web server on the Jira host, listening on 127.0.0.1 only (port 5000).
 
 For other configurations, set the listening addresses and port according to the Flask documentation.
+
+
 
 
 
