@@ -112,7 +112,7 @@ Download quali_jira_hook.py from this repo.
 
 Edit the top of quali_jira_hook.py to set the CloudShell address, credentials, domain, and worker blueprint name.
 
-Create a worker blueprint with a name like JiraSupport2 matching the value in quali_jira_hook.py. *Be sure to make the blueprint _public_*, or it can't be used by the API. Add a JiraService to the blueprint and set the fields.
+Create a worker blueprint with a name like JiraSupport2 matching the value in quali_jira_hook.py. *Be sure to "Publish" the blueprint*, or it can't be seen by the API. Add a JiraService to the blueprint and set the fields.
 
 Start the web hook:
 
