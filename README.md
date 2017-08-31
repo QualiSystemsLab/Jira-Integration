@@ -116,9 +116,9 @@ Create a worker blueprint with a name like JiraSupport2 matching the value in qu
 
 Start the web hook:
 
-  pip install requests flask
-  export FLASK_APP=quali_jira_hook.py
-  flask run
+    pip install requests flask
+    export FLASK_APP=quali_jira_hook.py
+    flask run
 
 It is recommended to run the web server on the Jira host, listening on 127.0.0.1 only (port 5000).
 
