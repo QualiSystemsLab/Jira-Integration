@@ -20,6 +20,7 @@ quali_password = 'xxxxxxxxxxxxx'
 quali_domain = 'Quali Product'
 worker_blueprint_name = 'JiraSupport2'
 
+
 @app.route('/done/<issue_id>', methods=['POST'])
 def done(issue_id):
     print (issue_id)

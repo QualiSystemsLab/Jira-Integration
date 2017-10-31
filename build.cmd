@@ -11,6 +11,14 @@ del %fn%
 cd ..
 
 
+cd "health_check_orch_hook_post_setup"
+set fn="..\Jira Service Package\Resource Scripts\health_check_orch_hook_post_setup.zip"
+del %fn%
+"c:\Program Files\7-Zip\7z.exe" a %fn% *
+cd ..
+
+
+
 cd "Jira Service Package"
 set fn="..\Jira Service Package.zip"
 del %fn%

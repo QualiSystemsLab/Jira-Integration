@@ -114,34 +114,56 @@ if code >= 400:
 # oissue = json.loads(rslt)
 
 orgdoms = re.search(r'QS_ORIGINAL_DOMAINS\(([^)]*)\)', rslt).groups()[0].split(',')
-resource_name = re.search(r'QS_RESOURCE\(([^)]*)\)', rslt).groups()[0]
 
-print 'Found issue %s. domains=%s, resource name=%s' % (issue_id, orgdoms, resource_name)
+resource_name = ''
+bp_name = ''
 
-for r in api.FindResources('', '', [], True, resource_name, True, False).Resources:
-    for rr in r.Reservations:
-        try:
-            api.RemoveResourcesFromReservation(rr.ReservationId, [resource_name])
-            print 'Removed resource from sandbox %s\n' % rr.ReservationId
-        except:
-            print 'Warning: Failed to remove resource from sandbox %s\n' % rr.ReservationId
-try:
-    api.RemoveResourcesFromReservation(resid, [resource_name])
-    print 'Removed resource from sandbox %s\n' % resid
+m = re.search(r'QS_RESOURCE\(([^)]*)\)', rslt)
+if m:
+    resource_name = m.groups()[0]
+else:
+    m = re.search(r'QS_BLUEPRINT\(([^)]*)\)', rslt)
+    if m:
+        bp_name = m.groups()[0]
+    else:
+        print 'Error: Did not find QS_BLUEPRINT or QS_RESOURCE in issue description'
 
-except:
-    print 'Warning: Failed to remove resource from sandbox %s' % resid
 
-api.RemoveResourcesFromDomain(supportdomain, [resource_name])
-print 'Removed resource %s from domain %s\n' % (resource_name, supportdomain)
+if resource_name:
+    print 'Found issue %s. domains=%s, resource name=%s' % (issue_id, orgdoms, resource_name)
 
-for dom in orgdoms:
-    if dom != supportdomain:
-        api.AddResourcesToDomain(dom, [resource_name])
-        print 'Added resource %s to domain %s\n' % (resource_name, dom)
+    for r in api.FindResources('', '', [], True, resource_name, True, False).Resources:
+        for rr in r.Reservations:
+            try:
+                api.RemoveResourcesFromReservation(rr.ReservationId, [resource_name])
+                print 'Removed resource from sandbox %s\n' % rr.ReservationId
+            except:
+                print 'Warning: Failed to remove resource from sandbox %s\n' % rr.ReservationId
+    try:
+        api.RemoveResourcesFromReservation(resid, [resource_name])
+        print 'Removed resource from sandbox %s\n' % resid
 
-api.SetResourceLiveStatus(resource_name, 'Online', '')
-#
+    except:
+        print 'Warning: Failed to remove resource from sandbox %s' % resid
+
+    api.RemoveResourcesFromDomain(supportdomain, [resource_name])
+    print 'Removed resource %s from domain %s\n' % (resource_name, supportdomain)
+
+    for dom in orgdoms:
+        if dom != supportdomain:
+            api.AddResourcesToDomain(dom, [resource_name])
+            print 'Added resource %s to domain %s\n' % (resource_name, dom)
+
+    api.SetResourceLiveStatus(resource_name, 'Online', '')
+else:
+    print 'Found issue %s. domains=%s, blueprint name=%s' % (issue_id, orgdoms, bp_name)
+    for dom in orgdoms:
+        if dom != supportdomain:
+            api.AddTopologiesToDomain(dom, [bp_name])
+            api.RemoveTopologiesFromDomain(supportdomain, [bp_name])
+            print 'Added blueprint %s to domain %s\n' % (bp_name, dom)
+
+    #
 # _, bls = _request('get', '/rest/api/2/issue/%s/transitions' % issue_id)
 # transitions = json.loads(bls)['transitions']
 # transitionid = ''

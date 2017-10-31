@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TopologyInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Details Name="Jira Auto Health Check Demo" Alias="Jira Auto Health Check Demo"
+  <Details Name="Jira Manual Health Check Demo" Alias="Jira Manual Health Check Demo"
            Driver="Python Setup &amp; Teardown"
-           SetupDuration="1" TeardownDuration="1" Public="true" DefaultDuration="120">
+           SetupDuration="0" TeardownDuration="1" Public="true" DefaultDuration="120">
     <Description>Blueprint with preconfigured setup &amp; teardown processes.Deploys Apps and resolves connections on Setup, and deletes App VMs on Teardown</Description>
     <Categories>
       <!--<Category Name="LaaS" SubCategory="" />-->
     </Categories>
     <Scripts>
-      <Script Name="hook_setup" />
+      <Script Name="Default Sandbox Setup 2.0" />
       <Script Name="hook_teardown" />
     </Scripts>
     <Diagram Zoom="0.95" NodeSize="Medium" />
@@ -29,7 +29,7 @@
     </AbstractResource>
   </AbstractResources>
   <Services>
-    <Service PositionX="400" PositionY="204" Alias="Post Setup Health Check Service" ServiceName="Post Setup Health Check Service">
+    <Service PositionX="400" PositionY="204" Alias="Manual Health Check Service" ServiceName="Post Setup Health Check Service">
       <Attributes/>
     </Service>
     <Service PositionX="400" PositionY="354" Alias="Resource Quarantine Service" ServiceName="Resource Quarantine Service">

@@ -3,7 +3,7 @@
               Name="DUT 1"
               FolderFullPath=""
               Address="10.0.20.230"
-              ModelName="Cisco Nexus"
+              ModelName="Example Model"
               Driver=""
               xmlns="http://schemas.qualisystems.com/ResourceManagement/ResourceSchema.xsd">
   <Attributes/>
