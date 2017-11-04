@@ -264,7 +264,7 @@ Contains a function `CreateSandbox` with inputs:
 
 `CreateSandbox` creates an immediate reservation containing the specified resource using the CloudShell automation API.
 
-A third-party tool is expected to reserve this blueprint and execute `CreateSandbox`.
+A third-party tool is expected to reserve this blueprint and execute `CreateSandbox` using the sandbox API.
 
 
 ### UnquarantineWorker blueprint
