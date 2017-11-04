@@ -254,6 +254,7 @@ Creates a Jira issue with a specially formatted description, e.g.
 
 
 ### SandboxSupport blueprint
+**!!! MUST BE MARKED PUBLIC !!!**
 
 Contains a function `CreateSandbox` with inputs:
 - `reservation_name`: name of the debug sandbox to create
@@ -261,11 +262,13 @@ Contains a function `CreateSandbox` with inputs:
 - `duration_in_minutes`: duration of the sandbox in minutes
 - `user`: CloudShell owner to set as the owner of the sandbox
 
-A third-party tool is expected to reserve this blueprint and execute ``
- 
-Creates an immediate reservation containing the specified resource using the CloudShell automation API.
+`CreateSandbox` creates an immediate reservation containing the specified resource using the CloudShell automation API.
+
+A third-party tool is expected to reserve this blueprint and execute `CreateSandbox`.
+
 
 ### UnquarantineWorker blueprint
+**!!! MUST BE MARKED PUBLIC !!!**
 
 Contains a function `Unquarantine` with inputs:
 - `subject_name`: resource or blueprint name
@@ -273,7 +276,7 @@ Contains a function `Unquarantine` with inputs:
 - `original_domains_csv`: comma-separated list of domains the resource or blueprint should be moved back to 
 - `support_domain`: the domain where the resource or blueprint is currently quarantined, e.g. `Support`
 
-Moves the resource or blueprint from the `Support` domain to the specified domains.
+`Unquarantine` moves the resource or blueprint from the `Support` domain to the specified domains.
 
 A third-party tool is expected to reserve this blueprint and execute `Unquarantine` using the sandbox API.
 
