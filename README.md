@@ -13,7 +13,16 @@ This example for Jira also includes:
 
 ## Health check demo
 
-### Demo workflow
+### Components
+- CloudShell
+    - A dedicated domain for the support user, e.g. `Support`
+    - Demo blueprints, services, and a worker blueprint for the main domain
+    - Worker blueprint in the `Support` domain
+- Jira
+    - Plugin for starting sandboxes from Jira
+    - Web hook to restore the CloudShell resource on issue transitions  
+
+### Demo summary
 
 - **Reserve the Jira Automatic Health Check or Jira Health Check blueprint**
 - Post-Setup health check
@@ -40,17 +49,8 @@ This example for Jira also includes:
     - When the Jira issue is closed (i.e. transitions to `Done`), the Quali web hook moves the resource from `Support` to its original domain(s), returning it to circulation
 
 
-## Components
-- CloudShell
-    - A dedicated domain for the support user, e.g. `Support`
-    - Demo blueprints, services, and a worker blueprint for the main domain
-    - Worker blueprint in the `Support` domain
-- Jira
-    - Plugin for starting sandboxes from Jira
-    - Web hook to restore the CloudShell resource on issue transitions  
 
-
-Details:
+## Demo details
 
 Install the Jira plugin from the Atlassian marketplace, or run a development mode Jira server as described later.
   
@@ -124,7 +124,7 @@ Running the web hook:
     flask run
 
 
-## Components
+## Component details
 
 ### hook_setup, hook_teardown
 
