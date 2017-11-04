@@ -348,6 +348,7 @@ For special situations, set the listening addresses and port according to the Fl
       - atlas-version
       - git clone https://github.com/QualiSystemsLab/Jira-Integration.git
       - cd Jira-Integration/
+      - git checkout hooks_refactor
     - Windows
       - Install JDK 8, ensure javac.exe is in PATH
       - Install Jira plugin SDK https://developer.atlassian.com/docs/getting-started/set-up-the-atlassian-plugin-sdk-and-build-a-project
@@ -355,6 +356,7 @@ For special situations, set the listening addresses and port according to the Fl
       - In Git Bash:
         - git clone https://github.com/QualiSystemsLab/Jira-Integration.git
         - cd Jira-Integration
+        - git checkout hooks_refactor
   - Run Jira server in one command prompt:
     - cd QualiJiraPlugin
     - atlas-run
