@@ -103,7 +103,8 @@ Attaching the Quali web hook to Jira `->Done` transitions:
 
 Setting up the web hook:
 
-Edit `quali_jira_hook.py`:
+
+    Edit quali_jira_hook.py:
 
     quali_url_base = 'http://172.20.7.177:82'
     quali_user = 'admin'
@@ -296,15 +297,12 @@ Adds a button to the Jira issue page: `Open in Quali CloudShell`
 
 Attached to issue transitions in Jira, e.g. `To Do -> Done`.
 
+Must be registered in the Jira GUI according to the screenshots above.
+
 When triggered, it will log in to CloudShell and restore the resource named in the issue
 back to its original CloudShell domains, thus returning it to circulation.
 
-Add the web hook to Jira according to the screenshots above.
-
-
 Implemented as a Flask-based Python web server.
-
-Download `quali_jira_hook.py` from this repo. 
 
 Edit the top of `quali_jira_hook.py`:
 
