@@ -5,7 +5,7 @@ This Jira integration has been refactored into a general-purpose error handling 
 - Quarantine bad resources or blueprints based on live status or Activity feed
 - Support quick implementation of platform-specific post-quarantine handlers, such as a handler that creates a new Jira issue for a bad resource
 - Start a debug sandbox containing a quarantined resource, triggered from a third-party tool
-- Unquarantine a resource or sandbox, triggered from CloudShell or a third-party tool
+- Unquarantine a resource or sandbox, triggered from a third-party tool (or CloudShell if operating without any third-party tool)
 
 This example for Jira also includes:
 - a Jira plugin written in Java that launches a debug sandbox for a resource
@@ -13,7 +13,8 @@ This example for Jira also includes:
 
 ## Health check demo
 
-Demo workflow:
+### Demo workflow
+
 - **Reserve the Jira Automatic Health Check or Jira Health Check blueprint**
 - Post-Setup health check
     - If using Jira Automatic Health Check, the health checks will be run automatically at the end of Setup.
@@ -24,25 +25,25 @@ Demo workflow:
     - **End the sandbox**
     - `hook_teardown` finds a teardown hook on `Resource Quarantine Service` and calls it
       - DUT 2 is found to have a live status containing "Error", triggering quarantine  
-        - The resource is automatically removed from the reservation and moved to the "Support" domain
+        - The resource is automatically removed from the reservation and moved to the `Support` domain
         - All quarantine handlers in the reservation are called
             - The Jira quarantine handler is found
                 - Opens a Jira issue for DUT 2
                 - Prints a link to the Jira issue in the Output window and the Activity feed
 - Jira-based troubleshooting
     - **On the Jira issue page, click `Open in Quali CloudShell` in the top right**
-    - The Jira plugin starts a new sandbox in the Support domain
+    - The Jira plugin starts a new sandbox in the `Support` domain
     - The problematic resource DUT 2 is added to the sandbox
     - This sandbox can be used to launch a connection to the resource and troubleshoot it
 - Unquarantine
     - **Mark the Jira issue as Done**
-    - When the Jira issue is closed (i.e. transitions to `Done`), the Quali web hook moves the resource from Support to its original domain(s), returning it to circulation
+    - When the Jira issue is closed (i.e. transitions to `Done`), the Quali web hook moves the resource from `Support` to its original domain(s), returning it to circulation
 
 
-Installation consists of:
+## Components
 - CloudShell
     - A dedicated domain for the support user, e.g. `Support`
-    - Blueprints and services for the main domain
+    - Demo blueprints, services, and a worker blueprint for the main domain
     - Worker blueprint in the `Support` domain
 - Jira
     - Plugin for starting sandboxes from Jira
@@ -51,6 +52,8 @@ Installation consists of:
 
 Details:
 
+Install the Jira plugin from the Atlassian marketplace, or run a development mode Jira server as described later.
+  
 Configure the Jira plugin:
 ![](screenshots/jira_plugin_settings_full.png)
 
@@ -64,7 +67,7 @@ One-time setup: Enter Jira server settings:
 Reserve the blueprint:
 ![](screenshots/reserve_blueprint.png)
 
-Sandbox based on the blueprint (note: Jira service would be hidden for a non-admin user):
+Sandbox based on the blueprint (note: services could be hidden for a non-admin user):
 ![](screenshots/sandbox1.png)
 
 See that the post-Setup health check failed for DUT 2:
@@ -73,7 +76,7 @@ See that the post-Setup health check failed for DUT 2:
 End the sandbox:
 ![](screenshots/teardown.png)
 
-The Jira error handler in the sandbox creates a Jira issue for problematic resources and quarantines them:
+The quarantine handler in the sandbox quarantines DUT 2 and calls the Jira quarantine handler, which creates a new Jira issue:
 ![](screenshots/jira_issue_created.png)
 
 New issue in Jira:
@@ -82,22 +85,43 @@ New issue in Jira:
 Click the button provided by the Jira plugin to open the quarantined resource in a debug sandbox:
 ![](screenshots/open_in_cloudshell.png)
 
-Access to the debug sandbox:
+Access the debug sandbox:
 ![](screenshots/debug_sandbox_created.png)
 ![](screenshots/debug_sandbox.png)
 
 
-Creating a Quali web hook in Jira:
+Setting up the Quali custom `Done` transition web hook in Jira:
 ![](screenshots/create_web_hook_1.png)
 ![](screenshots/create_web_hook_2.png)
 ![](screenshots/create_web_hook_3.png)
 
-Attaching the Quali web hook to Jira transitions:
+Attaching the Quali web hook to Jira `->Done` transitions:
 ![](screenshots/edit_transition.png)
 ![](screenshots/attach_web_hook_1.png)
 ![](screenshots/attach_web_hook_2.png)
 ![](screenshots/attach_web_hook_3.png)
 
+Setting up the web hook:
+
+Edit `quali_jira_hook.py`:
+
+    quali_url_base = 'http://172.20.7.177:82'
+    quali_user = 'admin'
+    quali_password = 'admin'
+    quali_domain = 'Global'
+    worker_blueprint_name = 'UnquarantineWorker'
+    
+    # a Jira account that has read access to issues
+    jira_url_base = 'http://127.0.0.1:2990/jira'
+    jira_user = 'admin'
+    jira_password = 'admin'
+
+
+Running the web hook:
+
+    pip install requests flask
+    export FLASK_APP=quali_jira_hook.py
+    flask run
 
 
 ## Components
@@ -138,7 +162,7 @@ a failure.
 
 Contains a hook `quarantine_resources_orch_hook_post_teardown`:
 - Searches for resources with error live status
-- Moves a bad resource to the support domain
+- Moves a bad resource to the `Support` domain
 - Calls any platform-specific quarantine handlers that exist:
     - Looks for services with functions with `quarantine_handler` in the name
     - Runs the `quarantine_handler` with inputs:
@@ -146,10 +170,10 @@ Contains a hook `quarantine_resources_orch_hook_post_teardown`:
         - `blueprint_or_resource`: "RESOURCE"
         - `error_details`: the live status name and description
         - `original_domains_csv`: comma-separated list of domains the resource has been removed from
-        - `support_domain`: the support domain where the resource has been quarantined, e.g. Support
+        - `support_domain`: the support domain where the resource has been quarantined, e.g. `Support`
 
 Settings:
-- `Support Domain` - the domain where bad resources should be moved, e.g. "Support"
+- `Support Domain` - the domain where bad resources should be moved, e.g. `Support`
 - `Live Status Error Regex` - a pattern that indicates a bad live status if found in the live status name or description, default "Error"
 
 This service is platform-independent and can be used even without platform-specific handlers.
@@ -160,7 +184,7 @@ This service is platform-independent and can be used even without platform-speci
 
 Contains a hook `quarantine_blueprint_orch_hook_post_teardown`:
 - Searches for errors in the Activity feed
-- Moves the blueprint to the support domain
+- Moves the blueprint to the `Support` domain
 - Calls platform-specific quarantine handlers:
     - Looks for services with functions with `quarantine_handler` in the name
     - Runs the `quarantine_handler` with inputs:
@@ -168,10 +192,10 @@ Contains a hook `quarantine_blueprint_orch_hook_post_teardown`:
         - `blueprint_or_resource`: "BLUEPRINT"
         - `error_details`: the error(s) from the Activity feed
         - `original_domains_csv`: today, only the current domain where the blueprint ran -- **TODO**
-        - `support_domain`: the support domain where the blueprint has been quarantined, e.g. Support
+        - `support_domain`: the support domain where the blueprint has been quarantined, e.g. `Support`
 
 Settings:
-- `Support Domain` - the domain where a bad blueprint should be moved, e.g. "Support"
+- `Support Domain` - the domain where a bad blueprint should be moved, e.g. `Support`
 
 This service is platform-independent and can be used even without platform-specific handlers.
 
@@ -191,7 +215,7 @@ Contains a function `jira_quarantine_handler` with inputs:
 - `blueprint_or_resource`: "BLUEPRINT" or "RESOURCE"
 - `error_details`: for a blueprint, the error(s) from the Activity feed; for a resource, the live status name and description 
 - `original_domains_csv`: the domains the item has been removed from
-- `support_domain`: the support domain where the item has been quarantined, e.g. Support
+- `support_domain`: the support domain where the item has been quarantined, e.g. `Support`
 
 Inputs:
 - `Endpoint URL Base`: Jira endpoint URL, e.g. `http://localhost:2990/jira`
@@ -220,9 +244,6 @@ Contains a function `CreateSandbox` with inputs:
 - `resource_name`: name of the quarantined resource to add to the sandbox 
 - `duration_in_minutes`: duration of the sandbox in minutes
 - `user`: CloudShell owner to set as the owner of the sandbox
-- `support_domain`: UNUSED **TODO**: remove from here and the Jira plugin
-
-**TODO** Rename to `CreateSandbox` since 
 
 A third-party tool is expected to reserve this blueprint and execute ``
  
@@ -234,9 +255,9 @@ Contains a function `Unquarantine` with inputs:
 - `subject_name`: resource or blueprint name
 - `blueprint_or_resource`: "BLUEPRINT" or "RESOURCE"
 - `original_domains_csv`: comma-separated list of domains the resource or blueprint should be moved back to 
-- `support_domain`: the domain where the resource or blueprint is currently quarantined, e.g. Support
+- `support_domain`: the domain where the resource or blueprint is currently quarantined, e.g. `Support`
 
-Moves the resource or blueprint from the support domain to the specified domains.
+Moves the resource or blueprint from the `Support` domain to the specified domains.
 
 A third-party tool is expected to reserve this blueprint and execute `Unquarantine` using the sandbox API.
 
@@ -246,10 +267,10 @@ A third-party tool is expected to reserve this blueprint and execute `Unquaranti
 Adds a button to the Jira issue page: `Open in Quali CloudShell`
 
 `Open in Quali CloudShell`:
-- Connects to the CloudShell sandbox API under the Support domain
-- Reserves a Jira worker blueprint that must exist in the Support domain
+- Connects to the CloudShell sandbox API under the `Support` domain
+- Reserves a Jira worker blueprint that must exist in the `Support` domain
 - Runs a function `CreateSandbox` that creates a debug sandbox containing the resource referenced by the Jira issue
-- Displays a link to the new debug sandbox (valid in the Support domain) 
+- Displays a link to the new debug sandbox (valid in the `Support` domain) 
 
 
 ### Issue transition web hook
@@ -327,8 +348,8 @@ For special situations, set the listening addresses and port according to the Fl
     - atlas-mvn package
 - CloudShell package
   - Double click package.cmd
-  - In non-Support domain, drag Jira_Main_Package.zip into the portal
-  - In Support domain, drag Jira_Support_Domain_Package.zip into the portal
+  - In non-`Support` domain, drag Jira_Main_Package.zip into the portal
+  - In `Support` domain, drag Jira_Support_Domain_Package.zip into the portal
   - To update:
 	- In Git Bash: git clone https://github.com/QualiSystemsLab/Jira-Integration.git
 	- Edit files
