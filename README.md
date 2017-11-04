@@ -76,7 +76,7 @@ See that the post-Setup health check failed for DUT 2:
 End the sandbox:
 ![](screenshots/teardown.png)
 
-The quarantine handler in the sandbox quarantines DUT 2 and calls the Jira quarantine handler, which creates a new Jira issue:
+The resource quarantine service in the sandbox quarantines DUT 2 and calls the Jira quarantine handler service, which creates a new Jira issue:
 ![](screenshots/jira_issue_created.png)
 
 New issue in Jira:
