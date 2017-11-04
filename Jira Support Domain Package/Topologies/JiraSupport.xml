@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TopologyInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Details Name="JiraSupport" Alias="JiraSupport"
+           Driver=""
+           SetupDuration="0" TeardownDuration="0" Public="true" DefaultDuration="5">
+    <Description>Worker blueprint to hold CreateSandbox function called by third-party tool to create a debug sandbox for a resource</Description>
+    <Categories>
+      <!--<Category Name="" SubCategory="" />-->
+    </Categories>
+    <Scripts>
+      <Script Name="CreateSandbox" />
+    </Scripts>
+    <Diagram Zoom="0.95" NodeSize="Medium" />
+  </Details>
+  <Resources/>
+  <Services/>
+  <Apps />
+</TopologyInfo>

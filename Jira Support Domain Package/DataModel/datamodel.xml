@@ -5,23 +5,12 @@
   </ResourceFamilies>
   <DriverDescriptors/>
   <ScriptDescriptors>
-    <ScriptDescriptor Name="CreateJiraSandbox" CategoryName="" Version="1.0.1.2 " Alias="Create Jira Sandbox">
+    <ScriptDescriptor Name="CreateSandbox" CategoryName="" Version="1.0.1.2 " Alias="Create Sandbox">
       <ScriptInputs>
         <ScriptInput Name="reservation_name" Description=""/>
         <ScriptInput Name="resource_name" Description=""/>
         <ScriptInput Name="duration_in_minutes" Description=""/>
         <ScriptInput Name="user" Description=""/>
-        <ScriptInput Name="jira_url" Description=""/>
-        <ScriptInput Name="issue_type" Description=""/>
-        <ScriptInput Name="project_name" Description=""/>
-        <ScriptInput Name="support_domain" Description=""/>
-        <ScriptInput Name="jira_username" Description=""/>
-        <ScriptInput Name="jira_password" Description=""/>
-      </ScriptInputs>
-    </ScriptDescriptor>
-    <ScriptDescriptor Name="Unquarantine" Alias="Unquarantine" Description="Unquarantine a resource or blueprint given the Jira issue body">
-      <ScriptInputs>
-        <ScriptInput Name="issue_description" Description="Body of the Jira issue, including QS_PREVIOUS_DOMAINS(a,b,c) and QS_RESOURCE(resource name) or QS_BLUEPRINT(blueprint name)" />
       </ScriptInputs>
     </ScriptDescriptor>
   </ScriptDescriptors>

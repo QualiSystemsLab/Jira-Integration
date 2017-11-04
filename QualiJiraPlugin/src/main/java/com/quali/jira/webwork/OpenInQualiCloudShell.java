@@ -206,14 +206,13 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
         if(errmsg.length() > 0)
             return super.execute();
         try {
-            String url = config.api_url + "/api/v2/sandboxes/"+workerresid+"/commands/CreateJiraSandbox/start";
+            String url = config.api_url + "/api/v2/sandboxes/"+workerresid+"/commands/CreateSandbox/start";
             String body = "{ \"params\": [";
 
             body += "{\"name\":\"reservation_name\",\"value\":\""+resname+"\"}, ";
             body += "{\"name\":\"resource_name\",\"value\":\""+resource+"\"}, ";
             body += "{\"name\":\"duration_in_minutes\",\"value\":\"" + config.sandbox_minutes + "\"}, ";
-            body += "{\"name\":\"user\", \"value\":\""+jirauser+"\"}, ";
-            body += "{\"name\":\"support_domain\", \"value\":\""+config.support_domain+"\"} ";
+            body += "{\"name\":\"user\", \"value\":\""+jirauser+"\"} ";
             body += "], \"printOutput\": true }";
             debugmsg += url + "\n" + body + "\n";
 
@@ -222,7 +221,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
 //            Pattern pattern = Pattern.compile("/executions/([^\"]*)\"");
 //            Matcher matcher = pattern.matcher(s);
 //            if(!matcher.find()) {
-//                debugmsg += "Failed to get CreateJiraSandbox execution id: " + s;
+//                debugmsg += "Failed to get CreateSandbox execution id: " + s;
 //                return super.execute();
 //            }
 //            executionid = matcher.group(1);
@@ -231,7 +230,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             executionid = o.executionId;
 
         } catch(Exception e) {
-            errmsg += "Failed to run CreateJiraSandbox: " + e.toString();
+            errmsg += "Failed to run CreateSandbox: " + e.toString();
         }
 
         if(errmsg.length() > 0)
@@ -250,7 +249,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
                         resid = resid.replace('\\', ' ').replaceAll(" r n", "");
                         break;
                     } else if(o.status.equals("Failed") || o.status.equals("Error")) {
-                        errmsg += "CreateJiraSandbox failed: " + o.status + ": " + o.output;
+                        errmsg += "CreateSandbox failed: " + o.status + ": " + o.output;
                         break;
                     } else {
                         Thread.sleep(5000);
@@ -269,12 +268,12 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
 //                    break;
 //                }
 //                if(s.replaceAll(" ", "").contains("\"status\":\"Failed\"") || s.replaceAll(" ", "").contains("\"status\":\"Error\"")) {
-//                    debugmsg += "CreateJiraSandbox failed: " + s;
+//                    debugmsg += "CreateSandbox failed: " + s;
 //                    break;
 //                }
 //                Thread.sleep(5000);
             } catch (Exception e) {
-                errmsg += "CreateJiraSandbox failed: " + e.toString();
+                errmsg += "CreateSandbox failed: " + e.toString();
             }
         }
         if(errmsg.length() > 0)

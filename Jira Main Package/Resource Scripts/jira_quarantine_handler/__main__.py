@@ -24,9 +24,6 @@ user = rc['attributes']['User']
 password = api.DecryptPassword(rc['attributes']['Password']).Value
 projname = rc['attributes']['Jira Project Name']
 issuetypename = rc['attributes']['Issue Type']
-# support_username = rc['attributes'].get('Issue Assignee', 'Support')
-error_pattern = rc['attributes'].get('Live Status Error Regex', 'error')
-
 
 projid = ''
 issuetypeid = ''
@@ -69,6 +66,7 @@ def req(method, path, data=None, **kwargs):
 
     # if code >= 400:
     # raise Exception('Error: %d: %s' % (code, body))
+
 
 if not projid:
     defaultprojid = ''

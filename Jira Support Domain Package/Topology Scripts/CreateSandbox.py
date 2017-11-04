@@ -1,5 +1,3 @@
-from cloudshell.api.cloudshell_api import InputNameValue, AttributeNameValue
-from cloudshell.api.common_cloudshell_api import CloudShellAPIError
 from cloudshell.helpers.scripts import cloudshell_scripts_helpers as helpers
 import os
 

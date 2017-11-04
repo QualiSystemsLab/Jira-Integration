@@ -1,13 +1,5 @@
 import cloudshell.helpers.scripts.cloudshell_scripts_helpers as helpers
-import re
 import os
-import json
-import base64
-from urllib2 import Request
-from urllib2 import urlopen
-from urllib import quote
-
-rc = json.loads(os.environ['RESOURCECONTEXT'])
 
 api = helpers.get_api_session()
 

@@ -35,13 +35,6 @@
         <Rule Name="Setting" />
       </Rules>
     </AttributeInfo>
-    <!--<AttributeInfo Name="Issue Assignee" Type="String" DefaultValue="Support" IsReadOnly="false">-->
-      <!--<Rules>-->
-        <!--<Rule Name="Configuration" />-->
-        <!--<Rule Name="Setting" />-->
-      <!--</Rules>-->
-    <!--</AttributeInfo>-->
-
     <AttributeInfo Name="Live Status Error Regex" Type="String" DefaultValue="Error" IsReadOnly="false">
       <Rules>
         <Rule Name="Configuration" />
@@ -66,8 +59,7 @@
       </Models>
       <Categories />
     </ResourceFamily>
-
-    <ResourceFamily Name="Jira Services" Description="Temporary combination of Jira Error Handler Service and Jira Action Service" IsService="true" ServiceType="Regular">
+    <ResourceFamily Name="Jira Services" Description="Services with Jira-specific handlers" IsService="true" ServiceType="Regular">
       <AttachedAttributes />
       <AttributeValues />
       <Models>
@@ -88,21 +80,13 @@
             <AttachedAttribute Name="Issue Type" IsOverridable="true" IsLocal="true" UserInput="true">
               <AllowedValues />
             </AttachedAttribute>
-            <AttachedAttribute Name="Support Domain" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <!--<AttachedAttribute Name="Issue Assignee" IsOverridable="true" IsLocal="true" UserInput="true">-->
-              <!--<AllowedValues />-->
-            <!--</AttachedAttribute>-->
           </AttachedAttributes>
           <AttributeValues>
             <AttributeValue Name="User" Value="admin" />
             <AttributeValue Name="Password" Value="DxTbqlSgAVPmrDLlHvJrsA==" />
             <AttributeValue Name="Endpoint URL Base" Value="http://localhost:2990/jira" />
             <AttributeValue Name="Jira Project Name" Value="" />
-            <AttributeValue Name="Support Domain" Value="Support" />
             <AttributeValue Name="Issue Type" Value="Task" />
-            <!--<AttributeValue Name="Issue Assignee" Value="Support" />-->
           </AttributeValues>
           <ParentModels />
           <Drivers />
