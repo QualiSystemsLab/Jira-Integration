@@ -253,7 +253,7 @@ Creates a Jira issue with a specially formatted description, e.g.
     QS_ORIGINAL_DOMAINS(User1, User2)
 
 
-### SandboxSupport blueprint
+### DebugSandboxWorker blueprint
 **!!! MUST BE MARKED PUBLIC !!!**
 
 Contains a function `CreateSandbox` with inputs:

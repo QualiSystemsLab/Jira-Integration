@@ -185,7 +185,7 @@ public class OpenInQualiCloudShell extends JiraWebActionSupport
             return super.execute();
 
         try {
-            String url = config.api_url + "/api/v2/blueprints/SandboxSupport/start";
+            String url = config.api_url + "/api/v2/blueprints/DebugSandboxWorker/start";
             String body = "{  \"duration\": \"PT5M\",  \"name\": \"jiraworker\"  }";
             debugmsg += url + "\n" + body + "\n";
             String s = http("POST", url, body, token);
