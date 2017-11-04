@@ -220,7 +220,8 @@ Creates a Jira issue to track a resource or blueprint that has just been quarant
 
 Called by `Resource Quarantine Service` or `Blueprint Quarantine Service` hooks, which run during Teardown.
 
-Handles all Jira-specific aspects of the quarantine process. `Resource Quarantine Service` or 
+Handles all Jira-specific aspects of the quarantine process. The generic 
+`Resource Quarantine Service` and/or 
 `Blueprint Quarantine Service` must be added to the blueprint in 
 addition to `Jira Quarantine Handler Service`. 
 
