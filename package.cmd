@@ -66,6 +66,7 @@ mkdir "pkg\Topology Scripts"
 mkdir "pkg\Topologies"
 
 copy "Jira Support Domain Package\Topologies\*" pkg\Topologies
+copy "Jira Support Domain Package\Topology Scripts\*" "pkg\Topology Scripts"
 
 
 copy "Jira Support Domain Package\metadata.xml"                   pkg
