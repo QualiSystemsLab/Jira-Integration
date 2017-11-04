@@ -91,6 +91,14 @@ Access the debug sandbox:
 
 
 Setting up the Quali custom `Done` transition web hook in Jira:
+
+Go to the System section of Administration:
+![](screenshots/create_web_hook_m1.png)
+
+Scroll down to WebHooks under ADVANCED:
+![](screenshots/create_web_hook_0.png)
+
+Create a WebHook:
 ![](screenshots/create_web_hook_1.png)
 ![](screenshots/create_web_hook_2.png)
 ![](screenshots/create_web_hook_3.png)
