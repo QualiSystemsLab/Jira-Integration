@@ -28,7 +28,7 @@ Demo workflow:
         - All quarantine handlers in the reservation are called
             - The Jira quarantine handler is found
                 - Opens a Jira issue for DUT 2
-                - Prints a link to the Jira issue in th eOutput window and the Activity feed
+                - Prints a link to the Jira issue in the Output window and the Activity feed
 - Jira-based troubleshooting
     - **On the Jira issue page, click `Open in Quali CloudShell` in the top right**
     - The Jira plugin starts a new sandbox in the Support domain
@@ -36,7 +36,7 @@ Demo workflow:
     - This sandbox can be used to launch a connection to the resource and troubleshoot it
 - Unquarantine
     - **Mark the Jira issue as Done**
-    - When the Jira issue is closed (e.g. transition to Done), the Quali web hook moves the resource from Support to its original domain(s), returning it to circulation
+    - When the Jira issue is closed (i.e. transitions to `Done`), the Quali web hook moves the resource from Support to its original domain(s), returning it to circulation
 
 
 Installation consists of:
