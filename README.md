@@ -17,12 +17,12 @@ This example for Jira also includes:
 
 - **Reserve the Jira Automatic Health Check or Jira Health Check blueprint**
 - Post-Setup health check
-    - If using Jira Automatic Health Check, the health checks will be run automatically at the end of Setup.
-    - If using Jira Manual Health Check, run `Run Health Checks` on `Manual Health Check Service`. 
+    - If using Jira Automatic Health Check, the health checks will be run automatically at the end of Setup by a hook on service `Post Setup Health Check` called `health_check_orch_hook_post_setup` (friendly name `Run Health Checks`)
+    - If using Jira Manual Health Check, you must **run `Run Health Checks` on `Manual Health Check Service`**. 
     - DUT 1 and DUT 2 both have a script `health_check` attached. Most resources with official shells have a `health_check` driver function.
     - Resource DUT 2 will fail its health check
 - Automatic quarantine
-    - **End the sandbox**
+    - **Manually end the sandbox**
     - `hook_teardown` finds a teardown hook on `Resource Quarantine Service` and calls it
       - DUT 2 is found to have a live status containing "Error", triggering quarantine  
         - The resource is automatically removed from the reservation and moved to the `Support` domain
@@ -131,7 +131,7 @@ Running the web hook:
 General-purpose 8.1-compliant Setup and Teardown scripts that execute any hook functions found on 
 resources and services in the reservation, based on keywords in the name:
 
-    orch_hook_pre_setup*
+    orch_hook_pre_setup
     orch_hook_during_preparation
     orch_hook_post_preparation
     orch_hook_during_provisioning
@@ -140,15 +140,20 @@ resources and services in the reservation, based on keywords in the name:
     orch_hook_post_connectivity
     orch_hook_during_configuration
     orch_hook_post_configuration
-    orch_hook_post_setup*
+    orch_hook_post_setup
     orch_hook_pre_teardown
     orch_hook_during_teardown
-    orch_hook_post_teardown*
+    orch_hook_post_teardown
 
 Must be attached to any sandbox where hooks will be used. Can safely replace the default 
 Setup and Teardown.
 
 ### Jira Auto Health Check Demo and Jira Manual Health Check Demo blueprints
+
+Jira Auto Health Check Demo has `hook_setup` and `hook_teardown` attached.
+
+Jira Manual Health Check Demo has `Default Sandbox Setup 2.0` and `hook_teardown` attached. 
+This means the health checks must be run manually on `Manual Health Check Service`. 
 
 #### DUTs
 
