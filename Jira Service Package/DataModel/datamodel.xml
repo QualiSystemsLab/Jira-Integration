@@ -194,8 +194,17 @@
         <ScriptInput Name="subject_name" Description="Name of the resource or blueprint that has been quarantined"/>
         <ScriptInput Name="blueprint_or_resource" Description="BLUEPRINT or RESOURCE"/>
         <ScriptInput Name="error_details" Description="Detailed error message"/>
-        <ScriptInput Name="original_domains_csv" Description="Comma-separated list of domains the resource originally belonged to"/>
+        <ScriptInput Name="original_domains_csv" Description="Comma-separated list of domains the resource or blueprint originally belonged to"/>
         <ScriptInput Name="support_domain" Description="Domain where the resource has been quarantined"/>
+      </ScriptInputs>
+    </ScriptDescriptor>
+
+    <ScriptDescriptor Name="Unquarantine" Version="1.0.0" Alias="Unquarantine">
+      <ScriptInputs>
+        <ScriptInput Name="subject_name" Description="Name of the resource or blueprint to unquarantine"/>
+        <ScriptInput Name="blueprint_or_resource" Description="BLUEPRINT or RESOURCE"/>
+        <ScriptInput Name="original_domains_csv" Description="Comma-separated list of domains the resource or blueprint originally belonged to"/>
+        <ScriptInput Name="support_domain" Description="Domain where the resource or blueprint has been quarantined"/>
       </ScriptInputs>
     </ScriptDescriptor>
 

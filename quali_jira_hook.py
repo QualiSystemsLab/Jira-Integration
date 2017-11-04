@@ -20,10 +20,22 @@ quali_password = 'xxxxxxxxxxxxx'
 quali_domain = 'Quali Product'
 worker_blueprint_name = 'JiraSupport2'
 
+# a Jira account that has read access to issues
+jira_url_base = 'http://127.0.0.1:2990/jira'
+jira_user = 'admin'
+jira_password = 'admin'
+
 
 @app.route('/done/<issue_id>', methods=['POST'])
 def done(issue_id):
     print (issue_id)
+
+    r = requests.get('%s/rest/api/2/issue/%s' % (jira_url_base, issue_id),
+                     auth=(jira_user, jira_password),
+                     verify=False)
+    issue_descr = json.loads(r.text)['fields']['description']
+
+
     r = requests.put('%s/api/login' % quali_url_base,
                      headers={'Content-Type': 'application/json'},
                      data='{"username":"%s","password":"%s","domain":"%s"}' % (quali_user, quali_password, quali_domain),
@@ -45,24 +57,13 @@ def done(issue_id):
 
     o = json.loads(r.text)
     resid = o['id']
-    r = requests.get('%s/api/v2/sandboxes/%s/components' % (quali_url_base, resid),
-                     headers={'Content-Type': 'application/json', 'Authorization': 'Basic ' + token},
-                     verify=False
-                     )
-    jiraserviceid = ''
-    for component in json.loads(r.text):
-        if 'jira' in component['name'].lower():
-            jiraserviceid = component['id']
-            break
-    if not jiraserviceid:
-        return make_response('Jira service not found in reservation %s' % resid, 501)
-    r = requests.post('%s/api/v2/sandboxes/%s/components/%s/commands/%s/start' % (quali_url_base, resid, jiraserviceid, 'jira_close_issue'),
+    r = requests.post('%s/api/v2/sandboxes/%s/commands/CloseJiraIssue/start' % (quali_url_base, resid),
                       headers={'Content-Type': 'application/json', 'Authorization': 'Basic ' + token},
                       data=json.dumps({
                           'params': [
                               {
-                                  'name': 'issue_id',
-                                  'value': issue_id,
+                                  'name': 'issue_description',
+                                  'value': issue_descr,
                               }
                           ],
                           'printOutput': True,
