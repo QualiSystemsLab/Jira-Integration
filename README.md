@@ -16,8 +16,8 @@ This example for Jira also includes:
 ### Components
 - CloudShell
     - A dedicated domain for the support user, e.g. `Support`
-    - Demo blueprints, services, and a worker blueprint for the main domain
-    - Worker blueprint in the `Support` domain
+    - Demo blueprints, services, and a worker blueprint for the main domain, in draggable package **Jira_Main_Package.zip**
+    - Worker blueprint in the `Support` domain, in draggable package **Jira_Support_Domain_Package.zip**
 - Jira
     - Plugin for starting sandboxes from Jira
     - Web hook to restore the CloudShell resource on issue transitions  
