@@ -148,7 +148,15 @@ resources and services in the reservation, based on keywords in the name:
 Must be attached to any sandbox where hooks will be used. Can safely replace the default 
 Setup and Teardown.
 
-### Post Setup Health Check Service
+### Jira Auto Health Check Demo and Jira Manual Health Check Demo blueprints
+
+#### DUTs
+
+Two abstract resource requests for `Example Model` that will match resources `DUT 1` and `DUT 2`.
+
+`Example Model` has a script `health_check` attached that is hard-coded to fail on `DUT 2`.
+
+#### Post Setup Health Check Service
 
 Contains a hook `health_check_orch_hook_post_setup`.
 
@@ -158,7 +166,7 @@ on every resource in the reservation and automatically execute any `health_check
 `health_check` is expected to set the live status of the resource, with "Error" indicating
 a failure.
  
-### Resource Quarantine Service
+#### Resource Quarantine Service
 
 Contains a hook `quarantine_resources_orch_hook_post_teardown`:
 - Searches for resources with "Error" live status
@@ -179,7 +187,7 @@ Settings:
 
 This service is platform-independent and can be used even without platform-specific handlers.
 
-### Blueprint Quarantine Service
+#### Blueprint Quarantine Service
 
 (Not used in this demo, may need further work)
 
@@ -201,7 +209,7 @@ Settings:
 
 This service is platform-independent and can be used even without platform-specific handlers.
 
-### Jira Quarantine Handler Service
+#### Jira Quarantine Handler Service
 
 Creates a Jira issue to track a resource or blueprint that has just been quarantined during teardown.
 
@@ -223,7 +231,7 @@ Inputs:
 - `Endpoint URL Base`: Jira endpoint URL, e.g. `http://localhost:2990/jira`
 - `User`: Jira username
 - `Password`: Jira password
-- `Jira Project Name`: Jira project where issues should be open. Can be blank if there is only one project. 
+- `Jira Project Name`: Jira project where issues should be opened. Can be blank if there is only one project. 
 - `Issue Type`: issue type to create, e.g. Task
 
 Creates a Jira issue with a specially formatted description, e.g.
