@@ -161,16 +161,17 @@ a failure.
 ### Resource Quarantine Service
 
 Contains a hook `quarantine_resources_orch_hook_post_teardown`:
-- Searches for resources with error live status
-- Moves a bad resource to the `Support` domain
-- Calls any platform-specific quarantine handlers that exist:
-    - Looks for services with functions with `quarantine_handler` in the name
-    - Runs the `quarantine_handler` with inputs:
-        - `subject_name`: the name of the resource that was quarantined
-        - `blueprint_or_resource`: "RESOURCE"
-        - `error_details`: the live status name and description
-        - `original_domains_csv`: comma-separated list of domains the resource has been removed from
-        - `support_domain`: the support domain where the resource has been quarantined, e.g. `Support`
+- Searches for resources with "Error" live status
+- For each bad resource:
+    - Moves the bad resource to the `Support` domain
+    - Calls any platform-specific quarantine handlers that exist in the reservation:
+        - Looks for services with functions with `quarantine_handler` in the name
+        - Runs the `quarantine_handler` with inputs:
+            - `subject_name`: the name of the resource that was quarantined
+            - `blueprint_or_resource`: "RESOURCE"
+            - `error_details`: the live status name and description
+            - `original_domains_csv`: comma-separated list of domains the resource has been removed from
+            - `support_domain`: the support domain where the resource has been quarantined, e.g. `Support`
 
 Settings:
 - `Support Domain` - the domain where bad resources should be moved, e.g. `Support`
@@ -184,15 +185,16 @@ This service is platform-independent and can be used even without platform-speci
 
 Contains a hook `quarantine_blueprint_orch_hook_post_teardown`:
 - Searches for errors in the Activity feed
-- Moves the blueprint to the `Support` domain
-- Calls platform-specific quarantine handlers:
-    - Looks for services with functions with `quarantine_handler` in the name
-    - Runs the `quarantine_handler` with inputs:
-        - `subject_name`: the name of the resource that was quarantined
-        - `blueprint_or_resource`: "BLUEPRINT"
-        - `error_details`: the error(s) from the Activity feed
-        - `original_domains_csv`: today, only the current domain where the blueprint ran -- **TODO**
-        - `support_domain`: the support domain where the blueprint has been quarantined, e.g. `Support`
+- If errors are found:
+    - Moves the blueprint to the `Support` domain
+    - Calls platform-specific quarantine handlers:
+        - Looks for services with functions with `quarantine_handler` in the name
+        - Runs the `quarantine_handler` with inputs:
+            - `subject_name`: the name of the resource that was quarantined
+            - `blueprint_or_resource`: "BLUEPRINT"
+            - `error_details`: the error(s) from the Activity feed
+            - `original_domains_csv`: today, only the current domain where the blueprint ran -- **TODO**
+            - `support_domain`: the support domain where the blueprint has been quarantined, e.g. `Support`
 
 Settings:
 - `Support Domain` - the domain where a bad blueprint should be moved, e.g. `Support`
