@@ -6,8 +6,6 @@ dutname = os.environ['RESOURCE_NAME']
 user = os.environ['USER']
 duration = int(os.environ['DURATION_IN_MINUTES'])
 
-support_domain = os.environ['SUPPORT_DOMAIN']
-
 api = helpers.get_api_session()
 
 resid = api.CreateImmediateReservation(resname, user, duration).Reservation.Id
