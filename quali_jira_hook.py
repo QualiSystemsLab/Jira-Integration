@@ -11,14 +11,15 @@
 from flask import Flask, request, make_response
 import requests
 import json
+import re
 from time import sleep
 app = Flask(__name__)
 
-quali_url_base = 'https://demo.quali.com:3443'
-quali_user = 'jira_admin'
-quali_password = 'xxxxxxxxxxxxx'
-quali_domain = 'Quali Product'
-worker_blueprint_name = 'JiraSupport2'
+quali_url_base = 'http://172.20.7.177:82'
+quali_user = 'admin'
+quali_password = 'admin'
+quali_domain = 'Global'
+worker_blueprint_name = 'UnquarantineWorker'
 
 # a Jira account that has read access to issues
 jira_url_base = 'http://127.0.0.1:2990/jira'
@@ -33,8 +34,23 @@ def done(issue_id):
     r = requests.get('%s/rest/api/2/issue/%s' % (jira_url_base, issue_id),
                      auth=(jira_user, jira_password),
                      verify=False)
-    issue_descr = json.loads(r.text)['fields']['description']
+    rslt = json.loads(r.text)['fields']['description']
 
+
+    m = re.search(r'QS_RESOURCE\(([^)]*)\)', rslt)
+    if m:
+        subject_name = m.groups()[0]
+	blueprint_or_resource = 'RESOURCE'
+    else:
+        m = re.search(r'QS_BLUEPRINT\(([^)]*)\)', rslt)
+	if m:
+	    subject_name = m.groups()[0]
+	    blueprint_or_resource = 'BLUEPRINT'
+	else:
+            return make_response('QS_RESOURCE or QS_BLUEPRINT not found in body', 501)
+    orgdoms_csv = re.search(r'QS_ORIGINAL_DOMAINS\(([^)]*)\)', rslt).groups()[0]
+    support_domain = re.search(r'QS_DOMAIN\(([^)]*)\)', rslt).groups()[0]
+    
 
     r = requests.put('%s/api/login' % quali_url_base,
                      headers={'Content-Type': 'application/json'},
@@ -57,19 +73,32 @@ def done(issue_id):
 
     o = json.loads(r.text)
     resid = o['id']
-    r = requests.post('%s/api/v2/sandboxes/%s/commands/CloseJiraIssue/start' % (quali_url_base, resid),
+    r = requests.post('%s/api/v2/sandboxes/%s/commands/Unquarantine/start' % (quali_url_base, resid),
                       headers={'Content-Type': 'application/json', 'Authorization': 'Basic ' + token},
                       data=json.dumps({
                           'params': [
                               {
-                                  'name': 'issue_description',
-                                  'value': issue_descr,
-                              }
+                                  'name': 'subject_name',
+                                  'value': subject_name,
+                              },
+                              {
+                                  'name': 'blueprint_or_resource',
+                                  'value': blueprint_or_resource,
+                              },
+                              {
+                                  'name': 'original_domains_csv',
+                                  'value': orgdoms_csv,
+                              },
+                              {
+                                  'name': 'support_domain',
+                                  'value': support_domain,
+                              },
                           ],
                           'printOutput': True,
                       }), verify=False)
 
     if r.status_code >= 400:
+        print r.status_code, r.text
         return make_response('jira_close_issue failed: %d: %s' % (r.status_code, r.text), 502)
     exid = json.loads(r.text)['executionId']
     r = None

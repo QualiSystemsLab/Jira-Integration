@@ -37,7 +37,6 @@
             <version>2.1</version>
             <scope>provided</scope>
         </dependency>
-
         <!-- Add dependency on jira-core if you want access to JIRA implementation classes as well as the sanctioned API. -->
         <!-- This is not normally recommended, but may be required eg when migrating a plugin originally developed against JIRA 4.x -->
         <!--
@@ -119,17 +118,16 @@
             <scope>provided</scope>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>javax.servlet</groupId>-->
-            <!--<artifactId>javax.servlet-api</artifactId>-->
-            <!--<version>3.0.1</version>-->
-            <!--<scope>compile</scope>-->
+        <!--<groupId>javax.servlet</groupId>-->
+        <!--<artifactId>javax.servlet-api</artifactId>-->
+        <!--<version>3.0.1</version>-->
+        <!--<scope>compile</scope>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>com.atlassian.sal</groupId>-->
-            <!--<artifactId>sal-api</artifactId>-->
-            <!--<version>3.0.7</version>-->
-            <!--<scope>compile</scope>-->
-
+        <!--<groupId>com.atlassian.sal</groupId>-->
+        <!--<artifactId>sal-api</artifactId>-->
+        <!--<version>3.0.7</version>-->
+        <!--<scope>compile</scope>-->
         <!--</dependency>-->
     </dependencies>
     <build>
@@ -193,7 +191,7 @@
     </build>
     <properties>
         <jira.version>7.2.2</jira.version>
-        <amps.version>6.2.11</amps.version>
+        <amps.version>6.3.6</amps.version>
         <plugin.testrunner.version>1.2.3</plugin.testrunner.version>
         <atlassian.spring.scanner.version>1.2.13</atlassian.spring.scanner.version>
         <!-- This key is used to keep the consistency between the key in atlassian-plugin.xml and the key to generate bundle. -->
