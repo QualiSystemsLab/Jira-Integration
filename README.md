@@ -261,7 +261,7 @@ Inputs:
 - `Jira Project Name`: Jira project where issues should be opened. Can be blank if there is only one project. 
 - `Issue Type`: issue type to create, e.g. Task
 
-Creates a Jira issue with a specially formatted description, e.g.
+Creates a Jira issue with a specially formatted description:
 
     Issue opened automatically by CloudShell
     Error: Health check on resource DUT 2 failed: Device not responding
@@ -271,7 +271,7 @@ Creates a Jira issue with a specially formatted description, e.g.
     -----------------------------------
     QS_RESOURCE(DUT 2)
     QS_DOMAIN(Support)
-    QS_ORIGINAL_DOMAINS(User1, User2)
+    QS_ORIGINAL_DOMAINS(User1,User2)
 
 
 ### DebugSandboxWorker blueprint
