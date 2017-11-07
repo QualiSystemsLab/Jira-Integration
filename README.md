@@ -273,6 +273,8 @@ Creates a Jira issue with a specially formatted description:
     QS_DOMAIN(Support)
     QS_ORIGINAL_DOMAINS(User1,User2)
 
+Note that the Jira quarantine handler doesn't quarantine the resource, it only performs Jira-specific actions in reaction to 
+the generic quarantine already performed by `Resource Quarantine Service` or `Blueprint Quarantine Service`.
 
 ### DebugSandboxWorker blueprint
 **!!! MUST BE MARKED PUBLIC !!!**
@@ -303,7 +305,9 @@ Contains a function `Unquarantine` with inputs:
 
 `Unquarantine` moves the resource or blueprint from the `Support` domain to the specified domains.
 
-A third-party tool is expected to reserve this blueprint and execute `Unquarantine` using the sandbox API.
+A third-party tool such as Jira is expected to reserve this blueprint and execute `Unquarantine` using the sandbox API.
+
+Note that `Unquarantine` actually unquarantines the resource in CloudShell, and is platform-independent.
 
 
 ### Quali plugin for Jira
