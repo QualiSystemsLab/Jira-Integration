@@ -172,10 +172,22 @@ Two abstract resource requests for `Example Model` that will match resources `DU
 
 #### Post Setup Health Check Service
 
-Contains a hook `health_check_orch_hook_post_setup`.
+(Blueprint `Jira Auto Health Check Demo` only)
+
+Contains a hook `health_check_orch_hook_post_setup` aliased as `Run Health Checks`.
 
 When included in a blueprint, at the end of Setup it will search for a `health_check` function
 on every resource in the reservation and automatically execute any `health_check` found.
+
+`health_check` is expected to set the live status of the resource, with "Error" indicating
+a failure.
+ 
+#### Manual Health Check Service
+
+(Blueprint `Jira Manual Health Check Demo` only)
+
+Contains a function `Run Health Checks` that searches for a `health_check` function
+on every resource in the reservation and automatically executes any `health_check` found.
 
 `health_check` is expected to set the live status of the resource, with "Error" indicating
 a failure.
