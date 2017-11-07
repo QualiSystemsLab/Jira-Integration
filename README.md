@@ -280,12 +280,16 @@ Creates a Jira issue with a specially formatted description:
 Contains a function `CreateSandbox` with inputs:
 - `reservation_name`: name of the debug sandbox to create
 - `resource_name`: name of the quarantined resource to add to the sandbox 
-- `duration_in_minutes`: duration of the sandbox in minutes
+- `duration_in_minutes`: duration of the debug sandbox in minutes
 - `user`: CloudShell owner to set as the owner of the sandbox
 
-`CreateSandbox` creates an immediate reservation containing the specified resource using the CloudShell automation API.
+`CreateSandbox` creates an immediate reservation (in the `Support` domain) containing the specified resource and returns the id of this reservation.
 
-A third-party tool is expected to reserve this blueprint and execute `CreateSandbox` using the sandbox API.
+A third-party tool is expected to:
+- reserve this blueprint to create the worker sandbox
+- execute `CreateSandbox` in the worker sandbox using the sandbox API &mdash; `CreateSandbox` in turn will create the debug sandbox
+- end the worker sandbox
+- display a link to the new sandbox to the user
 
 
 ### UnquarantineWorker blueprint
