@@ -398,6 +398,8 @@ For special situations, set the listening addresses and port according to the Fl
   - In non-`Support` domain, drag Jira_Main_Package.zip into the portal
   - In `Support` domain, drag Jira_Support_Domain_Package.zip into the portal
   - To update:
-	- In Git Bash: git clone https://github.com/QualiSystemsLab/Jira-Integration.git
+	- In Git Bash: 
+		- git clone https://github.com/QualiSystemsLab/Jira-Integration.git
+		- git checkout hooks_refactor
 	- Edit files
 	- Double click package.cmd
