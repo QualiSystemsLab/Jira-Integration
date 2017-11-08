@@ -2,145 +2,16 @@
 <DataModelInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.qualisystems.com/ResourceManagement/DataModelSchema.xsd">
   <Attributes/>
   <ResourceFamilies>
-    <ResourceFamily Name="Jira Services" Description="" IsService="true" ServiceType="Regular">
-      <AttachedAttributes />
-      <AttributeValues />
-      <Models>
-        <ResourceModel Name="Jira Service" Description="Creates a Jira issue for any resource in the reservation with a live status matching the error pattern and moves the resource to a separate domain dedicated to support." SupportsConcurrentCommands="false">
-          <AttachedAttributes>
-            <AttachedAttribute Name="User" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <AttachedAttribute Name="Password" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <AttachedAttribute Name="Endpoint URL Base" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <AttachedAttribute Name="Jira Project Name" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <AttachedAttribute Name="Support Domain" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <AttachedAttribute Name="Issue Type" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <!--<AttachedAttribute Name="Issue Assignee" IsOverridable="true" IsLocal="true" UserInput="true">-->
-            <!--<AllowedValues />-->
-            <!--</AttachedAttribute>-->
-            <AttachedAttribute Name="Live Status Error Regex" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-          </AttachedAttributes>
-          <AttributeValues>
-            <AttributeValue Name="User" Value="admin" />
-            <AttributeValue Name="Password" Value="DxTbqlSgAVPmrDLlHvJrsA==" />
-            <AttributeValue Name="Endpoint URL Base" Value="http://localhost:2990/jira" />
-            <AttributeValue Name="Jira Project Name" Value="" />
-            <AttributeValue Name="Support Domain" Value="Support" />
-            <AttributeValue Name="Issue Type" Value="Task" />
-            <!--<AttributeValue Name="Issue Assignee" Value="Support" />-->
-            <AttributeValue Name="Live Status Error Regex" Value="Error" />
-          </AttributeValues>
-          <ParentModels />
-          <Drivers />
-          <Scripts>
-            <ScriptName>jira_error_handler</ScriptName>
-            <ScriptName>jira_close_issue</ScriptName>
-            <ScriptName>jira_add_comment_to_issue</ScriptName>
-          </Scripts>
-        </ResourceModel>
-        <ResourceModel Name="Jira Action Service" Description="" SupportsConcurrentCommands="false">
-          <AttachedAttributes>
-            <AttachedAttribute Name="User" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <AttachedAttribute Name="Password" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <AttachedAttribute Name="Endpoint URL Base" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <AttachedAttribute Name="Jira Project Name" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <AttachedAttribute Name="Support Domain" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <AttachedAttribute Name="Issue Type" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-            <!--<AttachedAttribute Name="Issue Assignee" IsOverridable="true" IsLocal="true" UserInput="true">-->
-              <!--<AllowedValues />-->
-            <!--</AttachedAttribute>-->
-            <AttachedAttribute Name="Live Status Error Regex" IsOverridable="true" IsLocal="true" UserInput="true">
-              <AllowedValues />
-            </AttachedAttribute>
-          </AttachedAttributes>
-          <AttributeValues>
-            <AttributeValue Name="User" Value="admin" />
-            <AttributeValue Name="Password" Value="DxTbqlSgAVPmrDLlHvJrsA==" />
-            <AttributeValue Name="Endpoint URL Base" Value="http://localhost:2990/jira" />
-            <AttributeValue Name="Jira Project Name" Value="" />
-            <AttributeValue Name="Support Domain" Value="Support" />
-            <AttributeValue Name="Issue Type" Value="Task" />
-            <!--<AttributeValue Name="Issue Assignee" Value="Support" />-->
-            <AttributeValue Name="Live Status Error Regex" Value="Error" />
-          </AttributeValues>
-          <ParentModels />
-          <Drivers />
-          <Scripts>
-            <ScriptName>jira_close_issue</ScriptName>
-            <ScriptName>jira_add_comment_to_issue</ScriptName>
-            <!--<ScriptName>jira_create_issue</ScriptName>-->
-          </Scripts>
-        </ResourceModel>
-      </Models>
-      <Categories>
-        <Category>SaaS</Category>
-      </Categories>
-    </ResourceFamily>
-
   </ResourceFamilies>
-
   <DriverDescriptors/>
   <ScriptDescriptors>
-    <ScriptDescriptor Name="CreateJiraSandbox" CategoryName="" Version="1.0.1.2 " Alias="Create Jira Sandbox">
+    <ScriptDescriptor Name="CreateSandbox" CategoryName="" Version="1.0.1.2 " Alias="Create Sandbox">
       <ScriptInputs>
         <ScriptInput Name="reservation_name" Description=""/>
         <ScriptInput Name="resource_name" Description=""/>
         <ScriptInput Name="duration_in_minutes" Description=""/>
         <ScriptInput Name="user" Description=""/>
-        <ScriptInput Name="jira_url" Description=""/>
-        <ScriptInput Name="issue_type" Description=""/>
-        <ScriptInput Name="project_name" Description=""/>
-        <ScriptInput Name="support_domain" Description=""/>
-        <ScriptInput Name="jira_username" Description=""/>
-        <ScriptInput Name="jira_password" Description=""/>
       </ScriptInputs>
     </ScriptDescriptor>
-    <ScriptDescriptor Name="jira_close_issue" Alias="Close Jira Issue" Description="Close the issue with id given in the sandbox name">
-      <ScriptInputs>
-        <ScriptInput Name="comment" Description="Comment explaining the issue resolution." />
-      </ScriptInputs>
-    </ScriptDescriptor>
-    <ScriptDescriptor Name="jira_add_comment_to_issue" Alias="Add Comment to Jira Issue" Description="Add a comment to an existing Jira issue that was created previously. The issue id is taken from the sandbox name.">
-      <ScriptInputs>
-        <!--<ScriptInput Name="Issue_ID" Description="ID or key of the issue to update, as returned from Create Jira Issue" />-->
-        <ScriptInput Name="Comment" Description="Text of the comment to add to the issue" />
-        <!--<ScriptInput Name="Additional_Fields_JSON" DefaultValue="" Description="Additional text to insert in the JSON request, e.g. &quot;visibility&quot;: {&quot;type&quot;: &quot;role&quot;,&quot;value&quot;: &quot;Administrators&quot;}" />-->
-      </ScriptInputs>
-    </ScriptDescriptor>
-    <!--<ScriptDescriptor Name="jira_create_issue" Alias="Create Jira Issue" Description="Create a new issue in Jira with the given title and description. The issue type and project are defined on the Jira Action Service.">-->
-      <!--<ScriptInputs>-->
-        <!--<ScriptInput Name="Project_Name" Description="Name of the Jira project where the issue should be created. Leave blank if there is only one project in the system." />-->
-        <!--<ScriptInput Name="Issue_Type" DefaultValue="Bug" Description="Task, Bug, Sub-task, Epic, Story, or a custom issue type you have created" />-->
-        <!--<ScriptInput Name="Title" Description="Title of the new issue" />-->
-        <!--<ScriptInput Name="Description" Description="Description of the new issue" />-->
-        <!--&lt;!&ndash;<ScriptInput Name="Additional_Fields_JSON" Description="Additional fields to insert into the JSON request, in the form {&quot;fieldname1&quot;:&quot;value1&quot;}, {&quot;fieldname2&quot;:&quot;value2&quot;}," />&ndash;&gt;-->
-      <!--</ScriptInputs>-->
-    <!--</ScriptDescriptor>-->
-
   </ScriptDescriptors>
 </DataModelInfo>

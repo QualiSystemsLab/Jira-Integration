@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TopologyInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Details Name="Jira Manual Health Check Demo" Alias="Jira Manual Health Check Demo"
+           Driver="Python Setup &amp; Teardown"
+           SetupDuration="0" TeardownDuration="1" Public="true" DefaultDuration="120">
+    <Description>Blueprint with preconfigured setup &amp; teardown processes.Deploys Apps and resolves connections on Setup, and deletes App VMs on Teardown</Description>
+    <Categories>
+      <!--<Category Name="LaaS" SubCategory="" />-->
+    </Categories>
+    <Scripts>
+      <Script Name="Default Sandbox Setup 2.0" />
+      <Script Name="hook_teardown" />
+    </Scripts>
+    <Diagram Zoom="0.95" NodeSize="Medium" />
+  </Details>
+
+  <AbstractResources>
+    <AbstractResource Name="DUT A*" ResourceFamily="Example Family" Shared="false" PositionY="137" PositionX="772">
+      <Quantity Value="1" Published="false"/>
+      <ResourceModels Published="false">
+        <ResourceModel>Example Model</ResourceModel>
+      </ResourceModels>
+    </AbstractResource>
+    <AbstractResource Name="DUT B*" ResourceFamily="Example Family" Shared="false" PositionY="337" PositionX="772">
+      <Quantity Value="1" Published="false"/>
+      <ResourceModels Published="false">
+        <ResourceModel>Example Model</ResourceModel>
+      </ResourceModels>
+    </AbstractResource>
+  </AbstractResources>
+  <Services>
+    <Service PositionX="400" PositionY="204" Alias="Manual Health Check Service" ServiceName="Post Setup Health Check Service">
+      <Attributes/>
+    </Service>
+    <Service PositionX="400" PositionY="354" Alias="Resource Quarantine Service" ServiceName="Resource Quarantine Service">
+      <Attributes>
+        <Attribute Name="Support Domain" Value="Support" />
+        <Attribute Name="Live Status Error Regex" Value="Error" />
+      </Attributes>
+    </Service>
+    <Service PositionX="400" PositionY="504" Alias="Jira Quarantine Handler Service" ServiceName="Jira Quarantine Handler Service">
+      <Attributes>
+        <Attribute Name="Jira Project Name" Value="" />
+        <Attribute Name="Support Domain" Value="Support" />
+        <Attribute Name="Issue Type" Value="Task" />
+        <Attribute Name="User" Value="admin" />
+        <Attribute Name="Password" Value="admin" />
+        <Attribute Name="Endpoint URL Base" Value="http://172.20.8.114:2990/jira" />
+      </Attributes>
+    </Service>
+  </Services>
+  <Apps />
+</TopologyInfo>
